@@ -24,7 +24,7 @@ const CustomCollapse = styled(Collapse)`
   }
 
   .ant-list-item {
-    padding: ${({ isMobile }) => (isMobile ? "8px" : "15px")};
+    padding: 8px;
   }
 `;
 

@@ -14,6 +14,7 @@ interface HtmlViewerProps {
   noPreviewImage?: boolean;
   customStyles?: string;
   protected?: boolean;
+  copyable?: boolean
 }
 
 function HtmlViewerCopyable(props: HtmlViewerProps) {
@@ -194,17 +195,11 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
         case "img": {
           const src = node.attribs.src;
           const alt = node.attribs.alt || "";
-          return (
-            props.protected ? <AppImage
-              key={index}
-              src={src}
-              alt={alt}
-            /> : <AppImage
-              key={index}
-              src={src}
-              alt={alt}
-            />
-          );
+          return <AppImage
+            key={index}
+            src={src}
+            alt={alt}
+          />
         }
 
         case "table": {
@@ -366,7 +361,8 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
   );
 }
 
-const HtmlViewer = withNonCopyable(HtmlViewerCopyable);
+// const HtmlViewer = withNonCopyable(HtmlViewerCopyable);
+const HtmlViewer = HtmlViewerCopyable
 
 export default HtmlViewer;
 

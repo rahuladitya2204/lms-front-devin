@@ -333,7 +333,7 @@ function CoursePlayer() {
             </Col> */}
           </Row>
         </Col>
-        <Col lg={6} md={0} sm={0} xs={0}>
+        <Col lg={6} md={0} sm={0} xs={0} style={{ maxHeight: 900, overflowY: 'scroll' }}>
           {CourseNavigator}
         </Col>
       </Row>

@@ -28,6 +28,7 @@ import { Title } from "@Components/Typography/Typography";
 import ActionModal from "@Components/ActionModal/ActionModal";
 import { RephraseText } from "@adewaskar/lms-common/lib/cjs/types/User/Api";
 import RephraseTextComponent from "./RephraseTextComponent";
+import SummarizeTextComponent from "./SummarizeText";
 
 interface SunEditorPropsI {
   height?: number;
@@ -223,7 +224,19 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
       editorInstance.insertHTML(`{{${value}}}`);
     }
   };
-  const onChange = debounce(props.onChange, 500);
+
+  const addSpacesAroundTags = (html: string) => {
+    return html
+      .replace(/(?<! )(<(a|span)[^>]*>)/g, " $1")
+      .replace(/(<\/(a|span)>)(?! )/g, "$1 ");
+  };
+
+  const onPasteHandler = (event, cleanData) => {
+    const formattedData = addSpacesAroundTags(cleanData);
+    return formattedData;
+  };
+
+  const onChange = props.onChange ? debounce(props.onChange, 500) : props.onChange;
   return (
     <Fragment>
       <Spin spinning={loading}>
@@ -243,7 +256,25 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           </Col>
         </Row>
         {props.modifyCta ? (
-          <Row justify="end">
+          <Row gutter={[10, 10]} justify="end">
+            <Col>
+              <ActionModal
+                width={900}
+                closable={false}
+                title="Summarize Text"
+                cta={
+                  <Button
+                    type="dashed"
+                    size="small"
+                    style={{ marginBottom: 10 }}
+                  >
+                    Summarize Text
+                  </Button>
+                }
+              >
+                <SummarizeTextComponent />
+              </ActionModal>
+            </Col>
             <Col>
               <ActionModal
                 width={900}
@@ -261,7 +292,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
               >
                 <RephraseTextComponent
                   text={value}
-                  onComplete={(modifiedText) => onChange(modifiedText)}
+                  onComplete={(modifiedText) => onChange && onChange(modifiedText)}
                 />
               </ActionModal>
             </Col>
@@ -282,6 +313,8 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           width={`${props.width}`}
           setOptions={{
             ...options,
+            beforePaste: onPasteHandler,
+            // pasteTagsWhitelist: "a|span",
             // plugins={defaultPlugins}
             // plugins: [variablePlugin(variables)],
             // attributesWhitelist: {
