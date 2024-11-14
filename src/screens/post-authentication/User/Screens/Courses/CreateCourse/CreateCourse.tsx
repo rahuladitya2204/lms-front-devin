@@ -5,6 +5,7 @@ import React, { ReactNode } from "react";
 import { User } from "@adewaskar/lms-common";
 import useMessage from "@Hooks/useMessage";
 import { useNavigate } from "@Router/index";
+import slugify from "slugify";
 
 interface CreateCourseComponentPropsI {
   children?: ReactNode;
@@ -21,6 +22,8 @@ const CreateCourseComponent: React.FC<CreateCourseComponentPropsI> = (
 
   const onSubmit = (e: Types.Course) => {
     console.log("Helo");
+    // @ts-ignore
+    e.slug = slugify(e.title)
     createCourse(e, {
       onSuccess: (course) => {
         navigate(`${course._id}/editor`);
