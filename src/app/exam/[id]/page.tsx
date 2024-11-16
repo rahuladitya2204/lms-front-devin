@@ -21,7 +21,6 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <RenderFAQJson faqs={category.info.faqs} />
       {/* @ts-ignore */}
       <Hydrator
         queries={[

@@ -21,6 +21,7 @@ export async function generateMetadata(
   if (alias && userType) {
     // Fetch metadata from an API
     const { link, url } = await getData({ id, type });
+    // console.log(link, 'lmlmlkm')
     return {
       title: link?.seo?.meta?.title || `${link.title} Exam`,
       description: link?.seo?.meta?.description || `${link.title} Exam`,
