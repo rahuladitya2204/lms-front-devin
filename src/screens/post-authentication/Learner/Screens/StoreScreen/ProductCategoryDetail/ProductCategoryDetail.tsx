@@ -87,7 +87,7 @@ export default function ProductCategoryDetailScreen(
   const { id: productCategoryId, type = "overview", product } = useParams();
   // const loadingProductCategory = true;
   const { data: productCategory, isLoading: loadingProductCategory } =
-    Learner.Queries.useGetProductCategoryDetails(productCategoryId + "");
+    Learner.Queries.useGetProductCategoryDetails(productCategoryId + "", 'basic');
   useEffect(() => {
     if (!type && !props.isServer) {
       navigate(`/app/exam/${productCategoryId}/overview`);

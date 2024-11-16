@@ -49,7 +49,6 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
         label: "Overview",
         key: "overview",
         displayOnLandingPage: true,
-        description: productCategory.landingPage.description,
         children: productCategory.landingPage.description,
         faqs: productCategory.info.faqs,
         seo: productCategory.seo,
@@ -384,5 +383,5 @@ export const ProductCategoryTabsSkeleton = () => {
 const ProductCategoryLinkViewer = ({ categoryId, type }: { categoryId, type }) => {
   const { data: link, isLoading: loadingCategoryLink } =
     Learner.Queries.useGetProductCategoryLinkDetails(categoryId + '', type + '');
-  return <HtmlViewer content={link?.description + ""} />
+  return loadingCategoryLink ? <Skeleton.Button active block style={{ height: 300 }} /> : <HtmlViewer content={link?.description + ""} />
 }
