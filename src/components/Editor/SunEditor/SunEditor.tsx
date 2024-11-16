@@ -299,7 +299,28 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           </Row>
         ) : null}
         <SunEditor
-          getSunEditorInstance={(editor) => (editorRef.current = editor)}
+          getSunEditorInstance={(editor) => {
+            editorRef.current = editor;
+            if (editorRef.current)
+              editorRef.current.onCopy = async (Event, ClipboardData, Core) => {
+                let copiedHTML
+                const ClipboardContents = await navigator.clipboard.read()
+                for (const ClipboardItem of ClipboardContents) {
+                  if (ClipboardItem.types.includes('text/html')) {
+                    const ItemAsBlob = await ClipboardItem.getType('text/html')
+                    const ItemAsHTML = (await ItemAsBlob.text())
+                      .replaceAll('<span>&nbsp;</span>', ' ')
+                    copiedHTML = Core.cleanHTML(ItemAsHTML)
+                    break
+                  }
+                }
+                if (copiedHTML != null) {
+                  const HTMLasBlob = new Blob([copiedHTML], { type: 'text/html' })
+                  const HTMLItem = new ClipboardItem({ 'text/html': HTMLasBlob })
+                  navigator.clipboard.write([HTMLItem])
+                }
+              }
+          }}
           // onFocus={props.onFocus}
           readOnly={props.readonly}
           setContents={value}

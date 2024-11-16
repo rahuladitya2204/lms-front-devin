@@ -125,20 +125,20 @@ function ProductCategoryDetailsEditor(
             required: true,
             message: "Please enter a slug for the exam",
           },
-          {
-            validator: async (rule, value) => {
-              console.log(productCategory?.slug, value, "11");
-              if (productCategory?.slug && productCategory?.slug !== value) {
-                try {
-                  await validateSlug(value, validateSlugApi);
-                  return Promise.resolve();
-                } catch (error) {
-                  console.log(error);
-                  return Promise.reject(error);
-                }
-              }
-            },
-          },
+          // {
+          //   validator: async (rule, value) => {
+          //     console.log(productCategory?.slug, value, "11");
+          //     if (productCategory?.slug && productCategory?.slug !== value) {
+          //       try {
+          //         await validateSlug(value, validateSlugApi);
+          //         return Promise.resolve();
+          //       } catch (error) {
+          //         console.log(error);
+          //         return Promise.reject(error);
+          //       }
+          //     }
+          //   },
+          // },
         ]}
       >
         <Input />

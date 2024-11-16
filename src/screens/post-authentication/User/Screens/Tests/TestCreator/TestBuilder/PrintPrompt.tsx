@@ -3,6 +3,7 @@ import { Button, Col, Divider, Form, message, Row, Switch } from "@Lib/index";
 import { User } from "@adewaskar/lms-common";
 import { printPdf } from "@Components/Editor/SunEditor/utils";
 import useMessage from "@Hooks/useMessage";
+import SelectLanguage from "@Components/SelectLanguage";
 
 interface PrintPromptPropsI {
   testId: string;
@@ -12,12 +13,14 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
   const [form] = Form.useForm();
   const { mutate: printTest, isLoading: printingTest } =
     User.Queries.usePrintTest(props.testId + "");
+  const { data: test } = User.Queries.useGetTestDetails(props.testId)
   const onSubmit = (d: any) => {
     const body = {
       includeQuestions: false,
       includeSolutions: false,
       includeAnswers: false,
       split: false,
+      language: d.language
     };
 
     if (d.questions) {
@@ -58,7 +61,7 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
   const { mutate: printOmr, isLoading: printingOMR } =
     User.Queries.usePrintTest(props.testId);
   return (
-    <Form style={{ marginTop: 15 }} form={form} onFinish={onSubmit}>
+    <Form layout='vertical' style={{ marginTop: 15 }} form={form} onFinish={onSubmit}>
       <Row justify={"space-between"} align="middle">
         <Col>Question Paper</Col>
         <Col>
@@ -120,6 +123,10 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
         </Col>
       </Row>
       <Row gutter={[20, 20]} justify={"end"}>
+        <Divider />
+        <Col span={24}>
+          <SelectLanguage languages={test.languages} name={['language']} />
+        </Col>
         <Col span={24}>
           <Button
             loading={printingTest}
