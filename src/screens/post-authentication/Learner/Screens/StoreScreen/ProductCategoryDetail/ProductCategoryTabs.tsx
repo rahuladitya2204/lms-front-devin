@@ -41,7 +41,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
   const type = props.type || params.type || "overview";
 
   const { data: productCategory, isLoading: loadingCategory } =
-    Learner.Queries.useGetProductCategoryDetails(id + '');
+    Learner.Queries.useGetProductCategoryDetails(id + '', 'basic');
 
   const TABS = useMemo(() => {
     const i = [

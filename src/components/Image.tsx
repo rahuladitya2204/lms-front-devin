@@ -74,7 +74,9 @@ function AppImage({
           <Image
             onClick={() => {
               if (preview) {
-                openModal(<AppImage src={src} />);
+                openModal(<AppImage src={src} />, {
+                  width: 600
+                });
               }
             }}
             priority={!!priority}

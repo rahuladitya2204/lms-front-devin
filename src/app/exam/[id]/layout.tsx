@@ -23,7 +23,7 @@ export default function Page({
     // @ts-ignore
     <Hydrator
       queries={[
-        getProductCategoryDetails(params.id),
+        getProductCategoryDetails(params.id, 'basic'),
         getProductCategoryLinkDetails(params.id, 'overview'),
         getOrgDetails(),
       ]}

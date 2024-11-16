@@ -196,6 +196,7 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
           const src = node.attribs.src;
           const alt = node.attribs.alt || "";
           return <AppImage
+            preview
             key={index}
             src={src}
             alt={alt}

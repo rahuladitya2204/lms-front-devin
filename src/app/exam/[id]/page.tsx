@@ -25,7 +25,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       <Hydrator
         queries={[
           getOrgDetails(),
-          getProductCategoryDetails(params.id),
+          getProductCategoryDetails(params.id, 'basic'),
           getProductCategoryLinkDetails(params.id, 'overview')
         ]}
       >

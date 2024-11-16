@@ -153,7 +153,7 @@ export default async function Page({
     // @ts-ignore
     <Hydrator
       queries={[
-        getProductCategoryDetails(test.category + ""),
+        getProductCategoryDetails(test.category + "", 'basic'),
         getTestDetails(params.testId),
         getTexts(),
         // getPromotedProducts(Enum.ProductType.TEST, {

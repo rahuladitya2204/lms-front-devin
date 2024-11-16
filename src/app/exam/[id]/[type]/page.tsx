@@ -97,7 +97,6 @@ export default async function Page({
   params: { type: string; id: string; product: string };
 }) {
   const { link, url } = await getData(params);
-
   const {
     getProductCategoryLinkDetails,
     getProductCategoryDetails,
@@ -110,7 +109,7 @@ export default async function Page({
         queries={[
           getOrgDetails(),
           getProductCategoryLinkDetails(params.id, params.type),
-          getProductCategoryDetails(params.id)
+          getProductCategoryDetails(params.id, 'basic')
         ]}
       >
         <ProductCategoryTabs
@@ -129,7 +128,7 @@ export async function getData({ id, type }) {
   const alias = getCookie("orgAlias")?.split("-")[0];
   const url = `https://${alias}.testmint.ai/exam/${id}/${type}`;
 
-  const { data: link }: { data: Types.ProductCategory } = await axios(
+  const { data: link }: { data: Types.ProductCategoryLink } = await axios(
     `${apiUrl}/learner/product-category/${id}/${type}`,
     {
       headers: {
