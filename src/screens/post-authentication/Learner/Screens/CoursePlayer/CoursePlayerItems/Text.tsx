@@ -25,6 +25,10 @@ const CoursePlayerTextItem: React.FC<CoursePlayerItemsPropsI> = (props) => {
         .html-viewer div.ant-typography {
         font-size: 16px;
         }
+
+        .html-viewer figure img {
+         width: 80% !important;
+        }
         `}
         content={description} /> : <Empty style={{ marginTop: 135 }} description='No Content Added' />}
     </Card>

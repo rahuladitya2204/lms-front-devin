@@ -28,7 +28,7 @@
 }
 
 .html-viewer figure img {
-    width: 80% !important;
+    width: auto !important;
     /* Fixed width for the image */
     max-width: 100% !important;
     /* Ensures the image width doesn't exceed the container width */
