@@ -21,7 +21,6 @@ function CourseOverview(props: CourseOverviewPropsI) {
   } = Learner.Queries.useGetCourseDetails(courseId, {
     enabled: !!courseId
   })
-  console.log(course, 'cococo')
   const { landingPage } = course
   return (
     <Fragment>

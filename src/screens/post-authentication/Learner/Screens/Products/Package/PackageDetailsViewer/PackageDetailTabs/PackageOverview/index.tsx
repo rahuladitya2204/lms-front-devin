@@ -17,11 +17,12 @@ interface PackageOverviewPropsI {
 
 function PackageOverview(props: PackageOverviewPropsI) {
   const packageId = props.package.slug;
+
   const { data: bundle, isFetching: loadingPackage } =
     Learner.Queries.useGetPackageDetails(packageId, {
       enabled: !!packageId,
     });
-  // console.log(bundle, 'cococo')
+
   const { landingPage } = bundle;
   return (
     <Fragment>
