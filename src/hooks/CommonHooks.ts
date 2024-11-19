@@ -50,6 +50,7 @@ const useIsMounted = () => {
 
 // SSR safe by using useIsMounted
 export const useAppInit = () => {
+  console.log('Initing app')
   const [cookies, setCookie, removeCookie] = useCookies([
     "seo_utm_cookie",
   ])
@@ -87,13 +88,13 @@ export const useAppInit = () => {
 
 
   useEffect(() => {
-    if (isMounted && subdomain) {
+    if (isMounted && subdomain && typeof window !== 'undefined') {
       validateOrgAlias({ alias: subdomain ?? '' });
     }
   }, [isMounted, subdomain, validateOrgAlias]);
 
   useEffect(() => {
-    if (isMounted && affiliateId && isValidAlias) {
+    if (isMounted && affiliateId && isValidAlias && typeof window !== 'undefined') {
       validateAffiliateId({ affiliateId });
     }
   }, [isMounted, affiliateId, isValidAlias, validateAffiliateId]);
