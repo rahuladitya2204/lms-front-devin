@@ -8,6 +8,12 @@ import { AnalyticsBrowser } from '@segment/analytics-next';
 import ReactGA from 'react-ga';
 import { getIsServer } from "@ServerUtils/index";
 let analytics;
+import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+import { ReactPlugin, withAITracking } from '@microsoft/applicationinsights-react-js';
+import { createBrowserHistory } from "history";
+const browserHistory = createBrowserHistory({ basename: '' });
+var reactPlugin = new ReactPlugin();
+let appInsights;
 // const FACEBOOK_PIXEL_ID = '1215625842884170'
 // import dynamic from "next/dynamic";
 
@@ -20,6 +26,16 @@ export const initAnalytics = () => {
   analytics = AnalyticsBrowser.load({ writeKey: SG_KEY })
   // ReactPixel.init(FACEBOOK_PIXEL_ID); // Replace with your Pixel ID
   // ReactPixel.pageView(); // Track initial page load
+
+  appInsights = new ApplicationInsights({
+    config: {
+      instrumentationKey: '695456fb-3b4c-4ce9-9e57-c159c31d728e',
+      extensions: [reactPlugin],
+      extensionConfig: {
+        [reactPlugin.identifier]: { history: browserHistory }
+      }
+    }
+  });
 
 }
 
@@ -45,6 +61,7 @@ const useDehydration = () => {
         name: learner.name,
         interests: learner.interests
       })
+      appInsights.loadAppInsights();
     }
   }, [learner._id, isServer])
 

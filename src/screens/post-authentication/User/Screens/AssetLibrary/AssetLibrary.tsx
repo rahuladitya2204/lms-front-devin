@@ -36,10 +36,10 @@ function AssetLibraryScreen() {
           </ActionModal>,
         ]}
         bodyStyle={{ padding: 0 }}
-        title={`Asset Library - ${Math.ceil(
+        title={`Asset Library - ${(organisation?.storage?.utilised) ? (Math.ceil(
           unit(organisation.storage.utilised, "byte").to("megabyte").toJSON()
             .value
-        )} MB`}
+        )) : ''} MB`}
       >
         <Row>
           <Col span={24}>
