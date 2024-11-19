@@ -28,7 +28,7 @@ export const initAnalytics = () => {
 
   var appInsights = new ApplicationInsights({
     config: {
-      instrumentationKey: process.env.APP_INSIGHTS_KEY,
+      instrumentationKey: `695456fb-3b4c-4ce9-9e57-c159c31d728e`,
       extensions: [reactPlugin],
       extensionConfig: {
         [reactPlugin.identifier]: { history: browserHistory }
