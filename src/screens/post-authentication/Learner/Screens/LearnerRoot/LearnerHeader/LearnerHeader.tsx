@@ -177,7 +177,7 @@ const LearnerHeaderClient = ({
             icon={<BookOutlined />}
             type={isActive ? "primary" : "default"}
             style={{ borderRadius: 15 }}
-            // onClick={() =>cons
+          // onClick={() =>cons
           >
             Blogs
           </Button>
@@ -204,14 +204,14 @@ const LearnerHeaderClient = ({
                   !user.wallet.balance.value
                     ? "Please recharge your wallet for purchases"
                     : `Wallet Balance: ${Utils.UnitTypeToStr(
-                        user.wallet.balance
-                      )}`
+                      user.wallet.balance
+                    )}`
                 }
               >
                 <Button
                   style={{ paddingTop: 2, paddingLeft: 5 }}
                   color="blue-inverse"
-                  // size={screen.isMobile?'small':'middle'}
+                // size={screen.isMobile?'small':'middle'}
                 >
                   <Row justify={"center"} align={"middle"}>
                     <Col style={{ marginTop: -1 }}>
@@ -366,7 +366,7 @@ const LearnerHeaderClient = ({
                           {Utils.getFirstLettersOfName(user.name)}
                         </Avatar>
                       }
-                      // onClick={() => router.push('../app/account')}
+                    // onClick={() => router.push('../app/account')}
                     >
                       {user?.name}
                     </Menu.Item>
@@ -421,6 +421,7 @@ const LearnerHeaderClient = ({
         <Space style={{ cursor: "pointer" }}>
           <Link title={organisation.name} to={isServer ? "/" : "/app/store"}>
             <OrgLogo
+              quality='low'
               //  showName={!screen.isMobile}
               showName
             />
@@ -430,7 +431,7 @@ const LearnerHeaderClient = ({
               {loadingLearnerDetails ? (
                 <Skeleton.Button active style={{ width: 460, height: 32 }} />
               ) : // <SearchLearnerCourses />
-              null}
+                null}
             </Space>
           ) : null}
           {/* <Search
