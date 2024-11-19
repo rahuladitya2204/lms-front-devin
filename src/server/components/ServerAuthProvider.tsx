@@ -2,6 +2,7 @@ import { useCallback, useEffect } from "react";
 import { Store } from "@adewaskar/lms-common";
 import { useCookies } from "react-cookie";
 import { useAppInit } from "@Hooks/CommonHooks";
+import { isServer } from "@tanstack/react-query";
 
 export const ServerAuthProvider = ({ children }) => {
   const [cookies, setCookie, removeCookie] = useCookies([
@@ -51,8 +52,10 @@ export const ServerAuthProvider = ({ children }) => {
   useAppInit();
 
   useEffect(() => {
-    checkAuthentication();
-  }, [checkAuthentication]);
+    if (isServer) {
+      checkAuthentication();
+    }
+  }, [checkAuthentication, isServer]);
 
   return <>{children}</>;
 };
