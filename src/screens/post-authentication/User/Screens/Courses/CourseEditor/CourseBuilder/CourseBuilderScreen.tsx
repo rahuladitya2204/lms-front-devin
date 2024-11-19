@@ -44,7 +44,6 @@ function CourseBuilderScreen() {
   const { mutate: updateCourse, isLoading: savingCourse } =
     User.Queries.useUpdateCourse();
   const { course, updateItem, currentItem } = useCourseStore(s => s)
-  console.log(course, 'coursecoursecourse')
   const { mutate: deleteSectionApi, isLoading: deletingSection } =
     User.Queries.useDeleteCourseSection();
   const navigate = useNavigate();
