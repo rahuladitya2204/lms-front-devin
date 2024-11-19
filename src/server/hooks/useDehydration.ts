@@ -11,6 +11,7 @@ let analytics;
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import { ReactPlugin, withAITracking } from '@microsoft/applicationinsights-react-js';
 import { createBrowserHistory } from "history";
+import { isLocalMode } from "@Components/Editor/SunEditor/utils";
 var reactPlugin = new ReactPlugin();
 // const FACEBOOK_PIXEL_ID = '1215625842884170'
 // import dynamic from "next/dynamic";
@@ -28,7 +29,7 @@ export const initAnalytics = () => {
 
   var appInsights = new ApplicationInsights({
     config: {
-      instrumentationKey: `695456fb-3b4c-4ce9-9e57-c159c31d728e`,
+      instrumentationKey: isLocalMode() ? '203cb49b-ee89-463c-9828-6883f9be714b' : '695456fb-3b4c-4ce9-9e57-c159c31d728e',
       extensions: [reactPlugin],
       extensionConfig: {
         [reactPlugin.identifier]: { history: browserHistory }

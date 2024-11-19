@@ -164,3 +164,8 @@ export const useText = (language: string) => {
 
   return { FormatLangText, FormatNumber };
 };
+
+
+export const isLocalMode = () => {
+  return window.location.host.includes('local')
+}
