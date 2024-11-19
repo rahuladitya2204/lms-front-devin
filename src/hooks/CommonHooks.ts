@@ -50,7 +50,6 @@ const useIsMounted = () => {
 
 // SSR safe by using useIsMounted
 export const useAppInit = () => {
-  console.log('Initing app')
   const [cookies, setCookie, removeCookie] = useCookies([
     "seo_utm_cookie",
   ])
