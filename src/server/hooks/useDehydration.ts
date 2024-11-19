@@ -11,7 +11,6 @@ let analytics;
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import { ReactPlugin, withAITracking } from '@microsoft/applicationinsights-react-js';
 import { createBrowserHistory } from "history";
-const browserHistory = createBrowserHistory({ basename: '' });
 var reactPlugin = new ReactPlugin();
 let appInsights;
 // const FACEBOOK_PIXEL_ID = '1215625842884170'
@@ -22,6 +21,7 @@ let appInsights;
 // });
 
 export const initAnalytics = () => {
+  const browserHistory = createBrowserHistory({ basename: '' });
   ReactGA.initialize(GA_KEY);
   analytics = AnalyticsBrowser.load({ writeKey: SG_KEY })
   // ReactPixel.init(FACEBOOK_PIXEL_ID); // Replace with your Pixel ID
