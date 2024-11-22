@@ -28,7 +28,6 @@ import { Title } from "@Components/Typography/Typography";
 import ActionModal from "@Components/ActionModal/ActionModal";
 import { RephraseText } from "@adewaskar/lms-common/lib/cjs/types/User/Api";
 import RephraseTextComponent from "./RephraseTextComponent";
-import SummarizeTextComponent from "./SummarizeText";
 
 interface SunEditorPropsI {
   height?: number;
@@ -259,25 +258,8 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           <Row gutter={[10, 10]} justify="end">
             <Col>
               <ActionModal
-                width={900}
-                closable={false}
-                title="Summarize Text"
-                cta={
-                  <Button
-                    type="dashed"
-                    size="small"
-                    style={{ marginBottom: 10 }}
-                  >
-                    Summarize Text
-                  </Button>
-                }
-              >
-                <SummarizeTextComponent />
-              </ActionModal>
-            </Col>
-            <Col>
-              <ActionModal
-                width={900}
+                keyboardClosable={false}
+                width={1100}
                 closable={false}
                 title="Modify Text"
                 cta={

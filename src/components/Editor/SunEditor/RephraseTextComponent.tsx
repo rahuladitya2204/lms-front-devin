@@ -5,25 +5,25 @@ import { Constants, User } from "@adewaskar/lms-common";
 import { Button, Col, Divider, Form, Row, Select, Switch } from "antd";
 import { useEffect, useState } from "react";
 
-interface RephraseTextComponentPropsI {
+interface ModifyTextComponentPropsI {
   text: string;
   closeModal?: Function;
   onComplete: (text: string) => void;
 }
 
-export default function RephraseTextComponent(
-  props: RephraseTextComponentPropsI
+export default function ModifyTextComponent(
+  props: ModifyTextComponentPropsI
 ) {
   const [text, setText] = useState('')
   useEffect(() => {
     setText(props.text)
   }, [props.text])
-  const [rephrasedText, setRephrasedText] = useState("");
+  const [rephrasedText, setModifiedText] = useState("");
   const [form] = Form.useForm();
   const { mutate: rephraseText, isLoading: rephrasing } =
     User.Queries.useRephraseText();
 
-  const handleRephraseText = () => {
+  const handleModifyText = () => {
     form.validateFields().then((values) => {
       rephraseText(
         {
@@ -37,7 +37,7 @@ export default function RephraseTextComponent(
         },
         {
           onSuccess: (v) => {
-            setRephrasedText(v);
+            setModifiedText(v);
           },
         }
       );
@@ -46,13 +46,13 @@ export default function RephraseTextComponent(
 
   const handleConfirm = () => {
     props.onComplete(rephrasedText);
-    setRephrasedText("");
+    setModifiedText("");
     form.resetFields();
     props.closeModal && props.closeModal();
   };
 
   const handleCancel = () => {
-    setRephrasedText("");
+    setModifiedText("");
     form.resetFields();
     props.closeModal && props.closeModal();
   };
@@ -60,52 +60,78 @@ export default function RephraseTextComponent(
   return (
     <Form form={form} layout="vertical">
       <Row gutter={[10, 10]}>
+        <Col span={4}>
+          <Form.Item
+            name="rephrase"
+            label="Rephrase"
+            valuePropName="checked"
+          >
+            <Switch />
+          </Form.Item>
+        </Col>
+        <Col span={4}>
+          <Form.Item
+            name="summarize"
+            label="Summarize"
+            valuePropName="checked"
+          >
+            <Switch />
+          </Form.Item>
+        </Col>
+        <Col span={4}>
+          <Form.Item
+            name="format"
+            label="Formatting"
+            valuePropName="checked"
+          >
+            <Switch />
+          </Form.Item>
+        </Col>
+        {/* <Col span={4}>
+          <Form.Item
+            name="summarize"
+            label="Summarize Content"
+            valuePropName="checked"
+          >
+            <Switch />
+          </Form.Item>
+        </Col> */}
+        <Col span={6}>
+          <Form.Item name="translateTo" label="Translate To">
+            <Select options={Constants.LANGUAGES} />
+          </Form.Item>
+        </Col>
         <Col span={24}>
+          <Form.Item
+            name="instructions"
+            label="Custom Instructions"
+          >
+            <TextArea name="instructions" />
+          </Form.Item>
+        </Col>
+        <Col span={24}>
+          <Row justify={'end'}>
+            <Col>
+              <Button
+                type="primary"
+                loading={rephrasing}
+                onClick={handleModifyText}
+              >
+                Modify Text
+              </Button>
+            </Col></Row>
+        </Col>
+        <Col span={12}>
           <Title level={4}>Old Text</Title>
           <TextArea html={{ level: 3 }} value={text} onChange={setText} />
         </Col>
-        <Divider />
-
         {rephrasedText ? (
-          <Col style={{ minWidth: 400, minHeight: 250 }} span={24}>
-            <Title level={4}>Rephrased Text</Title>
-            <HtmlViewer content={rephrasedText} />
+          <Col style={{ minWidth: 400, minHeight: 250 }} span={12}>
+            <Title level={4}>Modified Text</Title>
+            <TextArea onChange={setModifiedText} html={{ level: 3 }} value={rephrasedText} />
           </Col>
         ) : (
-          <>
-            <Col span={8}>
-              <Form.Item
-                name="rephrase"
-                label="Rephrase"
-                valuePropName="checked"
-              >
-                <Switch />
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item
-                name="format"
-                label="Formatting"
-                valuePropName="checked"
-              >
-                <Switch />
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item
-                name="summarize"
-                label="Summarize Content"
-                valuePropName="checked"
-              >
-                <Switch />
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item name="translateTo" label="Translate To">
-                <Select options={Constants.LANGUAGES} />
-              </Form.Item>
-            </Col>
-          </>
+          null
         )}
         <Divider />
         <Col
@@ -117,13 +143,7 @@ export default function RephraseTextComponent(
               Confirm
             </Button>
           ) : (
-            <Button
-              type="primary"
-              loading={rephrasing}
-              onClick={handleRephraseText}
-            >
-              Rephrase Text
-            </Button>
+            null
           )}
           <Button onClick={handleCancel} style={{ marginRight: 10 }} danger>
             Cancel
