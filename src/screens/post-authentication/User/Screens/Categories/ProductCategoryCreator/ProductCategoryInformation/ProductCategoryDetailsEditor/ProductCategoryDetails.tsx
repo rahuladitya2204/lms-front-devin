@@ -65,10 +65,6 @@ function ProductCategoryDetailsEditor(
       </Form.Item> */}
       <Form.Item name="thumbnailImage" required label="Thumbnail">
         <MediaUpload
-          source={{
-            type: "productCategory.image",
-            value: testId + "",
-          }}
           uploadType="image"
           compress={{ quality: 0.8, maxHeight: 200, maxWidth: 330 }}
           cropper={{ width: 330, height: 200 }}
@@ -259,30 +255,33 @@ function ProductCategoryDetailsEditor(
           <Form.Item
             name={["info", "calendar", "link"]}
             required
-            label="Calendar PDF"
+            label="Oficial Notification"
           >
             <MediaUpload
               uploadType="file"
               cropper={{ width: 330, height: 200 }}
               name={["info", "calendar", "link"]}
               onUpload={(e) => {
-                form.setFieldValue(["info", "calendar", "link"], e.url);
+                form.setFieldValue(
+                  ["info", "calendar", "link"],
+                  e.url
+                );
               }}
             />
             {form.getFieldValue(["info", "calendar", "link"]) ? (
-              <Text type="warning">
-                <span onClick={() => window.open(calendarUrl)}>
-                  <FileOutlined /> Calendar File{" "}
-                </span>
-                <Button
-                  type="dashed"
-                  size="small"
-                  icon={<CloseOutlined />}
+              <span>
+                Calendar Link{" "}
+                <span
                   onClick={() =>
-                    form.setFieldValue(["info", "calendar", "link"], null)
+                    form.setFieldValue(
+                      ["info", "calendar", "link"],
+                      null
+                    )
                   }
-                ></Button>
-              </Text>
+                >
+                  X
+                </span>
+              </span>
             ) : null}
           </Form.Item>
         </Col>

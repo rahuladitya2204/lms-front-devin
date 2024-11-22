@@ -38,6 +38,7 @@ import PlayIcon from "@Icons/play.svg";
 import { Typography } from "@Components/Typography";
 import dayjs from "dayjs";
 import useBreakpoint from "@Hooks/useBreakpoint";
+import { CourseItemDurationTag } from "../CoursePlayer/CoursePlayerNavigator/CoursePlayerNavigatorItem";
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
@@ -74,8 +75,8 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
     navigate(`/app/courses/${lastPlayed.course}/player/${lastPlayed.item}`);
   };
 
-  const playItem = (sectionId: string, itemId: string) => {
-    navigate(`/app/courses/${courseId}/player`);
+  const playItem = (itemId: string) => {
+    navigate(`/app/courses/${courseId}/player/${itemId}`);
   };
 
   const { isMobile, isTablet } = useBreakpoint();
@@ -120,7 +121,6 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
                           block={isMobile}
                           onClick={() => {
                             playItem(
-                              course.sections[0]._id,
                               course.sections[0].items[0]._id
                             );
                           }}
@@ -181,7 +181,7 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
           <Col span={24}>
             <Card bordered={false} style={{ width: "100%", marginTop: 50 }}>
               <Row gutter={[30, 30]}>
-                <Col lg={17} md={24} sm={24} xs={24}>
+                <Col lg={24} md={24} sm={24} xs={24}>
                   <Row gutter={[20, 30]}>
                     {course.sections.map((section) => {
                       return (
@@ -191,12 +191,25 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
                           </Title>
                           <List
                             split={false}
+                            grid={{
+                              gutter: 20,
+                              xs: 1,
+                              sm: 2,
+                              md: 2,
+                              lg: 3,
+                              xl: 3,
+                              xxl: 3
+                            }}
                             size="small"
                             bordered={false}
                             dataSource={section.items}
                             renderItem={(item) => (
                               <List.Item>
                                 <Card
+                                  hoverable
+                                  onClick={() => {
+                                    playItem(item._id)
+                                  }}
                                   style={{ width: "100%", borderRadius: 10 }}
                                   bodyStyle={{ padding: "0 20px" }}
                                 >
@@ -210,7 +223,7 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
                                     </Col> */}
                                     {/* <Col span={1} /> */}
                                     <Col
-                                      flex={1}
+                                      span={24}
                                       style={{
                                         marginTop: 10,
                                         marginBottom: 10,
@@ -218,28 +231,13 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
                                     >
                                       <Title
                                         ellipsis={{ rows: 1 }}
-                                        style={{ marginTop: 0 }}
+                                        style={{ marginTop: 0, fontSize: 14 }}
                                         level={5}
                                       >
                                         {item.title.text[defaultLanguage]}
                                       </Title>
                                       <Space>
-                                        <Tag color="orange-inverse">
-                                          <StepForwardOutlined
-                                            style={{ marginRight: 3 }}
-                                          />
-                                          {Utils.formatSeconds(
-                                            item.metadata?.duration || 0
-                                          )}
-                                        </Tag>
-                                        {/* {item.metadata.length ? (
-                                          <Tag color='blue-inverse'>
-                                            <FileOutlined
-                                              style={{ marginRight: 3 }}
-                                            />
-                                            {item.metadata.length}
-                                          </Tag>
-                                        ) : null} */}
+                                        <CourseItemDurationTag item={item} />
                                         {item.files.length ? (
                                           <Tag>
                                             <FileOutlined
@@ -248,37 +246,6 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
                                             {item.files.length}
                                           </Tag>
                                         ) : null}
-                                      </Space>
-                                    </Col>
-                                    {/* <Col span={6} /> */}
-                                    <Col
-                                      span={3}
-                                      style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                      }}
-                                    >
-                                      <Space>
-                                        <Progress
-                                          style={{
-                                            visibility: item.isCompleted
-                                              ? "visible"
-                                              : "hidden",
-                                          }}
-                                          width={32}
-                                          type="circle"
-                                          percent={100}
-                                        />
-                                        <Button
-                                          // style={{ padding: '0 10px' }}
-                                          shape="circle"
-                                          type="primary"
-                                          onClick={() =>
-                                            playItem(section._id, item._id)
-                                          }
-                                          // shape="round"
-                                          icon={<PlayCircleOutlined />}
-                                        />
                                       </Space>
                                     </Col>
                                   </Row>
@@ -291,49 +258,7 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
                     })}
                   </Row>
                 </Col>
-                {/* <Col span={1} /> */}
-                <Col lg={7} md={0} sm={0} xs={0}>
-                  <Row>
-                    <Col span={24}>
-                      <Title level={5}>Course Description</Title>
-                      <Text>{course.description}</Text>
 
-                      <Divider />
-                    </Col>
-                    <Col span={24}>
-                      <Title level={5} style={{ marginTop: 0 }}>
-                        Course Details
-                      </Title>
-                      <Space direction="vertical">
-                        <Text>
-                          <UserSwitchOutlined />{" "}
-                          {formatAvgCount(course.analytics.enrolled.count)}{" "}
-                          Learners
-                        </Text>
-                        <Text>
-                          <CalendarOutlined />
-                          {"  "}
-                          {/* @ts-ignore */}
-                          {dayjs(course.updatedAt).format("MMMM D, YYYY")} last
-                          updated
-                        </Text>
-                        <Text>
-                          <GlobalOutlined />
-                          {"  "}
-                          {/* @ts-ignore */}
-                          {course.language || "English"}
-                        </Text>
-                        {course.certificate ? (
-                          <Text>
-                            <SafetyCertificateOutlined />
-                            {"  "}
-                            Certificate of completion
-                          </Text>
-                        ) : null}
-                      </Space>
-                    </Col>
-                  </Row>
-                </Col>
               </Row>
             </Card>
           </Col>

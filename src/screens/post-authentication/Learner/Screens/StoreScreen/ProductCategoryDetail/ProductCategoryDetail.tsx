@@ -95,7 +95,7 @@ export default function ProductCategoryDetailScreen(
   }, [type]);
 
   const Metadata = (
-    <ProductCategoryMetadata productCategory={productCategory} />
+    loadingProductCategory ? <Skeleton.Button block active style={{ height: 200 }} /> : <ProductCategoryMetadata productCategory={productCategory} />
   );
   const { isMobile, isDesktop } = useBreakpoint();
   const { data: link, isLoading: loadingCategoryLink } =

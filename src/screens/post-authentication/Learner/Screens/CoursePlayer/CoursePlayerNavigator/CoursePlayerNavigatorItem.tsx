@@ -47,7 +47,6 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
     duration = 0;
   }
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress();
-  const minDuration = Math.ceil(duration);
   return (
     <NavLink
       title={props.item.title?.text[props.language]}
@@ -93,18 +92,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
                   // align="center"
                   >
                     <Col>
-                      <Tag
-                        icon={
-                          <CourseItemIcon type="outlined" item={props.item} />
-                        }
-                        style={{ marginRight: 0 }}
-                        color="blue-inverse"
-                      >
-                        {minDuration < 60
-                          ? minDuration
-                          : Utils.formatSeconds(minDuration)}{" "}
-                        min
-                      </Tag>
+                      <CourseItemDurationTag item={props.item} />
                     </Col>
 
                     <Col>
@@ -147,3 +135,20 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
 }
 
 export default CoursePlayerNavigatorItem;
+
+
+export const CourseItemDurationTag = (props: { item: Types.CourseSectionItem }) => {
+  const minDuration = Math.ceil(props.item.metadata?.duration);
+  return <Tag
+    icon={
+      <CourseItemIcon type="outlined" item={props.item} />
+    }
+    style={{ marginRight: 0 }}
+    color="blue-inverse"
+  >
+    {minDuration < 60
+      ? minDuration
+      : Utils.formatSeconds(minDuration)}{" "}
+    min
+  </Tag>
+}

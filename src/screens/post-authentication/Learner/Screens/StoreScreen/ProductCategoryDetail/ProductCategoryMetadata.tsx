@@ -81,7 +81,7 @@ interface ProductCategoryMetadataPropsI {
 
 function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
   const { data: categoryDetails, isLoading: loadingEnrolledProductCategory } =
-    Learner.Queries.useGetProductCategoryDetails(props.productCategory.slug);
+    Learner.Queries.useGetProductCategoryDetails(props.productCategory.slug, 'basic');
 
   // @ts-ignore
   data.registrationDate.value = // @ts-ignore

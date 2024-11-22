@@ -31,6 +31,7 @@ import ReviewCourse from "../Products/Courses/ReviewCourse/ReviewCourse";
 import { Typography } from "@Components/Typography";
 import styled from "@emotion/styled";
 import useBreakpoint from "@Hooks/useBreakpoint";
+import BackButton from "@Components/BackButton";
 
 const PlayerSkeleton = () => {
   return (
@@ -238,8 +239,9 @@ function CoursePlayer() {
         // bgColor="black"
         title={
           <Space style={{ cursor: "pointer", paddingLeft: 10 }}>
+            <BackButton onClick={() => navigate(`/app/${courseId}/enrolled-course`)} />
             <OrgLogo
-              onClick={() => navigate("../app/store")}
+            // onClick={() => navigate("../app/store")}
             // style={{ width: 60 }}
             />
             <Divider type="vertical" />
