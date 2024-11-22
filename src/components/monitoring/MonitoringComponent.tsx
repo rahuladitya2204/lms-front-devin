@@ -40,7 +40,8 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
     onActive,
   });
   const screenshotRef = useRef<any>(null);
-  const { isSignedIn, user } = Store.useAuthentication((s) => s);
+  const { isSignedIn } = Store.useAuthentication((s) => s);
+  const { data: user } = User.Queries.useGetUserDetails()
   const { data: userLog } = User.Queries.useGetUserLog(user._id, "");
   const { openModal } = useModal();
   const { mutate: updateUserLog, isLoading: updatingScreenshot } =
@@ -60,7 +61,7 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
           if (
             !lastScreenshotTime ||
             currentTime - parseInt(lastScreenshotTime) >=
-              TIME_BETWEEN_SCREENSHOTS_IN_MIN * 60 * 1000
+            TIME_BETWEEN_SCREENSHOTS_IN_MIN * 60 * 1000
           ) {
             if (state === "idle") {
               return;
@@ -243,7 +244,7 @@ const ScreenshotForm = ({
                   prefixKey: `${user._id}/monitoring/screenshots`,
                 },
               ],
-              onSuccess: () => {},
+              onSuccess: () => { },
             },
             {
               onSuccess: ([{ url }]) => {

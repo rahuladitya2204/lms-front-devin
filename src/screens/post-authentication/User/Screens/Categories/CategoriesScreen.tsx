@@ -42,7 +42,7 @@ function CategoriesScreen() {
       ]}
     >
       <Container>
-        <Table searchFields={["title"]} dataSource={data} loading={loading}>
+        <Table searchFields={["title", 'slug']} dataSource={data} loading={loading}>
           <TableColumn
             title="Thumbnail Image"
             render={(_: any, record: Types.ProductCategory, index: number) => (
