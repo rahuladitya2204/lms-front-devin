@@ -84,8 +84,3 @@ jobs:
           app-name: 'nimblebee-front'
           slot-name: 'Production'
           package: .
-          startup-command: |
-            chmod +x scripts/post-deploy.sh &&
-            ./scripts/post-deploy.sh &&
-            PORT=8080 HOSTNAME=0.0.0.0 && 
-            node server.js

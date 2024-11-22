@@ -28,6 +28,7 @@ export default function RephraseTextComponent(
       rephraseText(
         {
           formatted: values.format,
+          rephrase: values.rephrase,
           summarize: values.summarize,
           translateTo: Constants.LANGUAGES.find(
             (i) => i.value === values.translateTo
@@ -72,6 +73,15 @@ export default function RephraseTextComponent(
           </Col>
         ) : (
           <>
+            <Col span={8}>
+              <Form.Item
+                name="rephrase"
+                label="Rephrase"
+                valuePropName="checked"
+              >
+                <Switch />
+              </Form.Item>
+            </Col>
             <Col span={8}>
               <Form.Item
                 name="format"
