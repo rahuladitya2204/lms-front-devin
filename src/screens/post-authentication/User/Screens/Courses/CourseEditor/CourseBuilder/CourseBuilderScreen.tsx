@@ -211,7 +211,7 @@ function CourseBuilderScreen() {
       },
     });
   };
-  const { mutate: printCourse } = User.Queries.usePrintCourse(courseId + '')
+  const { mutate: printCourse, isLoading: printingCourse } = User.Queries.usePrintCourse(courseId + '')
 
   return (
     <AppProvider>
@@ -258,7 +258,7 @@ function CourseBuilderScreen() {
                   Go to Course Builder
                 </Button>
               </Link> */}
-              <Dropdown.Button
+              <Dropdown.Button loading={printingCourse}
                 menu={{
                   items: [
                     {

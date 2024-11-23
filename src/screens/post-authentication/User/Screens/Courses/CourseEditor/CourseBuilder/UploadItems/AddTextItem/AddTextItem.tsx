@@ -19,6 +19,7 @@ import { useCourseStore } from "../../useCourseStore";
 import { useOutletContext } from "react-router";
 import useUpdateCourseForm from "../useUpdateCourseForm";
 import TopicSelect from "@Components/TopicSelect";
+import Tabs from "@Components/Tabs";
 
 const { confirm } = Modal;
 
@@ -31,45 +32,59 @@ const AddTextItem: React.FC = (props: AddTextItemPropsI) => {
   const { language } = useOutletContext();
   const course = useCourseStore(s => s.course)
   const prefixKey = `courses/${courseId}/${itemId}`;
+  const ContentComponent = (field: string) => {
+    return <Col span={24}>
+      <Form.Item
+        name={["title", "text", language]}
+        label="Title"
+        required
+        rules={[{ required: true, message: "Enter the title" }]}
+      >
+        <Input />
+      </Form.Item>
+      <Row gutter={[15, 15]}>
+        <Col span={12}>
+          <TopicSelect
+            level={4}
+            label="Topic"
+            notDisabled
+            topicId={course.topics}
+            name="topic"
+          /></Col>
+        <Col span={12}>
+          <Form.Item label="Tags" name="tags">
+            <InputTags name="tags" />
+          </Form.Item></Col>
+      </Row>
+      <Form.Item
+        name={[field, "text", language]}
+        label="Content"
+        required
+      >
+        <TextArea modifyCta
+          name={[field, "text", language]}
+          uploadPrefixKey={prefixKey}
+          height={800}
+          html={{ level: 3 }}
+        />
+      </Form.Item>
+    </Col>
+  }
+  const tabItems = [{
+    label: 'Detailed Content',
+    key: 'description',
+    children: ContentComponent('description')
+  },
+  {
+    label: 'Short Content',
+    key: 'shortDescription',
+    children: ContentComponent('shortDescription')
+  }]
   return (
     <Spin spinning={false}>
       <Row gutter={[10, 0]}>
         <Col span={24}>
-          <Form.Item
-            name={["title", "text", language]}
-            label="Title"
-            required
-            rules={[{ required: true, message: "Enter the title" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Row gutter={[15, 15]}>
-            <Col span={12}>
-              <TopicSelect
-                level={4}
-                label="Topic"
-                notDisabled
-                topicId={course.topics}
-                name="topic"
-              /></Col>
-            <Col span={12}>
-              <Form.Item label="Tags" name="tags">
-                <InputTags name="tags" />
-              </Form.Item></Col>
-          </Row>
-          <Form.Item
-            name={["description", "text", language]}
-            label="Content"
-            required
-          >
-            <TextArea modifyCta
-              name={["description", "text", language]}
-              uploadPrefixKey={prefixKey}
-              height={800}
-              html={{ level: 3 }}
-            />
-          </Form.Item>
-        </Col>
+          <Tabs tabKey="course-content-tab" items={tabItems} /></Col>
       </Row>
     </Spin>
   );
