@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@adewaskar/lms-common@3.1.487-alpha.773":
-  version "3.1.487-alpha.773"
-  resolved "https://registry.yarnpkg.com/@adewaskar/lms-common/-/lms-common-3.1.487-alpha.773.tgz#26af1c8b3cbc72880802b41d3ce102a39c5aecbe"
-  integrity sha512-pc2SSHcODeRhF5DBMDy1mb7Ip3dgqWfKdpQlkQGAZhI22DbBagUUkhy0Gl76a3wInyU1wc2kSbUwBDDVFbWzWw==
+"@adewaskar/lms-common@3.1.487-alpha.778":
+  version "3.1.487-alpha.778"
+  resolved "https://registry.yarnpkg.com/@adewaskar/lms-common/-/lms-common-3.1.487-alpha.778.tgz#d6f384687fab4a39c55b6d783d4588f966d53f40"
+  integrity sha512-qHN3jt1NeF/a8164lysLG89mVCyjkEVfWhlZf+IAiFY4orcRvG67lbMOLBa8CApt3tJYAH6ziOZQDJGFBzpkNw==
   dependencies:
     "@ant-design/colors" "^7.0.0"
     "@babel/core" "^7.21.0"

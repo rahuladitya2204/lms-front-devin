@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   Col,
+  Dropdown,
   Form,
   Modal,
   Row,
@@ -210,7 +211,7 @@ function CourseBuilderScreen() {
       },
     });
   };
-
+  const { mutate: printCourse } = User.Queries.usePrintCourse(courseId + '')
 
   return (
     <AppProvider>
@@ -257,7 +258,20 @@ function CourseBuilderScreen() {
                   Go to Course Builder
                 </Button>
               </Link> */}
-              <Button
+              <Dropdown.Button
+                menu={{
+                  items: [
+                    {
+                      label: 'Print Course',
+                      key: 'print-course',
+                      onClick: () => {
+                        printCourse({
+                          language: 'eng'
+                        })
+                      }
+                    }
+                  ]
+                }}
                 loading={savingCourse}
                 htmlType="submit"
                 onClick={form.submit}
@@ -265,7 +279,7 @@ function CourseBuilderScreen() {
                 style={{ marginRight: 10 }}
               >
                 Save Changes
-              </Button>
+              </Dropdown.Button>
             </>
           ),
         ]}

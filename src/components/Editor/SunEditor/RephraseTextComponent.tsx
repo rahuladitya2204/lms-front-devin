@@ -30,6 +30,7 @@ export default function ModifyTextComponent(
           formatted: values.format,
           rephrase: values.rephrase,
           summarize: values.summarize,
+          instructions: values.instructions,
           translateTo: Constants.LANGUAGES.find(
             (i) => i.value === values.translateTo
           )?.label,
