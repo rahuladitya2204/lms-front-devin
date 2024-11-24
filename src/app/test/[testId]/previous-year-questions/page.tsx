@@ -38,7 +38,7 @@ export default async function Page({
       queries={[
         // getOrgDetails(),
         getTestDetails(params.testId),
-        getTexts()
+        getTexts(),
         // getPromotedProducts(Enum.ProductType.TEST, {
         //   category: test.category,
         //   limit: 4,
