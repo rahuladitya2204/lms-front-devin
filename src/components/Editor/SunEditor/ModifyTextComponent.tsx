@@ -30,6 +30,7 @@ export default function ModifyTextComponent(
           formatted: values.format,
           rephrase: values.rephrase,
           summarize: values.summarize,
+          brief: values.brief,
           instructions: values.instructions,
           translateTo: Constants.LANGUAGES.find(
             (i) => i.value === values.translateTo
@@ -83,6 +84,15 @@ export default function ModifyTextComponent(
           <Form.Item
             name="format"
             label="Formatting"
+            valuePropName="checked"
+          >
+            <Switch />
+          </Form.Item>
+        </Col>
+        <Col span={4}>
+          <Form.Item
+            name="brief"
+            label="Brief up(Revision Version)"
             valuePropName="checked"
           >
             <Switch />

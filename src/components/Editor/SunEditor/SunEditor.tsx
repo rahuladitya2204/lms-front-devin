@@ -27,7 +27,7 @@ import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import { Title } from "@Components/Typography/Typography";
 import ActionModal from "@Components/ActionModal/ActionModal";
 import { RephraseText } from "@adewaskar/lms-common/lib/cjs/types/User/Api";
-import RephraseTextComponent from "./RephraseTextComponent";
+import RephraseTextComponent from "./ModifyTextComponent";
 
 interface SunEditorPropsI {
   height?: number;
