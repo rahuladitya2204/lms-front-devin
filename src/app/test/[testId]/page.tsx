@@ -20,7 +20,7 @@ export async function generateMetadata(req: {
   const id = req.params.testId;
   // console.log(alias, userType, id, "kututurur");
   if (alias && userType) {
-    const apiUrl = process.env.API_URL;
+    const apiUrl = process.env.NEXT_API_URL;
     // Fetch metadata from an API
     const { data: test }: { data: Types.Test } = await axios(
       `learner/test/${id}?mode=general`,

@@ -13,7 +13,7 @@ export const getToken = (userType?: string) => {
 
 const requestSuccessInterceptor = (config) => {
   config.baseURL = getIsServer()
-    ? process.env.API_URL
+    ? process.env.NEXT_API_URL
     : process.env.NEXT_PUBLIC_API_URL;
   // Any status code that lie within the range of 2xx cause this function to trigger
   return config;
@@ -45,7 +45,7 @@ const requestTransformer = [
     const orgAlias = Utils.Storage.GetItem("orgAlias");
     const userType = Utils.Storage.GetItem("userType");
     const affiliateId = Utils.Storage.GetItem("affiliateId");
-    const utmSource= Utils.Storage.GetItem("utmSource");
+    const utmSource = Utils.Storage.GetItem("utmSource");
     // console.log("here", orgAlias, userType, affiliateId);
 
     const token = getToken(userType);
@@ -56,8 +56,8 @@ const requestTransformer = [
     if (affiliateId) {
       headers.set("x-affiliate-id", affiliateId);
     }
-    
-    if(utmSource){
+
+    if (utmSource) {
       headers.set("x-utm-source", utmSource);
     }
 

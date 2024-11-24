@@ -13,7 +13,7 @@ import TestPublicPlayerItemReiew from "@Screens/post-authentication/Learner/Scre
 import getQueryClient from "@ServerUtils/getQueryClient";
 import { htmlToText } from "html-to-text";
 import { useGetPromotedProducts } from "@adewaskar/lms-common/lib/cjs/types/Learner/Api/queries";
-const apiUrl = process.env.API_URL;
+const apiUrl = process.env.NEXT_API_URL;
 
 export async function generateMetadata(req: {
   params: any;
@@ -36,7 +36,7 @@ export async function generateMetadata(req: {
   const userType = getCookie("userType");
   // console.log(alias, userType, id, "kututurur");
   if (alias && userType) {
-    const apiUrl = process.env.API_URL;
+    const apiUrl = process.env.NEXT_API_URL;
     // Fetch metadata from an API
     const test = await getData(id, alias);
     const language = test.languages[0];

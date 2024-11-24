@@ -22,7 +22,7 @@ export async function generateMetadata(req: {
   const id = req.params.id;
   // console.log(alias, userType, id, "kututurur");
   if (alias && userType) {
-    const apiUrl = process.env.API_URL;
+    const apiUrl = process.env.NEXT_API_URL;
     // Fetch metadata from an API
     const { data: blog }: { data: Types.Blog } = await axios(
       `learner/blog/${id}`,

@@ -1,7 +1,7 @@
 import UAParser from "ua-parser-js";
 import { parse, serialize } from "cookie";
 import { Constants } from "@adewaskar/lms-common";
-Constants.config.API_URL = process.env.API_URL;
+Constants.config.API_URL = process.env.NEXT_API_URL;
 export const getServerEnv = () => {
   return process.env.NODE_ENV;
 };

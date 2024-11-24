@@ -7,7 +7,7 @@ export async function GET(request) {
   const req = new URL(request.url);
   const { protocol, host } = req;
   const hostParts = host.split('.');
-  const apiUrl = process.env.API_URL;
+  const apiUrl = process.env.NEXT_API_URL;
   let subdomain = '';
 
   // Extract subdomain if available
@@ -29,8 +29,8 @@ export async function GET(request) {
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
       <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
         ${urls
-          .map(({ url, priority,frequency }) => {
-            return `
+        .map(({ url, priority, frequency }) => {
+          return `
               <url>
                 <loc>${url}</loc>
                 <lastmod>${new Date().toISOString()}</lastmod>
@@ -38,8 +38,8 @@ export async function GET(request) {
                 ${priority ? `<priority>${priority}</priority>` : ''}
               </url>
             `;
-          })
-          .join('')}
+        })
+        .join('')}
       </urlset>`;
 
     // Set the response headers and return the sitemap XML

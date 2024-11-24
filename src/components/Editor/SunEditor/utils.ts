@@ -135,9 +135,9 @@ export async function downloadFileFromUrl(fileUrl: string, fileName?: string): P
 }
 
 export const getAxiosInstance = () => {
-  console.log(process.env.API_URL, 'process.env.API_URL')
+  console.log(process.env.NEXT_API_URL, 'process.env.NEXT_API_URL')
   const api = axios.create({
-    baseURL: process.env.API_URL
+    baseURL: process.env.NEXT_API_URL
   });
   return api;
 }

@@ -7,7 +7,7 @@ import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
 const axios = getAxiosInstance();
 import { RenderFAQJson } from "@Components/CreateFaqsComponent";
 import { getToken } from "@Network/index";
-const apiUrl = process.env.API_URL;
+const apiUrl = process.env.NEXT_API_URL;
 
 export const generateMetadata = GenerateMetadata;
 

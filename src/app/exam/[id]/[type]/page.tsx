@@ -7,7 +7,7 @@ import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
 const axios = getAxiosInstance();
 import { RenderFAQJson } from "@Components/CreateFaqsComponent";
 
-const apiUrl = process.env.API_URL;
+const apiUrl = process.env.NEXT_API_URL;
 
 export async function generateMetadata(
   req: { params: any; searchParams: any; headers: Headers },

@@ -9,7 +9,7 @@ import Providers from "./providers";
 const axios = getAxiosInstance();
 import { Constants } from "@adewaskar/lms-common";
 import { getCookie } from "@ServerUtils/index";
-Constants.config.API_URL = process.env.API_URL;
+Constants.config.API_URL = process.env.NEXT_API_URL;
 
 import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
 // initDateFormats();
@@ -25,7 +25,7 @@ export async function generateMetadata(
   const userType = getCookie("userType");
   let organisation = Constants.INITIAL_ORG_DETAILS;
   if (alias && userType) {
-    const apiUrl = process.env.API_URL;
+    const apiUrl = process.env.NEXT_API_URL;
     // Fetch metadata from an API
     organisation = (
       await axios(`${apiUrl}/${userType}/organisation`, {
