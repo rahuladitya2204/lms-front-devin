@@ -135,6 +135,7 @@ export async function downloadFileFromUrl(fileUrl: string, fileName?: string): P
 }
 
 export const getAxiosInstance = () => {
+  console.log(process.env.API_URL, 'process.env.API_URL')
   const api = axios.create({
     baseURL: process.env.API_URL
   });
@@ -146,7 +147,7 @@ export const useText = (language: string) => {
 
   const FormatLangText = (key: string, variables: { [key: string]: string | number } = {}) => {
     // console.log(TEXT[key], key, 'TEXT[key]')
-    const template = TEXT[key]?.[language] || TEXT[key]['eng'] || '';
+    const template = TEXT[key]?.[language] || TEXT[key]?.['eng'] || '';
 
     // Replace placeholders with variable values if they exist
     return template.replace(/\{\{(.*?)\}\}/g, (_, varName) => {
