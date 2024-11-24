@@ -24,6 +24,7 @@ export default async function Page({
     getPromotedProducts,
     getEnrolledProductDetails,
     getTestDetails,
+    getTexts,
     getOrgDetails,
     getCartDetails,
     getLearnerDetails,
@@ -37,6 +38,7 @@ export default async function Page({
       queries={[
         // getOrgDetails(),
         getTestDetails(params.testId),
+        getTexts()
         // getPromotedProducts(Enum.ProductType.TEST, {
         //   category: test.category,
         //   limit: 4,

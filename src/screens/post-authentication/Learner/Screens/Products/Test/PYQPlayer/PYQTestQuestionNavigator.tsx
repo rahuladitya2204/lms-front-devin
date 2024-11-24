@@ -21,10 +21,12 @@ import { NavLink, useNavigate, useParams } from "@Router/index";
 import TestScore from "@Components/TestScore";
 
 import { useText } from "@Components/Editor/SunEditor/utils";
+import { useOutletContext } from "react-router";
 
 interface TestReviewQuestionNavigatorPropsI {
   testId: string;
   questionId: string;
+  language: string;
   closeDrawer?: Function;
   isServer?: boolean;
 }
@@ -34,18 +36,13 @@ const { Text, Title } = Typography;
 export default function TestReviewQuestionNavigator(
   props: TestReviewQuestionNavigatorPropsI
 ) {
-
   const { isLoading: loadingResult, data: test } =
     Learner.Queries.useGetTestDetails(
       props.testId + "",
       Enum.TestDetailMode.RESULT
     );
 
-  const { data: { metadata: { test: { language } } } } = Learner.Queries.useGetEnrolledProductDetails({
-    type: Enum.ProductType.TEST,
-    id: test._id + "",
-  });
-  const { FormatLangText } = useText(language);
+  const { FormatLangText } = useText(props.language);
   const { currentQuestion, loading } = useQuestion();
 
   const { token } = theme.useToken();

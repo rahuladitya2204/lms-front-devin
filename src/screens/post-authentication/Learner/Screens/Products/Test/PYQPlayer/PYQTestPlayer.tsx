@@ -195,6 +195,7 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
                 <Row gutter={[20, 20]}>
                   <Col span={24}>
                     <QuestionNavigator
+                      language={lang}
                       isServer={props.isServer}
                       questionId={questionId + ""}
                       testId={testId + ""}
