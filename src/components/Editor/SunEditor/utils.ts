@@ -2,7 +2,7 @@
 import { debounce, uniqueId } from 'lodash'
 
 import axios from 'axios';
-import { Learner } from '@adewaskar/lms-common';
+import { Constants, Learner } from '@adewaskar/lms-common';
 
 
 export function printPdf(downloadUrl: string, filename = 'test.pdf') {
@@ -137,7 +137,9 @@ export async function downloadFileFromUrl(fileUrl: string, fileName?: string): P
 export const getAxiosInstance = () => {
 
   // const api = setupCache(axios.create());
-  const api = axios.create();
+  const api = axios.create({
+    baseURL: Constants.config.API_URL
+  });
   return api;
 }
 

@@ -9,6 +9,7 @@ import Providers from "./providers";
 const axios = getAxiosInstance();
 import { Constants } from "@adewaskar/lms-common";
 import { getCookie } from "@ServerUtils/index";
+Constants.config.API_URL = process.env.API_URL;
 
 import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
 // initDateFormats();
