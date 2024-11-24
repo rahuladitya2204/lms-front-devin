@@ -135,10 +135,8 @@ export async function downloadFileFromUrl(fileUrl: string, fileName?: string): P
 }
 
 export const getAxiosInstance = () => {
-
-  // const api = setupCache(axios.create());
   const api = axios.create({
-    baseURL: Constants.config.API_URL
+    baseURL: process.env.API_URL
   });
   return api;
 }
