@@ -45,7 +45,7 @@ export async function getData({ id }) {
   const url = `https://${alias}.testmint.ai/exam/${id}`;
 
   const { data: category }: { data: Types.ProductCategory } = await axios(
-    `${apiUrl}/learner/product-category/${id}`,
+    `learner/product-category/${id}`,
     {
       headers: {
         "x-org-alias": alias,

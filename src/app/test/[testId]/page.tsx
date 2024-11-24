@@ -23,7 +23,7 @@ export async function generateMetadata(req: {
     const apiUrl = process.env.API_URL;
     // Fetch metadata from an API
     const { data: test }: { data: Types.Test } = await axios(
-      `${apiUrl}/learner/test/${id}?mode=general`,
+      `learner/test/${id}?mode=general`,
       {
         headers: {
           "x-org-alias": alias,

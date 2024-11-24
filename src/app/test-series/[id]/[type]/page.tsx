@@ -25,7 +25,7 @@ export async function generateMetadata(req: {
     const apiUrl = process.env.API_URL;
     // Fetch metadata from an API
     const { data: bundle }: { data: Types.Package } = await axios(
-      `${apiUrl}/learner/package/${id}`,
+      `learner/package/${id}`,
       {
         headers: {
           "x-org-alias": alias,

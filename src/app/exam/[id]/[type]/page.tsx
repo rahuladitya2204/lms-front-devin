@@ -21,7 +21,7 @@ export async function generateMetadata(
   if (alias && userType) {
     // Fetch metadata from an API
     const { link, url } = await getData({ id, type });
-    console.log(link, 'lmlmlkm')
+
     return {
       title: link?.seo?.meta?.title || `${link.title} Exam`,
       description: link?.seo?.meta?.description || `${link.title} Exam`,
@@ -129,7 +129,7 @@ export async function getData({ id, type }) {
   const url = `https://${alias}.testmint.ai/exam/${id}/${type || 'overview'}`;
 
   const { data: link }: { data: Types.ProductCategoryLink } = await axios(
-    `${apiUrl}/learner/product-category/${id}/${type}`,
+    `learner/product-category/${id}/${type}`,
     {
       headers: {
         "x-org-alias": alias,
