@@ -59,15 +59,15 @@ function UsersScreen() {
         <Row>
           <Col span={24}>
             <Table
-              searchFields={["name", "contactNo", "email"]}
+              searchFields={["name", "contactNo", "email", '_id']}
               dataSource={
                 isDel
                   ? data.filter(
-                      (i) => i.status !== Enum.UserAccountStatus.ACTIVE
-                    )
+                    (i) => i.status !== Enum.UserAccountStatus.ACTIVE
+                  )
                   : data.filter(
-                      (i) => i.status === Enum.UserAccountStatus.ACTIVE
-                    )
+                    (i) => i.status === Enum.UserAccountStatus.ACTIVE
+                  )
               }
               loading={loading || deletingUser}
               extra={[
@@ -81,6 +81,19 @@ function UsersScreen() {
                 </Form.Item>,
               ]}
             >
+              <TableColumn
+                title="ID"
+                dataIndex="_id"
+                key="_id"
+                render={(_: any, record: Types.User) => (
+                  <>
+                    {record._id}
+                    {/* {record.status === Enum.UserAccountStatus.DELETED
+                      ? `[DELETED]`
+                      : null} */}
+                  </>
+                )}
+              />
               <TableColumn
                 title="Name"
                 dataIndex="name"

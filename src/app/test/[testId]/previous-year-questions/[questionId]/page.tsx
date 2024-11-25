@@ -8,11 +8,8 @@ import { Metadata } from "next";
 import { getCookie } from "@ServerUtils/index";
 import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
 const axios = getAxiosInstance();
-import TestPublicPlayer from "@Screens/post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayer";
 import TestPublicPlayerItemReiew from "@Screens/post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayerItem";
-import getQueryClient from "@ServerUtils/getQueryClient";
 import { htmlToText } from "html-to-text";
-import { useGetPromotedProducts } from "@adewaskar/lms-common/lib/cjs/types/Learner/Api/queries";
 const apiUrl = process.env.NEXT_API_URL;
 
 export async function generateMetadata(req: {
@@ -23,7 +20,8 @@ export async function generateMetadata(req: {
   // const questionId = req.params.questionId;
   const questionId = getIdFromSlug(req.params.questionId);
   const id = req.params.testId;
-  const test: Types.Test = await Learner.Api.GetTestDetails(id, "result");
+  const test = await getData(id, 'result');
+  console.log(test, '1231231212132')
   // @ts-ignore
   const question: Types.TestQuestion = test.sections
     .map((i) => i.items)
@@ -38,7 +36,7 @@ export async function generateMetadata(req: {
   if (alias && userType) {
     const apiUrl = process.env.NEXT_API_URL;
     // Fetch metadata from an API
-    const test = await getData(id, alias);
+    const test = await getData(id, 'result', alias);
     const language = test.languages[0];
     const url = `https://${alias}.testmint.ai/test/${id}/previous-year-questions/${questionId}`;
     const questionTitle = htmlToText(question?.title?.text[language]);
@@ -139,7 +137,7 @@ export default async function Page({
 }: {
   params: { testId: string; questionId: string };
 }) {
-  const test = await getData(params.testId);
+  const test = await getData(params.testId, 'seo');
   const {
     getProductCategoryDetails,
     getTestDetails,
@@ -181,10 +179,11 @@ export const getIdFromSlug = (slug: string) => {
 
 export const getData = async (
   id: string,
+  mode: string,
   alias = "www"
 ): Promise<Types.Test> => {
   const { data: test }: { data: Types.Test } = await axios(
-    `learner/test/${id}?mode=seo`,
+    `learner/test/${id}?mode=${mode}`,
     {
       headers: {
         "x-org-alias": alias,

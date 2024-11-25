@@ -20,6 +20,7 @@ import { useOutletContext } from "react-router";
 import useUpdateCourseForm from "../useUpdateCourseForm";
 import TopicSelect from "@Components/TopicSelect";
 import Tabs from "@Components/Tabs";
+import CreateFaqs from "@Components/CreateFaqsComponent";
 
 const { confirm } = Modal;
 
@@ -68,15 +69,20 @@ const AddTextItem: React.FC = (props: AddTextItemPropsI) => {
           html={{ level: 3 }}
         />
       </Form.Item>
+      <Card title={'FAQs'} extra={[<Button size='small'>Generate FAQS</Button>]}>
+        <Form.Item>
+          <CreateFaqs name={"faqs"} />
+        </Form.Item>
+      </Card>
     </Col>
   }
   const tabItems = [{
-    label: 'Detailed Content',
+    label: 'Detailed Version',
     key: 'description',
     children: ContentComponent('description')
   },
   {
-    label: 'Short Content',
+    label: 'Revision Version',
     key: 'shortDescription',
     children: ContentComponent('shortDescription')
   }]

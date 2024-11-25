@@ -17,13 +17,6 @@ export default function CreateFaqs(props: CreateFaqsPropsI) {
   const form = Form.useFormInstance();
   return (
     <>
-      {/* <Script
-        id="faq-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqJson),
-        }}
-      /> */}
       <Row>
         <Col span={24}>
           <Title>FAQs</Title>
