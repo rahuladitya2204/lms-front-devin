@@ -6,8 +6,9 @@ import CourseCard from './CourseCard'
 import CreateCourseComponent from '../CreateCourse/CreateCourse'
 import { Fragment } from 'react'
 import UserHeader from '@User/Screens/UserRoot/UserHeader'
+import CoursesList from './CourseList'
 
-function CoursesScreen () {
+function CoursesScreen() {
   const SkeletonArr = [1, 1, 1, 1, 1, 1, 1, 1].map(
     () => Constants.INITIAL_COURSE_DETAILS
   )
@@ -21,22 +22,7 @@ function CoursesScreen () {
   return (
     <UserHeader title="Courses" extra={[CreateCourseCta]}>
       {/* {!courses.length && !loading ? ( */}
-      <List
-        grid={{ gutter: 20, column: 4, sm: 3 }}
-        size="large"
-        // pagination={{
-        //   onChange: (page) => {
-        //     console.log(page);
-        //   },
-        //   pageSize: 3,
-        // }}
-        dataSource={loading ? SkeletonArr : courses}
-        renderItem={course => (
-          <div style={{ padding: 30 }}>
-            {!loading ? <CourseCard course={course} /> : <SkeletonCard />}
-          </div>
-        )}
-      />
+      <CoursesList />
       {/* ) : (
         <Card>
           <Empty
