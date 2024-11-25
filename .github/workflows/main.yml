@@ -20,12 +20,24 @@ jobs:
         with:
           node-version: '18.x'
 
+      - name: Cache Node.js modules
+        id: cache-node-modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install yarn
         run: npm install -g yarn
 
+      - name: Install dependencies
+        run: yarn install
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+
       - name: Build image
         run: |
-          yarn install
           yarn build
         env:
           SENTRY_AUTH_TOKEN: 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
