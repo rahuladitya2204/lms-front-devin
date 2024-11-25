@@ -10,7 +10,6 @@ import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
 const axios = getAxiosInstance();
 import TestPublicPlayerItemReiew from "@Screens/post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayerItem";
 import { htmlToText } from "html-to-text";
-const apiUrl = process.env.NEXT_API_URL;
 
 export async function generateMetadata(req: {
   params: any;
@@ -20,14 +19,9 @@ export async function generateMetadata(req: {
   // const questionId = req.params.questionId;
   const questionId = getIdFromSlug(req.params.questionId);
   const id = req.params.testId;
-  const test = await getData(id, 'result');
-  console.log(test, '1231231212132')
+  const test = await getTest(id, 'seo');
   // @ts-ignore
-  const question: Types.TestQuestion = test.sections
-    .map((i) => i.items)
-    .flat()
-    // @ts-ignore
-    .find((i) => i?._id === questionId);
+  const question: Types.TestQuestion = await getTestQuestion(id, questionId)
 
   // console.log(req, "reqqq");
   const alias = getCookie("orgAlias")?.split("-")[0];
@@ -35,8 +29,6 @@ export async function generateMetadata(req: {
   // console.log(alias, userType, id, "kututurur");
   if (alias && userType) {
     const apiUrl = process.env.NEXT_API_URL;
-    // Fetch metadata from an API
-    const test = await getData(id, 'result', alias);
     const language = test.languages[0];
     const url = `https://${alias}.testmint.ai/test/${id}/previous-year-questions/${questionId}`;
     const questionTitle = htmlToText(question?.title?.text[language]);
@@ -137,7 +129,7 @@ export default async function Page({
 }: {
   params: { testId: string; questionId: string };
 }) {
-  const test = await getData(params.testId, 'seo');
+  const test = await getTest(params.testId, 'seo');
   const {
     getProductCategoryDetails,
     getTestDetails,
@@ -177,13 +169,29 @@ export const getIdFromSlug = (slug: string) => {
   return slug?.split(`-`)?.pop();
 };
 
-export const getData = async (
+export const getTest = async (
   id: string,
   mode: string,
   alias = "www"
 ): Promise<Types.Test> => {
   const { data: test }: { data: Types.Test } = await axios(
     `learner/test/${id}?mode=${mode}`,
+    {
+      headers: {
+        "x-org-alias": alias,
+      },
+    }
+  );
+  return test;
+};
+
+export const getTestQuestion = async (
+  testId: string,
+  questionId: string,
+  alias = "www"
+): Promise<Types.Test> => {
+  const { data: test }: { data: Types.Test } = await axios(
+    `learner/test/${testId}/question/${questionId}`,
     {
       headers: {
         "x-org-alias": alias,
