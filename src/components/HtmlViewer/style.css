@@ -1,3 +1,10 @@
 .html-viewer div.ant-typography {
     margin-bottom: 0;
 }
+
+.html-viewer h1,
+.html-viewer h2,
+.html-viewer h3,
+.html-viewer h4 {
+    margin-top: 0;
+}
