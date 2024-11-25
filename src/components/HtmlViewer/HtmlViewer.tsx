@@ -14,12 +14,16 @@ interface HtmlViewerProps {
   noPreviewImage?: boolean;
   customStyles?: string;
   protected?: boolean;
-  copyable?: boolean
+  copyable?: boolean;
+  highlights?: Types.CourseHighlight;
 }
 
 function HtmlViewerCopyable(props: HtmlViewerProps) {
-  const { content, noPreviewImage, customStyles, protected: isProtected } = props;
+  const { content, noPreviewImage, customStyles, protected: isProtected, highlights = [] } = props;
 
+  console.log(highlights, 'highlights')
+  const containerRef = useRef<HTMLDivElement>(null);
+  const highlightsRef = useRef<Highlight[]>([]);
   if (!content) {
     return null;
   }
@@ -145,6 +149,7 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
   ]);
 
   const convertNodeToElement = (node: Element | Text, index: number) => {
+
     if (node.type === "tag") {
       // Handle void elements
       if (voidElements.has(node.name)) {
@@ -189,6 +194,19 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
               {domToReact(node.children, { replace: convertNodeToElement })}
             </Paragraph>
           );
+
+        case "span": {
+          const { style, className } = node.attribs;
+          return (
+            <span
+              key={index}
+              style={parseStyleString(style)}
+              className={className}
+            >
+              {domToReact(node.children, { replace: convertNodeToElement })}
+            </span>
+          );
+        }
 
         // Handle images (already a void element)
         case "img": {
@@ -304,8 +322,6 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
           return <Divider key={index} />;
         }
 
-        // Handle inline elements and preserve styles
-        case "span":
         case "strong":
         case "em":
         case "b":
@@ -337,7 +353,21 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
           );
       }
     } else if (node.type === "text") {
-      return node.data;
+      const text = node.data;
+      const matchingHighlight = highlights?.find(h => text.includes(h.selectedText));
+
+      if (matchingHighlight) {
+        const startIndex = text.indexOf(matchingHighlight.selectedText);
+        return React.createElement(React.Fragment, { key: index },
+          text.substring(0, startIndex),
+          React.createElement('span', {
+            className: 'highlighted-text',
+            style: { backgroundColor: '#ffeb3b' }
+          }, matchingHighlight.selectedText),
+          text.substring(startIndex + matchingHighlight.selectedText.length)
+        );
+      }
+      return text;
     }
     return null;
   };
@@ -352,9 +382,17 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
     </div>
   ) : (
     // Render content normally when not protected
-    <div className="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred">
+    <div ref={containerRef} className="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred">
       <div className="html-viewer">
-        <style>{customStyles}</style>
+        <style>
+          {`
+          .highlighted-text {
+            background-color: #ffeb3b;
+            padding: 2px 0;
+          }
+          ${customStyles}
+        `}
+        </style>
         {parsedContent}
       </div>
     </div>
@@ -372,6 +410,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 import AppImage from "@Components/Image";
 import Base64Image from "@User/Screens/ExtraComponents/Base64Image";
+import { Types } from "@adewaskar/lms-common";
 
 interface CanvasRendererProps {
   children: React.ReactNode;
@@ -462,7 +501,6 @@ const CanvasRenderer: React.FC<CanvasRendererProps> = ({ children }) => {
     }}>
       {/* Content container - visible until canvas is rendered */}
       <div
-        ref={containerRef}
         style={{
           width: '100%',
           maxWidth: '100%',
@@ -485,4 +523,45 @@ const CanvasRenderer: React.FC<CanvasRendererProps> = ({ children }) => {
       />
     </div>
   );
+};
+
+const xpathUtils = {
+  evaluateXPath(xpath: string, context: Node = document): Node | null {
+    try {
+      // Try different XPath result types
+      const result = document.evaluate(
+        xpath,
+        context,
+        null,
+        XPathResult.ANY_TYPE, // Changed from FIRST_ORDERED_NODE_TYPE
+        null
+      );
+
+      let node = null;
+      switch (result.resultType) {
+        case XPathResult.STRING_TYPE:
+          return document.createTextNode(result.stringValue);
+        case XPathResult.FIRST_ORDERED_NODE_TYPE:
+        case XPathResult.ANY_UNORDERED_NODE_TYPE:
+          return result.singleNodeValue;
+        default:
+          return result.iterateNext();
+      }
+    } catch (e) {
+      console.error('XPath evaluation failed:', e);
+      return null;
+    }
+  },
+
+  createRange(
+    startContainer: Node,
+    startOffset: number,
+    endContainer: Node,
+    endOffset: number
+  ): Range {
+    const range = document.createRange();
+    range.setStart(startContainer, startOffset);
+    range.setEnd(endContainer, endOffset);
+    return range;
+  }
 };

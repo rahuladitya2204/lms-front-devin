@@ -8,3 +8,9 @@
 .html-viewer h4 {
     margin-top: 0;
 }
+
+.highlighted-text {
+    background-color: #ffeb3b;
+    padding: 2px 0;
+    border-radius: 2px;
+}
