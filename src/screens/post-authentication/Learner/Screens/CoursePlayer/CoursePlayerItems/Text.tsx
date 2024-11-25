@@ -18,17 +18,7 @@ const CoursePlayerTextItem: React.FC<CoursePlayerItemsPropsI> = (props) => {
   const description = props.item?.description?.text[language];
   const { id: courseId, itemId } = useParams();
   const { data: highlights } = Learner.Queries.useGetCourseHighlights(courseId, itemId)
-  const { mutate: createCourseHighlight } = Learner.Queries.useCreateHighlight(courseId, itemId);
-  const onSaveHighlight = (data: Types.CourseHighlight) => {
-    data.item = itemId
-    createCourseHighlight({
-      data: data
-    }, {
-      onSuccess(data) {
-        message.success('Highlight Created')
-      },
-    })
-  }
+
   return (
     <Card
       bodyStyle={{ minHeight: 500 }}
@@ -36,7 +26,7 @@ const CoursePlayerTextItem: React.FC<CoursePlayerItemsPropsI> = (props) => {
     >
 
       {htmlToText(description) ?
-        <SelectableContent onSaveHighlight={onSaveHighlight}>
+        <SelectableContent courseId={courseId} itemId={itemId}>
           <HtmlViewer highlights={highlights}
             // protected
             customStyles={`

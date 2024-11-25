@@ -14,3 +14,41 @@
     padding: 2px 0;
     border-radius: 2px;
 }
+
+.highlighted-text {
+    position: relative;
+    display: inline-block;
+}
+
+.highlighted-text:hover::before,
+.highlighted-text:hover::after {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+.highlighted-text:hover::before {
+    content: '';
+    bottom: -6px;
+    border-width: 4px;
+    border-style: solid;
+    border-color: transparent transparent rgba(0, 0, 0, 0.8) transparent;
+}
+
+.highlighted-text:hover::after {
+    content: attr(data-text);
+    bottom: -32px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+}
+
+.html-viewer .ant-tooltip-open {
+    display: inline;
+    cursor: pointer;
+}

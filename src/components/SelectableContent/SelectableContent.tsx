@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Popover, Button, Row, Col, Form } from "antd";
+import { Popover, Button, Row, Col, Form, message } from "antd";
 import TextArea from "@Components/Textarea";
+import { Learner, Types } from "@adewaskar/lms-common";
 
 interface HighlightData {
     selectedText: string;
@@ -13,13 +14,28 @@ interface HighlightData {
 
 interface SelectableContentProps {
     children: React.ReactNode;
-    onSaveHighlight?: (data: HighlightData) => void; // Callback to save the highlight
+    courseId: string;
+    itemId: string;
 }
 
 const SelectableContent: React.FC<SelectableContentProps> = ({
     children,
-    onSaveHighlight,
+    courseId,
+    itemId
 }) => {
+    const { mutate: createCourseHighlight, isLoading: creatingHighlight } = Learner.Queries.useCreateHighlight(courseId, itemId);
+    const onSaveHighlight = (data: Types.CourseHighlight) => {
+        data.item = itemId
+        createCourseHighlight({
+            data: data
+        }, {
+            onSuccess(data) {
+                message.success('Highlight Created');
+                setPopoverVisible(false);
+                form.resetFields();
+            },
+        })
+    }
     const [popoverVisible, setPopoverVisible] = useState(false);
     const [popoverPosition, setPopoverPosition] = useState({ left: 0, top: 0 });
     const [selectedText, setSelectedText] = useState("");
@@ -27,11 +43,24 @@ const SelectableContent: React.FC<SelectableContentProps> = ({
     const [form] = Form.useForm();
 
     const getXPathByIndexes = (node: Node): string => {
+        const parts = [];
+
+        // Handle text nodes specifically
         if (node.nodeType === Node.TEXT_NODE) {
+            let index = 1;
+            let sibling = node.previousSibling;
+
+            while (sibling) {
+                if (sibling.nodeType === Node.TEXT_NODE) {
+                    index++;
+                }
+                sibling = sibling.previousSibling;
+            }
+
+            parts.unshift(`text()[${index}]`);
             node = node.parentNode!;
         }
 
-        const parts = [];
         while (node && node.nodeType === Node.ELEMENT_NODE) {
             let index = 1;
             let sibling = node.previousSibling;
@@ -46,7 +75,7 @@ const SelectableContent: React.FC<SelectableContentProps> = ({
             const tagName = node.nodeName.toLowerCase();
             const nthChild = index > 1 ? `[${index}]` : "";
             parts.unshift(`${tagName}${nthChild}`);
-            node = node.parentNode as Node;
+            node = node.parentNode!;
         }
 
         return `/${parts.join("/")}`;
@@ -108,9 +137,6 @@ const SelectableContent: React.FC<SelectableContentProps> = ({
                 });
             }
         }
-
-        setPopoverVisible(false);
-        form.resetFields();
     };
 
     const handleCancel = () => {
@@ -123,10 +149,10 @@ const SelectableContent: React.FC<SelectableContentProps> = ({
         <div onMouseUp={handleMouseUp} style={{ position: "relative" }}>
             <Popover
                 content={
-                    <Form onFinish={handleSave} form={form}>
+                    <Form layout='vertical' onFinish={handleSave} form={form}>
                         <Row gutter={[8, 8]}>
                             <Col span={24}>
-                                <Form.Item style={{ marginBottom: 0 }} name="text">
+                                <Form.Item label='Highlight Comment' style={{ marginBottom: 0 }} name="text">
                                     <TextArea name="text" />
                                 </Form.Item>
                             </Col>
@@ -139,7 +165,7 @@ const SelectableContent: React.FC<SelectableContentProps> = ({
                                 >
                                     Cancel
                                 </Button>
-                                <Button
+                                <Button loading={creatingHighlight}
                                     style={{ marginLeft: 10 }}
                                     size="small" type="primary" onClick={form.submit}>
                                     Save Highlight

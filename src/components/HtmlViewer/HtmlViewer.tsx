@@ -19,8 +19,12 @@ interface HtmlViewerProps {
 }
 
 function HtmlViewerCopyable(props: HtmlViewerProps) {
-  const { content, noPreviewImage, customStyles, protected: isProtected, highlights = [] } = props;
-
+  const { content, noPreviewImage, customStyles, protected: isProtected, highlights: initialHighlights = [] } = props;
+  const highlights = [...initialHighlights].sort((a, b) => {
+    const aStart = a.startOffset;
+    const bStart = b.startOffset;
+    return aStart - bStart;
+  });
   console.log(highlights, 'highlights')
   const containerRef = useRef<HTMLDivElement>(null);
   const highlightsRef = useRef<Highlight[]>([]);
@@ -149,6 +153,7 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
   ]);
 
   const convertNodeToElement = (node: Element | Text, index: number) => {
+    const processedNodes = new Set();
 
     if (node.type === "tag") {
       // Handle void elements
@@ -352,20 +357,43 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
             domToReact(node.children, { replace: convertNodeToElement })
           );
       }
-    } else if (node.type === "text") {
+    }
+    else if (node.type === "text") {
       const text = node.data;
-      const matchingHighlight = highlights?.find(h => text.includes(h.selectedText));
+      const matchingHighlights = highlights
+        .filter(h => text.includes(h.selectedText))
+        .sort((a, b) => text.indexOf(a.selectedText) - text.indexOf(b.selectedText));
 
-      if (matchingHighlight) {
-        const startIndex = text.indexOf(matchingHighlight.selectedText);
-        return React.createElement(React.Fragment, { key: index },
-          text.substring(0, startIndex),
-          React.createElement('span', {
-            className: 'highlighted-text',
-            style: { backgroundColor: '#ffeb3b' }
-          }, matchingHighlight.selectedText),
-          text.substring(startIndex + matchingHighlight.selectedText.length)
-        );
+      if (matchingHighlights.length > 0) {
+        let lastIndex = 0;
+        const fragments = [];
+
+        matchingHighlights.forEach((highlight, i) => {
+          const startIndex = text.indexOf(highlight.selectedText, lastIndex);
+          if (startIndex > lastIndex) {
+            fragments.push(text.substring(lastIndex, startIndex));
+          }
+          fragments.push(
+            React.createElement('span', null,
+              React.createElement('div', {
+                className: 'ant-tooltip-open'
+              },
+                React.createElement('span', {
+                  className: 'highlighted-text',
+                  style: { backgroundColor: '#ffeb3b' },
+                  ...(highlight.text && { 'data-text': highlight.text })
+                }, highlight.selectedText)
+              )
+            )
+          );
+          lastIndex = startIndex + highlight.selectedText.length;
+        });
+
+        if (lastIndex < text.length) {
+          fragments.push(text.substring(lastIndex));
+        }
+
+        return React.createElement(React.Fragment, { key: index }, ...fragments);
       }
       return text;
     }
