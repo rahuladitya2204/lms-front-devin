@@ -14,7 +14,7 @@ import { Learner, Utils } from "@adewaskar/lms-common";
 import { Unit, unit } from "mathjs";
 
 import CourseItemIcon from "@User/Screens/Courses/CourseEditor/CourseBuilder/CourseSectionsNavigator/CourseItemIcon";
-import { DownloadOutlined } from "@ant-design/icons";
+import { DownloadOutlined, PaperClipOutlined } from "@ant-design/icons";
 import { NavLink, useParams } from "@Router/index";
 import { Types } from "@adewaskar/lms-common";
 import { Typography } from "@Components/Typography";
@@ -146,8 +146,8 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
     )}
   />
   if (itemHighlights.length > 0) {
-    return <Tooltip title={`${itemHighlights.length} Highlights`}>
-      <Badge.Ribbon text={itemHighlights.length}>
+    return <Tooltip placement='bottomRight' title={`${itemHighlights.length} Highlights`}>
+      <Badge.Ribbon text={<><PaperClipOutlined /> {itemHighlights.length}</>}>
         {Component}
       </Badge.Ribbon>
     </Tooltip>

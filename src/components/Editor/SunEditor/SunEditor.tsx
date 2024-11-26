@@ -257,9 +257,9 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
         {props.modifyCta ? (
           <Row gutter={[10, 10]} justify="end">
             <Col>
-              <ActionModal
+              <ActionModal fullscreen
                 keyboardClosable={false}
-                width={1100}
+                width={1300}
                 closable={false}
                 title="Modify Text"
                 cta={

@@ -33,7 +33,6 @@ function ActionModal(props: ActionModalI) {
     closeModal,
   });
   const renderContent = () => {
-    // console.log(props.children.$$typeof, 'LKLK')
     if (isLazyLoaded) {
       return (
         <Suspense fallback={<Spin size="large" />}>
@@ -43,10 +42,29 @@ function ActionModal(props: ActionModalI) {
     }
     return CloseWithChildren;
   };
+
+  const modalStyle = props.fullscreen
+    ? {
+      position: "fixed",
+      top: "10px",
+      left: "10px",
+      right: "10px",
+      bottom: "10px",
+      margin: "auto",
+      padding: "0", // Optional: Removes extra padding
+      width: "auto", // Allows flexibility in width
+      height: "auto", // Allows flexibility in height
+      maxWidth: "calc(100% - 20px)",
+      maxHeight: "calc(100% - 20px)",
+      overflow: "auto", // Ensures content scrolls if necessary
+    }
+    : {
+      minHeight: props.minHeight || "auto",
+    };
+
   return (
     <Fragment>
       <Spin style={{ display: "inline-block" }} spinning={isPending}>
-        {/* <Spin spinning={true}> */}
         <span onClick={() => startTransition(() => setIsModalOpen(true))}>
           {props.cta}
         </span>
@@ -54,12 +72,12 @@ function ActionModal(props: ActionModalI) {
           keyboard={!!props.keyboardClosable && !props.processing}
           maskClosable={false}
           closable={!!props.closable || !props.processing}
-          width={props.width}
+          width={props.fullscreen ? "100%" : props.width}
           footer={props.footer ? props.footer(closeModal) : null}
           title={props.title}
           open={isModalOpen}
           onCancel={closeModal}
-          style={{ minHeight: props.minHeight || "auto" }}
+          style={modalStyle}
         >
           <Row
             style={{ minHeight: props.minHeight || "auto" }}
@@ -73,23 +91,9 @@ function ActionModal(props: ActionModalI) {
     </Fragment>
   );
 }
-function identifyVariable(variable: any) {
-  // Check for a React lazy-loaded component
-  if (typeof variable === "object" && variable !== null) {
-    if (variable.$$typeof === Symbol.for("react.lazy")) {
-      return "promise";
-    }
-  }
-
-  // Other checks
-  if (typeof variable === "function") {
-    return "function";
-  } else {
-    return typeof variable;
-  }
-}
 
 export default React.memo(ActionModal);
+
 export interface ActionModalI {
   children?: any;
   closable?: boolean;
@@ -105,4 +109,5 @@ export interface ActionModalI {
   cta?: React.ReactNode;
   lazy?: boolean;
   footer?: (f: Function) => React.ReactNode[];
+  fullscreen?: boolean; // New prop for fullscreen mode
 }
