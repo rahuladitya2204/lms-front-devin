@@ -10,7 +10,7 @@ import {
   Spin,
   TreeSelect,
 } from "@Lib/index";
-import { Types, User } from "@adewaskar/lms-common";
+import { Constants, Types, User } from "@adewaskar/lms-common";
 import React, { useEffect } from "react";
 import InputTags from "@Components/InputTags/InputTags";
 import TextArea from "@Components/Textarea";
@@ -21,6 +21,7 @@ import useUpdateCourseForm from "../useUpdateCourseForm";
 import TopicSelect from "@Components/TopicSelect";
 import Tabs from "@Components/Tabs";
 import CreateFaqs from "@Components/CreateFaqsComponent";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
 const { confirm } = Modal;
 
@@ -30,7 +31,9 @@ interface AddTextItemPropsI {
 
 const AddTextItem: React.FC = (props: AddTextItemPropsI) => {
   const { itemId, id: courseId } = useParams();
+  const form = Form.useFormInstance();
   const { language } = useOutletContext();
+  const { mutate: generateFAQs, isLoading: generatingFAQs } = User.Queries.GenerateFAQsFromDescription();
   const course = useCourseStore(s => s.course)
   const prefixKey = `courses/${courseId}/${itemId}`;
   const ContentComponent = (field: string) => {
@@ -69,9 +72,96 @@ const AddTextItem: React.FC = (props: AddTextItemPropsI) => {
           html={{ level: 3 }}
         />
       </Form.Item>
-      <Card title={'FAQs'} extra={[<Button size='small'>Generate FAQS</Button>]}>
+      <Card title={'FAQs'} extra={[<Button onClick={() => generateFAQs({
+        text: form.getFieldsValue().description.text[language],
+        language: language
+      }, {
+        onSuccess: (faqs: Types.FAQ[]) => {
+          console.log(faqs, 'ssssss')
+          const currentFAQs = form.getFieldValue(['faqs']) || [];
+          faqs.forEach((faq, index) => {
+            if (!currentFAQs[index]) {
+              currentFAQs[index] = { title: Constants.INITIAL_LANG_TEXT, description: Constants.INITIAL_LANG_TEXT }
+            }
+            currentFAQs[index].title[language] = faq.title;
+            currentFAQs[index].description[language] = faq.description;
+          })
+          console.log(currentFAQs, 'currentFAQs')
+          form.setFieldValue(['faqs'], currentFAQs)
+        }
+      })} loading={generatingFAQs} size='small'>Generate FAQS</Button>]}>
         <Form.Item>
-          <CreateFaqs name={"faqs"} />
+          <Form.List name={'faqs'}>
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map(({ key, name, ...restField }) => (
+                  <Row key={key} gutter={[40, 0]}>
+                    <Col span={24}>
+                      <Form.Item
+                        {...restField}
+                        name={[name, "title", language]}
+                        rules={[
+                          { required: true, message: "Missing FAQ title" },
+                        ]}
+                        label={`FAQ ${name + 1} Title`}
+                      >
+                        <Input placeholder="Enter FAQ title" />
+                      </Form.Item>
+                    </Col>
+                    <Col span={24}>
+                      <Form.Item
+                        {...restField}
+                        name={[name, "description", language]}
+                        rules={[
+                          {
+                            required: true,
+                            message: "Missing FAQ description",
+                          },
+                        ]}
+                        label={`FAQ ${name + 1} Description`}
+                      >
+                        <TextArea height={200} html={{ level: 3 }} placeholder="Enter FAQ description" />
+                      </Form.Item>
+                    </Col>
+                    <Col span={2}>
+                      <Button
+                        danger
+                        size="small"
+                        icon={<DeleteOutlined />}
+                        onClick={() => {
+                          Modal.confirm({
+                            closable: false,
+                            title: `Are you sure?`,
+                            // icon: <ExclamationCircleOutlined />,
+                            content: `You want to delete this FAQ?`,
+                            // footer: [
+
+                            // ],
+                            onOk() {
+                              remove(name);
+                            },
+                            okText: "Yes, Delete",
+                          });
+                        }}
+                      >
+                        {/* Remove */}
+                      </Button>
+                    </Col>
+                  </Row>
+                ))}
+                <Form.Item>
+                  <Button
+                    type="dashed"
+                    onClick={() => add()}
+                    block
+                    icon={<PlusOutlined />}
+                  >
+                    Add FAQ
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
         </Form.Item>
       </Card>
     </Col>

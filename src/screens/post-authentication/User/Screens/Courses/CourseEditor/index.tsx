@@ -54,7 +54,7 @@ function CourseEditor() {
     })
   }
 
-  const { data: course } = User.Queries.useGetCourseDetails(courseId, {
+  const { data: course, isLoading: loadingCourse } = User.Queries.useGetCourseDetails(courseId, {
     enabled: !!courseId,
   });
 
@@ -67,13 +67,10 @@ function CourseEditor() {
   }, [course]);
 
 
-  const validateDraftCourse = () => {
-    return course.title;
-  };
   const navigate = useNavigate();
   return (
     <AppProvider>
-      <Spin spinning={publishingCourse}>
+      <Spin spinning={publishingCourse || loadingCourse}>
         <Row gutter={[20, 20]}>
           <Col span={24}>
             <Card
@@ -89,14 +86,7 @@ function CourseEditor() {
                 course.status === Enum.CourseStatus.PUBLISHED ? (
                   <Tag color="green">Course is Live</Tag>
                 ) : !course.sections.length ? (
-                  <Button
-                    style={{ marginRight: 10 }}
-                    onClick={() => {
-                      navigate(`/admin/products/courses/${course._id}/builder`);
-                    }}
-                  >
-                    Go to Course Builder
-                  </Button>
+                  null
                 ) : (
                   <Button
                     disabled={!Utils.validatePublishCourse(course)}

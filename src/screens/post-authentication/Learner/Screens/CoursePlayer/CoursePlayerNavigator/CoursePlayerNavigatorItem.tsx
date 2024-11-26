@@ -31,6 +31,12 @@ interface CoursePlayerNavigatorItemPropsI {
   toggleItemCheck: (itemID: string, value: boolean) => void;
 }
 
+const ListItemMeta = styled(List.Item.Meta)`
+.ant-list-item {
+padding-right: 40px;
+}
+`
+
 const CourseListItem = styled(List.Item)(
   ({ isActive }: { isActive: boolean }) => {
     return `
@@ -59,7 +65,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
       <CourseListItem
         isActive={isActive}
       >
-        <List.Item.Meta
+        <ListItemMeta
           avatar={
             <Checkbox
               defaultChecked={props.item.isCompleted}
@@ -77,7 +83,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
             />
           }
           title={
-            <Text ellipsis>
+            <Text ellipsis style={{ marginRight: 40 }}>
               {props.itemIndex}. {props.item.title?.text[props.language]}
             </Text>
           }

@@ -253,11 +253,6 @@ function CourseBuilderScreen() {
             </Space>
           ) : (
             <>
-              {/* <Link to={`/admin/products/course/${course._id}/builder`}>
-                <Button style={{ marginRight: 15 }} icon={<UploadOutlined />}>
-                  Go to Course Builder
-                </Button>
-              </Link> */}
               <Dropdown.Button loading={printingCourse}
                 menu={{
                   items: [

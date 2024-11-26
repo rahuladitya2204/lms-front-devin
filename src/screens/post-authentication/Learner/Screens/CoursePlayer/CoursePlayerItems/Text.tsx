@@ -3,7 +3,7 @@
 import React from "react";
 import { Typography } from "@Components/Typography";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
-import { Card, Empty, message, Modal } from "antd";
+import { Card, Empty, message, Modal, Spin } from "antd";
 import { useOutletContext, useParams } from "react-router";
 import { htmlToText } from "html-to-text";
 import SelectableContent from "@Components/SelectableContent/SelectableContent";
@@ -24,33 +24,33 @@ const CoursePlayerTextItem: React.FC<CoursePlayerItemsPropsI> = (props) => {
       bodyStyle={{ minHeight: 500 }}
       title={props?.item?.title?.text[language]}
     >
+      <Spin tip='Deleting Highlight..' spinning={deletingHighlight}>
+        {htmlToText(description) ?
+          <SelectableContent courseId={courseId} itemId={itemId}>
+            <HtmlViewer onHighlightClick={e => {
+              Modal.confirm({
+                closable: false,
+                confirmLoading: deletingHighlight,
+                title: `Delete Highlight?`,
+                // icon: <ExclamationCircleOutlined />,
+                content: `Are you sure you want to delete this highlight?`,
+                // footer: [
 
-      {htmlToText(description) ?
-        <SelectableContent courseId={courseId} itemId={itemId}>
-          <HtmlViewer onHighlightClick={e => {
-            Modal.confirm({
-              closable: false,
-              confirmLoading: deletingHighlight,
-              title: `Delete Highlight?`,
-              // icon: <ExclamationCircleOutlined />,
-              content: `Are you sure you want to delete this highlight?`,
-              // footer: [
-
-              // ],
-              onOk() {
-                deleteHighlight({
-                  highlightId: e._id
-                }, {
-                  onSuccess: () => {
-                    message.success('Highlight Deleted Successfully')
-                  }
-                })
-              },
-              okText: "Delete Highlight",
-            });
-          }} highlights={highlights}
-            // protected
-            customStyles={`
+                // ],
+                onOk() {
+                  deleteHighlight({
+                    highlightId: e._id
+                  }, {
+                    onSuccess: () => {
+                      message.success('Highlight Deleted Successfully')
+                    }
+                  })
+                },
+                okText: "Delete Highlight",
+              });
+            }} highlights={highlights}
+              // protected
+              customStyles={`
         .html-viewer div.ant-typography {
         font-size: 16px;
         }
@@ -59,9 +59,10 @@ const CoursePlayerTextItem: React.FC<CoursePlayerItemsPropsI> = (props) => {
          width: 80% !important;
         }
         `}
-            content={description} />
-        </SelectableContent>
-        : <Empty style={{ marginTop: 135 }} description='No Content Added' />}
+              content={description} />
+          </SelectableContent>
+          : <Empty style={{ marginTop: 135 }} description='No Content Added' />}
+      </Spin>
     </Card>
   );
 };
