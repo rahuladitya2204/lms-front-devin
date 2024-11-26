@@ -3,7 +3,7 @@
 import React from "react";
 import { Typography } from "@Components/Typography";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
-import { Card, Empty, message } from "antd";
+import { Card, Empty, message, Modal } from "antd";
 import { useOutletContext, useParams } from "react-router";
 import { htmlToText } from "html-to-text";
 import SelectableContent from "@Components/SelectableContent/SelectableContent";
@@ -18,7 +18,7 @@ const CoursePlayerTextItem: React.FC<CoursePlayerItemsPropsI> = (props) => {
   const description = props.item?.description?.text[language];
   const { id: courseId, itemId } = useParams();
   const { data: highlights } = Learner.Queries.useGetCourseHighlights(courseId, itemId)
-  // console.log(highlights, 'highlights')
+  const { mutate: deleteHighlight, isLoading: deletingHighlight } = Learner.Queries.useDeleteHighlight(courseId, itemId)
   return (
     <Card
       bodyStyle={{ minHeight: 500 }}
@@ -27,7 +27,28 @@ const CoursePlayerTextItem: React.FC<CoursePlayerItemsPropsI> = (props) => {
 
       {htmlToText(description) ?
         <SelectableContent courseId={courseId} itemId={itemId}>
-          <HtmlViewer highlights={highlights}
+          <HtmlViewer onHighlightClick={e => {
+            Modal.confirm({
+              closable: false,
+              confirmLoading: deletingHighlight,
+              title: `Delete Highlight?`,
+              // icon: <ExclamationCircleOutlined />,
+              content: `Are you sure you want to delete this highlight?`,
+              // footer: [
+
+              // ],
+              onOk() {
+                deleteHighlight({
+                  highlightId: e._id
+                }, {
+                  onSuccess: () => {
+                    message.success('Highlight Deleted Successfully')
+                  }
+                })
+              },
+              okText: "Delete Highlight",
+            });
+          }} highlights={highlights}
             // protected
             customStyles={`
         .html-viewer div.ant-typography {

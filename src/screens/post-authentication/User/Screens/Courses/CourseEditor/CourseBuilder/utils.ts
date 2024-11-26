@@ -223,7 +223,6 @@ const primaryColor = "#4B8DF8";
 const numberOfColors = 5;
 const lightnessChange = 0.1;
 const gradientColors = generateGradientColors(primaryColor, numberOfColors, lightnessChange);
-console.log(gradientColors);
 
 
 export function convertToCommaSeparated(inputString) {

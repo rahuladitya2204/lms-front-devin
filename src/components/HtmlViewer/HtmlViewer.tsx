@@ -14,6 +14,7 @@ interface HtmlViewerProps {
   noPreviewImage?: boolean;
   customStyles?: string;
   protected?: boolean;
+  onHighlightClick?: (highlight: Types.CourseHighlight) => void;
   copyable?: boolean;
   highlights?: Types.CourseHighlight;
 }
@@ -380,7 +381,8 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
               },
                 React.createElement('span', {
                   className: 'highlighted-text',
-                  style: { backgroundColor: '#ffeb3b' },
+                  style: { backgroundColor: '#ffeb3b', cursor: 'pointer' },
+                  onClick: () => props.onHighlightClick?.(highlight),
                   ...(highlight.text && { 'data-text': highlight.text })
                 }, highlight.selectedText)
               )

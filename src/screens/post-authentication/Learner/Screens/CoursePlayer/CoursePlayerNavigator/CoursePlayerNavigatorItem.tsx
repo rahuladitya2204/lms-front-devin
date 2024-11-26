@@ -45,17 +45,7 @@ const CourseListItem = styled(List.Item)(
 
 function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
   const { id: courseId } = useParams();
-  const { data: {
-    metadata: {
-      course: {
-        highlights
-      } = {
-        course: {
-          highlights: []
-        }
-      }
-    }
-  } } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '');
+  const { data: highlights } = Learner.Queries.useGetCourseHighlights(courseId + '', props.item._id + '');
   const itemHighlights = highlights?.filter(i => i.item === props.item._id) || []
   let duration = props.item.metadata?.duration;
   if (!duration) {
