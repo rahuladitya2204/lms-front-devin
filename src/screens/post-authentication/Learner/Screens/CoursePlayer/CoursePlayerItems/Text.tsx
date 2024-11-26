@@ -18,7 +18,7 @@ const CoursePlayerTextItem: React.FC<CoursePlayerItemsPropsI> = (props) => {
   const description = props.item?.description?.text[language];
   const { id: courseId, itemId } = useParams();
   const { data: highlights } = Learner.Queries.useGetCourseHighlights(courseId, itemId)
-
+  // console.log(highlights, 'highlights')
   return (
     <Card
       bodyStyle={{ minHeight: 500 }}
