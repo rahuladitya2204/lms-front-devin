@@ -25,7 +25,7 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
     const bStart = b.startOffset;
     return aStart - bStart;
   });
-  console.log(highlights, 'highlights')
+  // console.log(highlights, 'highlights')
   const containerRef = useRef<HTMLDivElement>(null);
   const highlightsRef = useRef<Highlight[]>([]);
   if (!content) {

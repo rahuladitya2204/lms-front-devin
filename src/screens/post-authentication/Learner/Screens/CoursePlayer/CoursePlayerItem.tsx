@@ -43,7 +43,9 @@ function CoursePlayerItem() {
 
   const {
     data: {
-      metadata: { notes },
+      metadata: { course: {
+        notes
+      } },
     },
     isLoading: loadingEnrolledProduct
   } = Learner.Queries.useGetEnrolledProductDetails(

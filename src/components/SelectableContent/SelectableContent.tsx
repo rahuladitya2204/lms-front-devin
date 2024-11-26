@@ -106,8 +106,8 @@ const SelectableContent: React.FC<SelectableContentProps> = ({
                 setSelectedText(selected);
 
                 setPopoverVisible(true);
-                console.log("Start XPath:", startXPath);
-                console.log("End XPath:", endXPath);
+                // console.log("Start XPath:", startXPath);
+                // console.log("End XPath:", endXPath);
             }
         }
     };
@@ -121,11 +121,11 @@ const SelectableContent: React.FC<SelectableContentProps> = ({
             const endXPath = getXPathByIndexes(range.endContainer);
             const startOffset = range.startOffset;
             const endOffset = range.endOffset;
-            console.log(selectedText,
-                startXPath,
-                startOffset,
-                endXPath,
-                endOffset, '123123123')
+            // console.log(selectedText,
+            //     startXPath,
+            //     startOffset,
+            //     endXPath,
+            //     endOffset, '123123123')
             if (onSaveHighlight) {
                 onSaveHighlight({
                     selectedText,
