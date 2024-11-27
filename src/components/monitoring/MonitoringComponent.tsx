@@ -120,7 +120,7 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
     <div ref={screenshotRef}>
       <Alert
         style={{ borderRadius: 0 }}
-        message={"You are being monitored"}
+        message={<Text strong> You are being monitored</Text>}
         type="error"
         showIcon
         icon={<CameraOutlined />}
