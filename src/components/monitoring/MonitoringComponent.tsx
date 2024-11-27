@@ -11,6 +11,7 @@ import AppImage from "@Components/Image";
 import { useIdleTimer } from "react-idle-timer";
 import dayjs from "dayjs";
 import { LiveTimer } from "./LiveTimer";
+import ProtectedContent from "@Components/ProtectedComponent";
 
 const IDLE_TIMEOUT_IN_MINS = 10;
 const TIME_BETWEEN_SCREENSHOTS_IN_MIN = 60;
@@ -25,12 +26,17 @@ interface MonitoringComponentPropsI {
 export default function MonitoringComponent(props: MonitoringComponentPropsI) {
   const audioRef = useRef<any>(null);
   const [state, setState] = useState<string>("active");
+  const [idleStartTime, setIdleStartTime] = useState<number | null>(null);
+
   const onIdle = () => {
     setState("idle");
+    // Set the idle start time to now minus the initial idle timeout
+    setIdleStartTime(Date.now() - IDLE_TIMEOUT_IN_MINS * 60 * 1000);
   };
 
   const onActive = () => {
     setState("active");
+    setIdleStartTime(null);
   };
 
   const { start, pause } = useIdleTimer({
@@ -38,14 +44,20 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
     timeout: IDLE_TIMEOUT_IN_MINS * 60 * 1000,
     onIdle,
     onActive,
+    // Specify only user interaction events
+    events: ["mousemove", "keydown", "mousedown", "touchstart"],
+    // Add debounce to prevent rapid toggling
+    debounce: 500,
   });
+
   const screenshotRef = useRef<any>(null);
   const { isSignedIn } = Store.useAuthentication((s) => s);
-  const { data: user } = User.Queries.useGetUserDetails()
-  const { data: userLog } = User.Queries.useGetUserLog(user._id, "");
+  const { data: user } = User.Queries.useGetUserDetails();
+  const { data: userLog } = User.Queries.useGetUserLog(user?._id || "", "");
   const { openModal } = useModal();
   const { mutate: updateUserLog, isLoading: updatingScreenshot } =
     User.Queries.useUpdateUserLog();
+
   useEffect(() => {
     if (isSignedIn && user?.monitoring?.enabled) {
       audioRef.current = new Audio(`/screenshot-sound.mp3`);
@@ -116,30 +128,50 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
     }
   }, [state]);
 
+  // Function to calculate total idle time
+  const calculateTotalIdleTime = () => {
+    if (!idleStartTime) return IDLE_TIMEOUT_IN_MINS;
+    const now = Date.now();
+    const idleDurationMs = now - idleStartTime;
+    const idleDurationMins = Math.floor(idleDurationMs / (60 * 1000));
+    return idleDurationMins;
+  };
+
   return (
-    <div ref={screenshotRef}>
-      <Alert
-        style={{ borderRadius: 0 }}
-        message={<Text strong> You are being monitored</Text>}
-        type="error"
-        showIcon
-        icon={<CameraOutlined />}
-        action={
-          userLog.startedAt ? (
-            <div style={{ width: 160 }}>
-              Time Logged{" "}
-              <Tag
-                // icon={<ClockCircleOutlined />}
-                color="blue"
-              >
-                <LiveTimer startedAt={userLog.startedAt} />
-              </Tag>
-            </div>
-          ) : null
-        }
-      />
-      {props.children}
-    </div>
+    <ProtectedContent
+      cta={
+        <Alert
+          type="error"
+          message={
+            <Title>
+              System Idle for {calculateTotalIdleTime()} minutes
+            </Title>
+          }
+        />
+      }
+      isVerified={state === "active"}
+    >
+      <div ref={screenshotRef}>
+        <Alert
+          style={{ borderRadius: 0 }}
+          message={<Text strong> You are being monitored</Text>}
+          type="error"
+          showIcon
+          icon={<CameraOutlined />}
+          action={
+            userLog?.startedAt ? (
+              <div style={{ width: 160 }}>
+                Time Logged{" "}
+                <Tag color="blue">
+                  <LiveTimer startedAt={userLog.startedAt} />
+                </Tag>
+              </div>
+            ) : null
+          }
+        />
+        {props.children}
+      </div>
+    </ProtectedContent>
   );
 }
 
@@ -225,7 +257,7 @@ const ScreenshotForm = ({
     }, CLOSE_WITHOUT_INPUT_IN_MIN * 60 * 1000);
 
     return () => {
-      clearInterval(timeout);
+      clearTimeout(timeout);
     };
   }, []);
   const user = Store.useAuthentication((s) => s.user);
