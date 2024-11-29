@@ -175,6 +175,11 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
       }
     };
   }, [state]);
+  const screenshotRef = useRef<any>(null);
+  const { isSignedIn } = Store.useAuthentication((s) => s);
+  const { data: user } = User.Queries.useGetUserDetails();
+  const { data: userLog } = User.Queries.useGetUserLog(user?._id || "", "");
+  const { openModal } = useModal();
 
   useEffect(() => {
     if (isSignedIn) {
@@ -187,12 +192,6 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
       }
     }
   }, [isSignedIn]);
-
-  const screenshotRef = useRef<any>(null);
-  const { isSignedIn } = Store.useAuthentication((s) => s);
-  const { data: user } = User.Queries.useGetUserDetails();
-  const { data: userLog } = User.Queries.useGetUserLog(user?._id || "", "");
-  const { openModal } = useModal();
 
   useEffect(() => {
     if (isSignedIn && user?.monitoring?.enabled) {
