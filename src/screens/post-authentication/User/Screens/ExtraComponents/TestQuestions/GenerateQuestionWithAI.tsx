@@ -3,6 +3,10 @@ import { Enum, Types, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 
 import InputTags from '@Components/InputTags/InputTags'
+import TopicSelect from '@Components/TopicSelect'
+import { useParams } from '@Router/index'
+import SelectLanguage from '@Components/SelectLanguage'
+import SelectProductCategory from '@Components/SelectProductCategory'
 
 const DIFFICULTY_LEVELS = [
   { label: 'Easy', value: 'easy' },
@@ -39,6 +43,9 @@ export default function GenerateQuestionWithAI({
   data,
   closeModal
 }: GenerateQuestionWithAIPropsI) {
+  const { itemId, id: testId } = useParams();
+  const { data: test } = User.Queries.useGetTestDetails(testId + "");
+
   const [keywords, setKeywords] = useState<string[]>([])
   const [form] = Form.useForm<Types.TestQuestionMeta>()
   const {
@@ -46,15 +53,6 @@ export default function GenerateQuestionWithAI({
     isLoading: loading
   } = User.Queries.useGenerateQuestionWithAI()
   const ONSUBMIT = (data: Types.QuestionPrompt) => {
-    if (onSubmit) {
-       onSubmit( {
-        ...data,
-        // @ts-ignore
-        keywords
-      })
-      return closeModal && closeModal()
-
-    }
     generateQuestion(
       {
         data: {
@@ -64,7 +62,8 @@ export default function GenerateQuestionWithAI({
       },
       {
         onSuccess: d => {
-          submit&&submit(d)
+          d.language = form.getFieldValue(['language'])
+          onSubmit && onSubmit(d)
           closeModal && closeModal()
         }
       }
@@ -75,7 +74,7 @@ export default function GenerateQuestionWithAI({
     if (data) {
       form.setFieldsValue(data)
     }
-   },[data])
+  }, [data])
 
   return (
     <Form
@@ -84,7 +83,7 @@ export default function GenerateQuestionWithAI({
       layout="vertical"
       onFinish={ONSUBMIT}
     >
-      <Form.Item
+      {/* <Form.Item
         name="subject"
         label="Subject"
         rules={[
@@ -95,25 +94,20 @@ export default function GenerateQuestionWithAI({
         ]}
       >
         <Input type="text" />
-      </Form.Item>
-      <Form.Item
-        name="topic"
-        label="Topic/Concept"
-        rules={[
-          {
-            required: true,
-            message: 'Enter a topic name for this question'
-          }
-        ]}
-      >
-        <Input type="text" />
-      </Form.Item>
+      </Form.Item> */}
+      <TopicSelect
+        level={3}
+        label="Topics"
+        notDisabled
+        // topicId={test.topics}
+        name="topics"
+      />
       <Form.Item label="Keywords">
         <InputTags name='keywords'
           ctaText="Enter Keyword"
           // @ts-ignore
           options={keywords}
-          // onChange={setKeywords}
+        // onChange={setKeywords}
         />
       </Form.Item>
       <Row gutter={[20, 20]}>
@@ -123,9 +117,7 @@ export default function GenerateQuestionWithAI({
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item label="Taxonomy Level" name="taxonomyLevel">
-            <Select options={TAXONOMY_LEVELS} />
-          </Form.Item>
+          <SelectLanguage name='language' />
         </Col>
       </Row>
       <Row gutter={[20, 20]}>
@@ -142,14 +134,7 @@ export default function GenerateQuestionWithAI({
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item label="Type" name="type">
-            <Select
-              options={[
-                { label: 'Numerical', value: 'numerical' },
-                { label: 'Non numerical', value: 'non-numerical' }
-              ]}
-            />
-          </Form.Item>
+          <SelectProductCategory name='category' />
         </Col>
       </Row>
       <Button loading={loading} type="primary" onClick={form.submit}>

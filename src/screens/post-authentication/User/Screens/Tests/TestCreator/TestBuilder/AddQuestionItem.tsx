@@ -47,6 +47,8 @@ import useUpdateTestForm from "./hooks/useUpdateTest";
 import { htmlToText } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 import { AddQuestionFromBank } from "./AddQuestionFromBank";
 import TopicSelect from "@Components/TopicSelect";
+import GenerateQuestionWithAI from "@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI";
+import { cloneDeep } from "lodash";
 
 const { Title } = Typography;
 
@@ -772,7 +774,27 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
           tabBarExtraContent={{
             right: (
               <Space>
-                <ActionModal
+                <ActionModal cta={<Button
+                  size="small"
+                  loading={deletingSectionItem}
+                  type="primary"
+                >
+                  Create with AI
+                </Button>}>
+                  <GenerateQuestionWithAI onSubmit={(response) => {
+                    const question = cloneDeep(form.getFieldsValue());
+                    question.title.text[response.language] = response.title;
+                    if (question.options.length)
+                      question.options.forEach((option, index) => {
+                        option.text[response.language] = response.options[index].text;
+                        option.isCorrect = response.options[index].isCorrect
+                      })
+                    question.solution.html[response.language] = response.solution;
+                    console.log(question, 'question', response, '123123')
+                    form.setFieldsValue(question)
+                  }} />
+                </ActionModal>
+                {/* <ActionModal
                   title="Add Question from Bank"
                   width={800}
                   cta={
@@ -792,7 +814,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
                       form.setFieldsValue(question);
                     }}
                   />
-                </ActionModal>
+                </ActionModal> */}
 
                 <Button
                   size="small"

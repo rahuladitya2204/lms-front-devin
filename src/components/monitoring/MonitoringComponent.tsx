@@ -71,7 +71,7 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
     onIdle,
     onActive,
     events: ["mousemove", "keydown", "mousedown", "touchstart"],
-    debounce: 500,
+    debounce: 2000,
   });
 
   const sendAddTime = () => {
