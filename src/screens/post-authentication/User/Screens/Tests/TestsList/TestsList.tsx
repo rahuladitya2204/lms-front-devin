@@ -209,6 +209,12 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             )}
           />
           <TableColumn
+            title="Questions"
+            dataIndex="slug"
+            key="slug"
+            render={(_: any, test: Types.Test) => test.sections.map(i => i.items).flat().length}
+          />
+          <TableColumn
             title="Promoted"
             dataIndex="slug"
             key="slug"
@@ -250,9 +256,8 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
                 user?.status === Enum.UserAccountStatus.INACTIVE ||
                 user?.status === Enum.UserAccountStatus.DELETED
               ) {
-                return `${
-                  user.name
-                } [${Enum.UserAccountStatus.DELETED.toUpperCase()}]`;
+                return `${user.name
+                  } [${Enum.UserAccountStatus.DELETED.toUpperCase()}]`;
               }
               return user.name || "-";
             }}
