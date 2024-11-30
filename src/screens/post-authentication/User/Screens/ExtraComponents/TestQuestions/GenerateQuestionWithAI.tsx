@@ -52,6 +52,12 @@ export default function GenerateQuestionWithAI({
     mutate: generateQuestion,
     isLoading: loading
   } = User.Queries.useGenerateQuestionWithAI()
+
+  useEffect(() => {
+    form.setFieldValue(['category'], test.category)
+    form.setFieldValue(['language'], test.languages[0])
+  }, [test])
+
   const ONSUBMIT = (data: Types.QuestionPrompt) => {
     generateQuestion(
       {
@@ -96,20 +102,21 @@ export default function GenerateQuestionWithAI({
         <Input type="text" />
       </Form.Item> */}
       <TopicSelect
-        level={3}
+        level={4}
         label="Topics"
         notDisabled
-        // topicId={test.topics}
+        required
+        topicId={test.topics}
         name="topics"
       />
-      <Form.Item label="Keywords">
+      {/* <Form.Item label="Keywords">
         <InputTags name='keywords'
           ctaText="Enter Keyword"
           // @ts-ignore
           options={keywords}
         // onChange={setKeywords}
         />
-      </Form.Item>
+      </Form.Item> */}
       <Row gutter={[20, 20]}>
         <Col span={12}>
           <Form.Item label="Difficulty Level" name="difficultyLevel">
@@ -117,7 +124,7 @@ export default function GenerateQuestionWithAI({
           </Form.Item>
         </Col>
         <Col span={12}>
-          <SelectLanguage name='language' />
+          <SelectLanguage languages={test.languages} required name='language' />
         </Col>
       </Row>
       <Row gutter={[20, 20]}>
@@ -134,12 +141,14 @@ export default function GenerateQuestionWithAI({
           </Form.Item>
         </Col>
         <Col span={12}>
-          <SelectProductCategory name='category' />
+          <SelectProductCategory required name='category' />
         </Col>
       </Row>
-      <Button loading={loading} type="primary" onClick={form.submit}>
-        Generate Question
-      </Button>
+      <Row justify={'end'}>
+        <Col> <Button loading={loading} type="primary" onClick={form.submit}>
+          Generate Question
+        </Button></Col>
+      </Row>
     </Form>
   )
 }

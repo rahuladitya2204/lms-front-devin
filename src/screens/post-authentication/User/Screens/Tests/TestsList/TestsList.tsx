@@ -136,7 +136,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
     <Fragment>
       <Fragment>
         <Table
-          searchFields={["title", "slug"]}
+          searchFields={["title", "slug", '_id']}
           loading={loading || deletingTest}
           dataSource={data.filter(
             (test) =>

@@ -9,6 +9,7 @@ import { useModal } from './ActionModal/ModalContext'
 interface SelectProductCategoryPropsI {
   name: string | string[];
   placeholder?: string;
+  required?: boolean;
   label?: string;
 }
 
@@ -26,7 +27,7 @@ export default function SelectProductCategory(
         <Spin spinning={loadingCategories}>
           <Form.Item
             name={props.name}
-            required
+            required={props.required}
             label={props.label || 'Category'}
             rules={[{ required: true, message: 'Please select a category' }]}
           >
