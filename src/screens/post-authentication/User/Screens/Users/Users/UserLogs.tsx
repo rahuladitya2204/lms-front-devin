@@ -34,7 +34,7 @@ export default function UserLogs({ id }: { id: string }) {
             ) : null}
             <Title level={5}>
               Total Time Logged:{" "}
-              {formatDuration(userLog.startedAt, user.lastActive)}
+              {formatDuration(userLog.startedAt, userLog.lastUpdate)}
             </Title>
           </Col>
         ) : null}
