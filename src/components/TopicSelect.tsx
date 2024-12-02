@@ -25,6 +25,9 @@ export default function TopicSelect(props: TopicSelectPropsI) {
   // Function to update only title and description fields
   const updateTitleAndDescription = (nodes: any[]) => {
     nodes.forEach((node) => {
+      if (props.notDisabled) {
+        node.disabled = false;
+      }
       if (typeof node.title === 'object') node.title = node.title.eng;
       if (typeof node.description === 'object') node.description = node.description.eng;
 
