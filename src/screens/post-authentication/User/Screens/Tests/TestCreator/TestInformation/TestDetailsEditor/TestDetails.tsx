@@ -24,7 +24,7 @@ import TextArea from "@Components/Textarea";
 import FileList from "@Components/FileList";
 import { TopicNode } from "@User/Screens/Admin/Topics/TopicsScreen";
 import InputTags from "@Components/InputTags/InputTags";
-import TopicSelect from "@Components/TopicSelect";
+import TopicSelect, { getFullTopicPath } from "@Components/TopicSelect";
 import { capitalize } from "lodash";
 import ValidateProductSlug from "@User/Screens/ExtraComponents/ValidateProductSlug";
 
@@ -460,7 +460,8 @@ export const useBuildTopicTree = (
     level,
     notDisabled
   );
-  return { data: TOPIC_TREE_DATA, isLoading };
+
+  return { data: TOPIC_TREE_DATA, isLoading, getFullTopicPath: (topicId: string) => getFullTopicPath(TOPIC_TREE_DATA, topicId) };
 };
 
 export const buildTopicTree = (

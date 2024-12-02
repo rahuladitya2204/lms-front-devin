@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react'
 
 import InputTags from '@Components/InputTags/InputTags'
 import TopicSelect from '@Components/TopicSelect'
-import { useParams } from '@Router/index'
+import { useParams, useSearchParams } from '@Router/index'
 import SelectLanguage from '@Components/SelectLanguage'
 import SelectProductCategory from '@Components/SelectProductCategory'
+import { useBuildTopicTree } from '@User/Screens/Tests/TestCreator/TestInformation/TestDetailsEditor/TestDetails'
 
 const DIFFICULTY_LEVELS = [
   { label: 'Easy', value: 'easy' },
@@ -45,14 +46,19 @@ export default function GenerateQuestionWithAI({
 }: GenerateQuestionWithAIPropsI) {
   const { itemId, id: testId } = useParams();
   const { data: test } = User.Queries.useGetTestDetails(testId + "");
-
+  const [params] = useSearchParams();
+  const language = params.get('test-question')
   const [keywords, setKeywords] = useState<string[]>([])
   const [form] = Form.useForm<Types.TestQuestionMeta>()
   const {
     mutate: generateQuestion,
     isLoading: loading
   } = User.Queries.useGenerateQuestionWithAI()
-
+  let { getFullTopicPath } = useBuildTopicTree(
+    test.topics,
+    4,
+    true
+  );
   useEffect(() => {
     form.setFieldValue(['category'], test.category)
     form.setFieldValue(['language'], test.languages[0])
@@ -63,7 +69,9 @@ export default function GenerateQuestionWithAI({
       {
         data: {
           ...data,
-          keywords
+          category: test.category,
+          language,
+          topic: getFullTopicPath(data.topics)
         }
       },
       {
@@ -81,7 +89,6 @@ export default function GenerateQuestionWithAI({
       form.setFieldsValue(data)
     }
   }, [data])
-
   return (
     <Form
       form={form}
@@ -101,7 +108,7 @@ export default function GenerateQuestionWithAI({
       >
         <Input type="text" />
       </Form.Item> */}
-      <TopicSelect
+      <TopicSelect fullPath
         level={4}
         label="Topics"
         notDisabled
@@ -124,11 +131,6 @@ export default function GenerateQuestionWithAI({
           </Form.Item>
         </Col>
         <Col span={12}>
-          <SelectLanguage languages={test.languages} required name='language' />
-        </Col>
-      </Row>
-      <Row gutter={[20, 20]}>
-        <Col span={12}>
           <Form.Item label="Choice" name="choice">
             <Select
               options={[
@@ -139,9 +141,6 @@ export default function GenerateQuestionWithAI({
               ]}
             />
           </Form.Item>
-        </Col>
-        <Col span={12}>
-          <SelectProductCategory required name='category' />
         </Col>
       </Row>
       <Row justify={'end'}>

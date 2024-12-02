@@ -781,7 +781,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
                 >
                   Create with AI
                 </Button>}>
-                  <GenerateQuestionWithAI category={test.category} onSubmit={(response) => {
+                  <GenerateQuestionWithAI onSubmit={(response) => {
                     const question = cloneDeep(form.getFieldsValue());
                     question.title.text[response.language] = response.title;
                     if (question.options.length)

@@ -297,3 +297,134 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
 }
 
 // Rest of the code remains unchanged (captureScreenshot, dataURLToBlob, ScreenshotForm)
+const captureScreenshot = (
+  screenshotRef
+): Promise<{ file: File; url: string }> => {
+  return new Promise((resolve, reject) => {
+    const element = document.body;
+    html2canvas(element)
+      .then((canvas) => {
+        const screenshotDataURL = canvas.toDataURL("image/png");
+
+        // Convert data URL to Blob
+        const blob = dataURLToBlob(screenshotDataURL);
+
+        // Create File object from Blob
+        const file = new File([blob], "screenshot.png", { type: "image/png" });
+
+        // Apply the screenshot effect
+        screenshotRef.current.classList.add("screenshot-effect");
+        setTimeout(() => {
+          screenshotRef.current.classList.remove("screenshot-effect");
+          resolve({ file, url: screenshotDataURL });
+        }, 500);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+// Helper function to convert data URL to Blob
+const dataURLToBlob = (dataURL) => {
+  const parts = dataURL.split(";base64,");
+  const contentType = parts[0].split(":")[1];
+  const byteString = atob(parts[1]);
+  const arrayBuffer = new ArrayBuffer(byteString.length);
+  const uint8Array = new Uint8Array(arrayBuffer);
+  for (let i = 0; i < byteString.length; i++) {
+    uint8Array[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([arrayBuffer], { type: contentType });
+};
+
+const ScreenshotForm = ({
+  image,
+  currentTime,
+  closeModal,
+  file,
+}: {
+  image: string;
+  file: File;
+  closeModal?: Function;
+  currentTime: number;
+}) => {
+  const { mutate: uploadFiles, isLoading: uploadingScreenshot } =
+    Common.Queries.useUploadFiles();
+
+  const { mutate: updateUserLog, isLoading: updatingScreenshot } =
+    User.Queries.useUpdateUserLog();
+  const [form] = Form.useForm();
+
+  const submit = ({ url, text }) => {
+    if (url && text) {
+      updateUserLog(
+        { url, text },
+        {
+          onSuccess: () => {
+            message.success("Work status updated");
+            closeModal && closeModal();
+          },
+        }
+      );
+    }
+  };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      submit({
+        text: "No Input from user",
+        url: image,
+      });
+    }, CLOSE_WITHOUT_INPUT_IN_MIN * 60 * 1000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  const user = Store.useAuthentication((s) => s.user);
+  return (
+    <div>
+      <AppImage style={{ maxHeight: 300, marginBottom: 20 }} src={image} />
+      <Form
+        layout="vertical"
+        form={form}
+        onFinish={({ text }) => {
+          uploadFiles(
+            {
+              files: [
+                {
+                  file,
+                  prefixKey: `${user._id}/monitoring/screenshots`,
+                },
+              ],
+              onSuccess: () => { },
+            },
+            {
+              onSuccess: ([{ url }]) => {
+                submit({ text, url });
+                localStorage.setItem(
+                  LAST_SCREENSHOT_TIME_KEY,
+                  currentTime.toString()
+                );
+              },
+            }
+          );
+        }}
+      >
+        <Form.Item label="What are you working on?" name="text">
+          <TextArea rows={2} />
+        </Form.Item>
+        <Button
+          loading={uploadingScreenshot || updatingScreenshot}
+          onClick={form.submit}
+          type="primary"
+          block
+        >
+          Submit
+        </Button>
+      </Form>
+    </div>
+  );
+};

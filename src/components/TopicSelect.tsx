@@ -57,3 +57,36 @@ export default function TopicSelect(props: TopicSelectPropsI) {
     </Form.Item>
   );
 }
+
+
+/**
+ * Function to get the full path of a node by topicId(s) in a tree data structure.
+ * 
+ * @param topicTreeData - The tree data containing nodes.
+ * @param topicId - The key(s) of the node(s) to find the full path for.
+ * @returns A string (if single topicId) or an array of strings (if multiple topicId).
+ */
+export const getFullTopicPath = (topicTreeData: any[], topicId: string | string[]): string | string[] => {
+  console.log(topicTreeData, topicId, 12312312)
+  const findNodeFullPath = (nodes: any[], id: string, path: string[] = []): string | null => {
+    for (const node of nodes) {
+      const currentPath = [...path, node.title]; // Append the current node title to the path
+      if (node.key === id) {
+        return currentPath.join("-"); // Return the path as a string
+      }
+      if (node.children?.length) {
+        const childPath = findNodeFullPath(node.children, id, currentPath);
+        if (childPath) return childPath; // Found the full path in children
+      }
+    }
+    return null; // Node not found
+  };
+
+  if (Array.isArray(topicId)) {
+    // Multiple topicId case
+    return topicId.map((id) => findNodeFullPath(topicTreeData, id) || id); // Fallback to id if not found
+  } else {
+    // Single topicId case
+    return findNodeFullPath(topicTreeData, topicId) || topicId; // Fallback to id if not found
+  }
+};
