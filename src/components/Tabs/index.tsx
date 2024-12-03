@@ -12,15 +12,23 @@ function Tabs({ tabKey, ...props }: AppTabPropsI) {
 
   useEffect(() => {
     const tabActiveKey = searchParams.get(tabKey);
+    const defaultKey = props.items?.[0]?.key || "";
+
     if (
       tabActiveKey &&
       props.items?.some((item) => item.key === tabActiveKey)
     ) {
       setActiveKey(tabActiveKey);
     } else {
-      setActiveKey(props.items?.[0]?.key || "");
+      // If no valid key is found in query params, use the default key
+      setActiveKey(defaultKey);
+      // Update the URL to reflect the default tab key
+      setSearchParams({
+        ...Object.fromEntries(searchParams.entries()),
+        [tabKey]: defaultKey,
+      });
     }
-  }, [searchParams, props.items, tabKey]);
+  }, [searchParams, props.items, tabKey, setSearchParams]);
 
   const onChange = (activeKey: string) => {
     setActiveKey(activeKey);

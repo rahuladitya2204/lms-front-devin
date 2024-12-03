@@ -54,7 +54,7 @@ export default function GenerateQuestionWithAI({
     mutate: generateQuestion,
     isLoading: loading
   } = User.Queries.useGenerateQuestionWithAI()
-  let { getFulSelelTopicPath } = useBuildTopicTree(
+  let { getFullTopicPath } = useBuildTopicTree(
     test.topics,
     4,
     true
@@ -70,7 +70,7 @@ export default function GenerateQuestionWithAI({
         data: {
           ...data,
           category: test.category,
-          language: 'eng',
+          language,
           topic: getFullTopicPath(data.topics)
         }
       },
