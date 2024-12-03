@@ -238,7 +238,7 @@ function TestBuilderScreen() {
       }
     );
   };
-
+  const { mutate: formatTestSolution, isLoading: formattingTestSolution } = User.Queries.useFormatTestSolution()
   const onReorderSections = (sections: Types.TestSection[]) => {
     const TEST = test;
     TEST.sections = sections;
@@ -323,7 +323,7 @@ function TestBuilderScreen() {
             </Space>
           ),
           <Dropdown.Button
-            loading={savingTest || translatingQuestion || rephrasingQuestions}
+            loading={savingTest || translatingQuestion || rephrasingQuestions || formattingTestSolution}
             onClick={() => saveTest()}
             trigger={["click"]}
             menu={{
@@ -504,6 +504,13 @@ function TestBuilderScreen() {
                 //     setTest(TTEST);
                 //   },
                 // },
+                {
+                  label: 'Format Solution',
+                  key: 'format-solution',
+                  onClick: () => {
+                    formatTestSolution({ testId });
+                  }
+                },
                 {
                   label: "Create Test using Bank",
                   key: "generate-test-from-bank",

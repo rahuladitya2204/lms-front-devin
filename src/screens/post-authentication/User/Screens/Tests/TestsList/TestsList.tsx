@@ -61,6 +61,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
 
   const { mutate: deleteTest, isLoading: deletingTest } =
     User.Queries.useDeleteTest();
+  const { mutate: formatTestSolution, isLoading: formattingTestSolution } = User.Queries.useFormatTestSolution()
 
   const ITEMS = (test: Types.Test) => {
     const i = [
@@ -88,6 +89,14 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
           openModal(<PrintPrompt testId={test._id + ""} />, {
             title: "Print",
           });
+        },
+      },
+      {
+        label: "Format Test Solution",
+        key: "format-test",
+        icon: <SettingOutlined />,
+        onClick: () => {
+          formatTestSolution({ testId: test._id })
         },
       },
       {

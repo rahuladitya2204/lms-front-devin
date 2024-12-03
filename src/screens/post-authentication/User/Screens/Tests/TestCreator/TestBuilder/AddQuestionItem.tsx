@@ -777,6 +777,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
       {/* <Divider/> */}
       <Card>
         <Tabs
+          destroyInactiveTabPane={false}
           tabKey="test-question"
           type="card"
           defaultActiveKey={test.languages[0]}
