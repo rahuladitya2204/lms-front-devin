@@ -47,7 +47,6 @@ export default function GenerateQuestionWithAI({
   const { itemId, id: testId } = useParams();
   const { data: test } = User.Queries.useGetTestDetails(testId + "");
   const [params] = useSearchParams();
-  const language = params.get('test-question')
   const [keywords, setKeywords] = useState<string[]>([])
   const [form] = Form.useForm<Types.TestQuestionMeta>()
   const {
@@ -65,6 +64,7 @@ export default function GenerateQuestionWithAI({
   }, [test])
 
   const ONSUBMIT = (data: Types.QuestionPrompt) => {
+    const language = params.get('test-question')
     generateQuestion(
       {
         data: {
@@ -76,7 +76,7 @@ export default function GenerateQuestionWithAI({
       },
       {
         onSuccess: d => {
-          d.language = form.getFieldValue(['language'])
+          d.language = language
           onSubmit && onSubmit(d)
           closeModal && closeModal()
         }
