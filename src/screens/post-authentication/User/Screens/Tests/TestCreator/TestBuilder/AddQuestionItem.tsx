@@ -307,9 +307,18 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
               />
             </Col>
 
-            <Col span={12}>
+            <Col span={8}>
               <Form.Item label="Tags" name="tags">
                 <InputTags name="tags" />
+              </Form.Item>
+            </Col>
+            <Col lg={6} md={12} sm={12} xs={24}>
+              <Form.Item label="Question Kind" name={"kind"}>
+                <Select
+                  disabled={isTestEnded}
+                  style={{ width: "100%" }}
+                  options={Constants.QUESTION_KINDS}
+                />
               </Form.Item>
             </Col>
           </Row>
