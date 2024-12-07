@@ -178,7 +178,7 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
   const screenshotRef = useRef<any>(null);
   const { isSignedIn } = Store.useAuthentication((s) => s);
   const { data: user } = User.Queries.useGetUserDetails();
-  const { data: userLog } = User.Queries.useGetUserLog(user?._id || "", "");
+  const { data: userLog } = User.Queries.useGetUserLog(user || "", "");
   const { openModal } = useModal();
 
   useEffect(() => {

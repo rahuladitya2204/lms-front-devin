@@ -1,17 +1,16 @@
 import AppImage from "@Components/Image";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
 import { Title } from "@Components/Typography/Typography";
-import { Store, Types, User } from "@adewaskar/lms-common";
+import { Constants, Store, Types, User } from "@adewaskar/lms-common";
 import { Col, DatePicker, Divider, Image, Row, Space, Spin } from "antd";
 import dayjs from "dayjs";
 import { sortBy } from "lodash";
 import { useState } from "react";
 
-export default function UserLogs({ id }: { id: string }) {
+export default function UserLogs({ user }: { user: Types.User }) {
   const [date, setDate] = useState(dayjs());
-  const user = Store.useAuthentication((s) => s.user);
   const { data: userLog, isLoading } = User.Queries.useGetUserLog(
-    id,
+    user,
     date?.toISOString()
   );
   const screenshots = sortBy(userLog.screenshots, ["-date"]);

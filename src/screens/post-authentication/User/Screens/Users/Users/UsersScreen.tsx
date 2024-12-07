@@ -187,7 +187,7 @@ function UsersScreen() {
                       {
                         label: "Show Logs",
                         onClick: () => {
-                          openModal(<UserLogs id={record._id} />, {
+                          openModal(<UserLogs user={record} />, {
                             title: `${record.name}'s work updates`,
                           });
                         },
