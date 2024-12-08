@@ -151,3 +151,37 @@ export default function GenerateQuestionWithAI({
     </Form>
   )
 }
+
+
+function useComputeHierarchy(topicIds) {
+  const { data: allTopics } = User.Queries.useGetTopics();
+
+  const topicMap = allTopics.reduce((map, topic) => {
+    map[topic._id.toString()] = topic;
+    return map;
+  }, {});
+
+  function buildHierarchyPath(startTopicId: string): string {
+    const path = [];
+    let currentId = startTopicId;
+    const visitedIds = new Set();
+
+    while (currentId && !visitedIds.has(currentId)) {
+      visitedIds.add(currentId);
+      const currentTopic = topicMap[currentId];
+
+      if (!currentTopic) break;
+      path.push(currentTopic.title?.eng || "[Unknown Topic]");
+      currentId = currentTopic.parentId?.toString();
+    }
+
+    return path.reverse().join(" -> ");
+  }
+
+  const hierarchyMap = {};
+  for (const topicId of topicIds) {
+    hierarchyMap[topicId.toString()] = buildHierarchyPath(topicId.toString());
+  }
+
+  return hierarchyMap;
+}

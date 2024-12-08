@@ -1,13 +1,15 @@
 import AppImage from "@Components/Image";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
+import Tabs from "@Components/Tabs";
 import { Title } from "@Components/Typography/Typography";
-import { Constants, Store, Types, User } from "@adewaskar/lms-common";
+import { Store, Types, User } from "@adewaskar/lms-common";
 import { Col, DatePicker, Divider, Image, Row, Space, Spin } from "antd";
 import dayjs from "dayjs";
 import { sortBy } from "lodash";
 import { useState } from "react";
+import UserLogDates from "./UserLogsDates";
 
-export default function UserLogs({ user }: { user: Types.User }) {
+export function UserLogs({ user }: { user: Types.User }) {
   const [date, setDate] = useState(dayjs());
   const { data: userLog, isLoading } = User.Queries.useGetUserLog(
     user,
@@ -72,7 +74,7 @@ export default function UserLogs({ user }: { user: Types.User }) {
   );
 }
 
-const formatDuration = (startedAt: string, lastUpdate: string) => {
+export const formatDuration = (startedAt: string, lastUpdate: string) => {
   const duration = dayjs(lastUpdate).diff(dayjs(startedAt));
   const hours = Math.floor(duration / (1000 * 60 * 60));
   const minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
@@ -82,3 +84,19 @@ const formatDuration = (startedAt: string, lastUpdate: string) => {
     .toString()
     .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 };
+
+
+export default function UserLog({ user }: { user: Types.User }) {
+  return <Tabs tabKey="user-logs" items={[
+    {
+      label: 'Today',
+      key: 'today',
+      children: <UserLogs user={user} />
+    },
+    {
+      label: 'Till Date',
+      key: 'till-date',
+      children: <UserLogDates user={user} />
+    }
+  ]} />
+}

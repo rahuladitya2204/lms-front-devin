@@ -504,13 +504,13 @@ function TestBuilderScreen() {
                 //     setTest(TTEST);
                 //   },
                 // },
-                {
-                  label: 'Format Solution',
-                  key: 'format-solution',
-                  onClick: () => {
-                    formatTestSolution({ testId });
-                  }
-                },
+                // {
+                //   label: 'Format Solution',
+                //   key: 'format-solution',
+                //   onClick: () => {
+                //     formatTestSolution({ testId });
+                //   }
+                // },
                 {
                   label: "Create Test using Bank",
                   key: "generate-test-from-bank",

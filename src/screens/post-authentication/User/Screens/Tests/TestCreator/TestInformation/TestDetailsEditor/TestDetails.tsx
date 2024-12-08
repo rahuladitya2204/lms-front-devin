@@ -1,5 +1,6 @@
 import {
   Button,
+  Checkbox,
   Col,
   DatePicker,
   Divider,
@@ -12,7 +13,7 @@ import {
   TreeSelect,
 } from "antd";
 import { Constants, Enum, Types, User, Utils } from "@adewaskar/lms-common";
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 
 import Image from "@Components/Image";
 import MediaUpload from "@Components/MediaUpload";
@@ -159,6 +160,15 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             // checkedChildren="PYQ"
             // unCheckedChildren="No Pyq"
             />
+          </Form.Item>
+        </Col>
+        <Col span={8}>
+          <Form.Item
+            label='AI Traning'
+            name={['aiTraining', 'enabled']}
+            valuePropName="checked"
+          >
+            <Checkbox />
           </Form.Item>
         </Col>
         {isPyqEnabled ? (
@@ -461,7 +471,42 @@ export const useBuildTopicTree = (
     notDisabled
   );
 
-  return { data: TOPIC_TREE_DATA, isLoading, getFullTopicPath: (topicId: string) => getFullTopicPath(TOPIC_TREE_DATA, topicId) };
+  const getFullTopicPath = useCallback((topicId: string): string => {
+    if (!TOPIC_TREE_DATA || !topicId) return '';
+
+    // Create topic map from tree
+    const topicMap: Record<string, any> = {};
+    const buildMap = (node: any) => {
+      topicMap[node._id] = node;
+      if (node.children) {
+        node.children.forEach(buildMap);
+      }
+    };
+    TOPIC_TREE_DATA.forEach(buildMap);
+
+    // Build path
+    const path: string[] = [];
+    const visitedIds = new Set<string>();
+    let currentId: string | undefined = topicId;
+
+    while (currentId && !visitedIds.has(currentId)) {
+      visitedIds.add(currentId);
+      const currentTopic = topicMap[currentId];
+
+      if (!currentTopic) break;
+
+      path.push(currentTopic.title?.eng || '[Unknown Topic]');
+      currentId = currentTopic.parentId;
+    }
+
+    return path.reverse().join(' -> ');
+  }, [TOPIC_TREE_DATA]);
+
+  return {
+    data: TOPIC_TREE_DATA,
+    isLoading,
+    getFullTopicPath
+  };
 };
 
 export const buildTopicTree = (
