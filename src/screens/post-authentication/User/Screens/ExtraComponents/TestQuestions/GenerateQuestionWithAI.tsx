@@ -53,6 +53,7 @@ export default function GenerateQuestionWithAI({
     mutate: generateQuestion,
     isLoading: loading
   } = User.Queries.useGenerateQuestionWithAI()
+
   let { getFullTopicPath } = useBuildTopicTree(
     test.topics,
     4,
@@ -71,12 +72,13 @@ export default function GenerateQuestionWithAI({
           ...data,
           category: test.category,
           language,
-          topic: getFullTopicPath(data.topics)
+          topics: getFullTopicPath(data.topics)
         }
       },
       {
         onSuccess: d => {
           d.language = language
+          d.topic = data.topics;
           onSubmit && onSubmit(d)
           closeModal && closeModal()
         }

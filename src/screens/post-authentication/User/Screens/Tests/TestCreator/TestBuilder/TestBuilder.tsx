@@ -37,6 +37,7 @@ import TestCreatorFromBank from "./TestCreatorFromBank";
 import { htmlToText } from "html-to-text";
 import { promises } from "dns";
 import { cloneDeep } from "lodash";
+import TestCreatorFromAI from "./TestCreatorFromAI";
 
 const { confirm } = Modal;
 
@@ -524,6 +525,22 @@ function TestBuilderScreen() {
                         width: 900,
                         keyboard: false,
                         title: "Create Test From Bank",
+                      }
+                    ),
+                },
+                {
+                  label: "Create Test using AI",
+                  key: "generate-test-from-AI",
+                  onClick: () =>
+                    openModal(
+                      <TestCreatorFromAI
+                        sections={test.sections}
+                        testId={testId + ""}
+                      />,
+                      {
+                        width: 900,
+                        keyboard: false,
+                        title: "Create Test From AI",
                       }
                     ),
                 },
