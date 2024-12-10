@@ -72,7 +72,7 @@ export default function GenerateQuestionWithAI({
           ...data,
           category: test.category,
           language,
-          topicPath: `UPSC -> ${getFullTopicPath(data.topics)}`
+          topicPath: `${getFullTopicPath(data.topic)}`
         }
       },
       {
@@ -116,7 +116,7 @@ export default function GenerateQuestionWithAI({
         notDisabled
         required
         topicId={test.topics}
-        name="topics"
+        name="topic"
       />
       {/* <Form.Item label="Keywords">
         <InputTags name='keywords'
