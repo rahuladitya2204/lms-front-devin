@@ -43,7 +43,7 @@ export function UserLogin(props: UserLoginPropsI) {
   return (
     <AuthenticationCard>
       {isMobile ? <OrgLogo width={"100%"} quality="high" /> : null}
-      <Tabs
+      <Tabs tabKey="login-popup"
         items={[
           {
             label: "Login with OTP",

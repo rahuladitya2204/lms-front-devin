@@ -150,7 +150,7 @@ const TestEditor = () => {
                 <BackButton
                   disabled={!test.category}
                   onClick={() =>
-                    navigate(`/admin/products/test#${test.category}`)
+                    navigate(`/admin/products/test?test-list=${test.category}`)
                   }
                 />{" "}
                 {test.title}

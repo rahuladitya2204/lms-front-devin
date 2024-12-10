@@ -72,7 +72,7 @@ export default function GenerateQuestionWithAI({
           ...data,
           category: test.category,
           language,
-          topics: getFullTopicPath(data.topics)
+          topicPath: `UPSC -> ${getFullTopicPath(data.topics)}`
         }
       },
       {
