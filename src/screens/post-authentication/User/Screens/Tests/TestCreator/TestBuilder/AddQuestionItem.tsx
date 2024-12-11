@@ -799,6 +799,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
                         option.text[response.language] = response.options[index].text;
                         option.isCorrect = response.options[index].isCorrect
                       })
+                    question.topic = response.topic;
                     question.solution.html[response.language] = response.solution;
                     console.log(question, 'question', response, '123123')
                     form.setFieldsValue(question)

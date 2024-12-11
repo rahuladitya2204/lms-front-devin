@@ -8,6 +8,7 @@ import { useParams, useSearchParams } from '@Router/index'
 import SelectLanguage from '@Components/SelectLanguage'
 import SelectProductCategory from '@Components/SelectProductCategory'
 import { useBuildTopicTree } from '@User/Screens/Tests/TestCreator/TestInformation/TestDetailsEditor/TestDetails'
+import TextArea from '@Components/Textarea'
 
 const DIFFICULTY_LEVELS = [
   { label: 'Easy', value: 'easy' },
@@ -78,7 +79,7 @@ export default function GenerateQuestionWithAI({
       {
         onSuccess: d => {
           d.language = language
-          d.topic = data.topics;
+          d.topic = data.topic;
           onSubmit && onSubmit(d)
           closeModal && closeModal()
         }
@@ -142,6 +143,14 @@ export default function GenerateQuestionWithAI({
                 { label: 'Subjective', value: Enum.TestQuestionType.SUBJECTIVE }
               ]}
             />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <SelectLanguage languages={test.languages} name={['language']} />
+        </Col>
+        <Col span={24}>
+          <Form.Item label='Guidelines' name='guidelines'>
+            <TextArea name={['guidelines']} />
           </Form.Item>
         </Col>
       </Row>
