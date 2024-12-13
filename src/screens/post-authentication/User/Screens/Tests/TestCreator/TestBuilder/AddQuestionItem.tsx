@@ -299,7 +299,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
             </Col>
             <Col span={12}>
               <TopicSelect
-                level={2}
+                level={4}
                 label="Topic"
                 notDisabled
                 name="topic"

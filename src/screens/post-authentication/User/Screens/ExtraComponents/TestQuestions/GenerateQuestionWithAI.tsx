@@ -20,7 +20,7 @@ const INITIAL_VALUES = {
   difficultyLevel: 'medium',
   taxonomyLevel: 'analyze',
   choice: Enum.TestQuestionType.SINGLE,
-  type: 'numerical'
+  type: 'factual'
 }
 
 const TAXONOMY_LEVELS = [
@@ -148,11 +148,43 @@ export default function GenerateQuestionWithAI({
         <Col span={12}>
           <SelectLanguage languages={test.languages} name={['language']} />
         </Col>
-        <Col span={24}>
+        <Col span={12}>
+          <Form.Item label="Question Type" name="type">
+            <Select
+              options={[
+                {
+                  label: 'Factual',
+                  value: 'factual'
+                },
+                {
+                  label: 'Statement Based',
+                  value: 'statement-based'
+                },
+                {
+                  label: 'Match the following',
+                  value: 'match-the-following'
+                },
+                {
+                  label: 'Pair Validation',
+                  value: 'pair-validation'
+                },
+                {
+                  label: 'Assertion/Reason',
+                  value: 'assertion-reason'
+                },
+                {
+                  label: 'Chronological',
+                  value: 'chronological-order'
+                }
+              ]}
+            />
+          </Form.Item>
+        </Col>
+        {/* <Col span={24}>
           <Form.Item label='Guidelines' name='guidelines'>
             <TextArea name={['guidelines']} />
           </Form.Item>
-        </Col>
+        </Col> */}
       </Row>
       <Row justify={'end'}>
         <Col> <Button loading={loading} type="primary" onClick={form.submit}>
