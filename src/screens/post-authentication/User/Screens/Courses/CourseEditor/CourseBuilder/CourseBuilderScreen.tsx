@@ -264,6 +264,14 @@ function CourseBuilderScreen() {
                           language: 'eng'
                         })
                       }
+                    },
+                    {
+                      label: 'See Demo',
+                      key: 'demo',
+                      onClick: () => {
+                        const website = window.location.origin.replace('-admin', '')
+                        window.open(`${website}/app/courses/${courseId}`)
+                      }
                     }
                   ]
                 }}
