@@ -151,32 +151,7 @@ export default function GenerateQuestionWithAI({
         <Col span={12}>
           <Form.Item label="Question Type" name="type">
             <Select
-              options={[
-                {
-                  label: 'Factual',
-                  value: 'factual'
-                },
-                {
-                  label: 'Statement Based',
-                  value: 'statement-based'
-                },
-                {
-                  label: 'Match the following',
-                  value: 'match-the-following'
-                },
-                {
-                  label: 'Pair Validation',
-                  value: 'pair-validation'
-                },
-                {
-                  label: 'Assertion/Reason',
-                  value: 'assertion-reason'
-                },
-                {
-                  label: 'Chronological',
-                  value: 'chronological-order'
-                }
-              ]}
+              options={QUESTION_PATTERNS}
             />
           </Form.Item>
         </Col>
@@ -228,3 +203,30 @@ function useComputeHierarchy(topicIds) {
 
   return hierarchyMap;
 }
+
+export const QUESTION_PATTERNS = [
+  {
+    label: 'Factual',
+    value: 'factual'
+  },
+  {
+    label: 'Statement Based',
+    value: 'statement-based'
+  },
+  {
+    label: 'Match the following',
+    value: 'match-the-following'
+  },
+  {
+    label: 'Pair Validation',
+    value: 'pair-validation'
+  },
+  {
+    label: 'Assertion/Reason',
+    value: 'assertion-reason'
+  },
+  {
+    label: 'Chronological',
+    value: 'chronological-order'
+  }
+]

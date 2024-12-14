@@ -7,7 +7,8 @@ import {
   Col,
   Typography,
   Divider,
-  Space
+  Space,
+  Select
 } from "antd";
 import { PlusOutlined, DeleteOutlined, SearchOutlined } from "@ant-design/icons";
 import { Types, User, Enum } from "@adewaskar/lms-common";
@@ -17,6 +18,7 @@ import { AddQuestionFromBank } from "./AddQuestionFromBank";
 import TopicSelect from "@Components/TopicSelect";
 import { useNavigate } from "@Router/index";
 import { useBuildTopicTree } from "../TestInformation/TestDetailsEditor/TestDetails";
+import { QUESTION_PATTERNS } from "@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI";
 
 const { Text } = Typography;
 const { Panel } = Collapse;
@@ -70,7 +72,8 @@ export default function TestCreatorFromAI({
       questions: section.topics.map(topic => ({
         topic: topic.topics, // Since TopicSelect component sets the value in 'topics' field
         count: topic.questionCount,
-        topicPath: getFullTopicPath(topic.topics)
+        topicPath: getFullTopicPath(topic.topics),
+        type: topic.type
       })),
       category: testDetails.category,
       language: 'eng',
@@ -140,26 +143,35 @@ export default function TestCreatorFromAI({
                     </Row>
 
                     <Form.List name={[sectionField.name, "topics"]}>
-                      {(topicFields, { add: addTopic, remove: removeTopic }) => (
+                      {(formFields, { add: addTopic, remove: removeTopic }) => (
                         <>
-                          {topicFields.map((topicField) => (
-                            <Row key={topicField.key} gutter={[16, 16]} align="middle">
+                          {formFields.map((formField) => (
+                            <Row key={formField.key} gutter={[16, 16]} align="middle">
                               <Col span={12}>
                                 <TopicSelect
                                   notDisabled
                                   topicId={testDetails?.topics}
-                                  name={[topicField.name, "topics"]}
+                                  name={[formField.name, "topics"]}
                                   label="Topics"
                                   rules={[{ required: true, message: "Topic is required" }]}
                                 />
                               </Col>
-                              <Col span={8}>
+                              <Col span={4}>
                                 <Form.Item
                                   label="Questions Count"
-                                  name={[topicField.name, "questionCount"]}
+                                  name={[formField.name, "questionCount"]}
                                   rules={[{ required: true, message: "Count required" }]}
                                 >
                                   <Input type="number" min={1} />
+                                </Form.Item>
+                              </Col>
+                              <Col span={4}>
+                                <Form.Item
+                                  label="Type"
+                                  name={[formField.name, "type"]}
+                                // rules={[{ required: true, message: "Count required" }]}
+                                >
+                                  <Select options={QUESTION_PATTERNS} />
                                 </Form.Item>
                               </Col>
                               <Col span={4}>
@@ -167,7 +179,7 @@ export default function TestCreatorFromAI({
                                   <Button
                                     danger
                                     icon={<DeleteOutlined />}
-                                    onClick={() => removeTopic(topicField.name)}
+                                    onClick={() => removeTopic(formField.name)}
                                   />
                                 </Form.Item>
                               </Col>
