@@ -11,7 +11,7 @@ const axios = getAxiosInstance();
 import TestPublicPlayer from "@Screens/post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayer";
 import TestPublicPlayerItemReiew from "@Screens/post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayerItem";
 import { generateMetadata as GenerateMetadata } from "./[questionId]/page";
-import { getData } from "./[questionId]/page";
+import { getTest } from "./[questionId]/page";
 export const generateMetadata = GenerateMetadata;
 
 export default async function Page({
@@ -19,7 +19,7 @@ export default async function Page({
 }: {
   params: { testId: string; questionId: string };
 }) {
-  const test = await getData(params.testId);
+  const test = await getTest(params.testId);
   const {
     getPromotedProducts,
     getEnrolledProductDetails,

@@ -171,7 +171,7 @@ export const getIdFromSlug = (slug: string) => {
 
 export const getTest = async (
   id: string,
-  mode: string,
+  mode = 'general',
   alias = "www"
 ): Promise<Types.Test> => {
   const { data: test }: { data: Types.Test } = await axios(
