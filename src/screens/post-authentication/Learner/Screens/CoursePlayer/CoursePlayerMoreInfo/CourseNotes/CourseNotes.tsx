@@ -8,7 +8,7 @@ import {
   Row,
   Skeleton,
   Tag,
-} from "@Lib/index";
+} from "antd";
 import { Constants, Learner, Store, Types } from "@adewaskar/lms-common";
 
 import CourseNoteItem from "./NoteItem";

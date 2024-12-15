@@ -11,7 +11,7 @@ import {
   Spin,
   Tooltip,
   theme,
-} from "@Lib/index";
+} from "antd";
 import { Learner, Store, Types } from "@adewaskar/lms-common";
 
 import { Comment } from "@ant-design/compatible";

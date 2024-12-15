@@ -3,7 +3,7 @@ import { createContext, useContext } from "react";
 import { ArgsProps } from "antd/es/message";
 import { MessageType } from "antd/es/message/interface";
 import { ParticlesContext } from "@Components/Particles/ParticleProvider";
-import { message } from "@Lib/index";
+import { message } from "antd";
 
 const useMessage = () => {
   return () => message;
@@ -16,5 +16,5 @@ interface MessagePropsI extends ArgsProps {
 }
 
 export const MessageContext = createContext({
-  open: (args: MessagePropsI): MessageType | void => {},
+  open: (args: MessagePropsI): MessageType | void => { },
 });

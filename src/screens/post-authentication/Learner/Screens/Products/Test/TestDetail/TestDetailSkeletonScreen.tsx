@@ -10,7 +10,7 @@ import {
   Space,
   Tag,
   message,
-} from "@Lib/index";
+} from "antd";
 
 import SkeletonImage from "@Components/SkeletonImage";
 
@@ -19,7 +19,7 @@ import { Typography } from "@Components/Typography";
 import useBreakpoint from "@Hooks/useBreakpoint";
 const { Text, Paragraph } = Typography;
 
-interface TestDetailSkeletonScreenPropsI {}
+interface TestDetailSkeletonScreenPropsI { }
 
 export default function TestDetailSkeletonScreen(
   props: TestDetailSkeletonScreenPropsI

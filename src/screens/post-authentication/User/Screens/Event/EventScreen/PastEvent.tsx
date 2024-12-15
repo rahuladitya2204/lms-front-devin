@@ -8,7 +8,7 @@ import {
   Tabs,
   Tag,
   Typography,
-} from "@Lib/index";
+} from "antd";
 
 import Header from "@Components/Header";
 import { Types } from "@adewaskar/lms-common";

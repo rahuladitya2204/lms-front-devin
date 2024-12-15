@@ -11,7 +11,7 @@ import {
   Select,
   Switch,
   Table,
-} from "@Lib/index";
+} from "antd";
 import React, { Fragment, ReactNode, useEffect, useState } from "react";
 
 import ActionModal from "@Components/ActionModal/ActionModal";

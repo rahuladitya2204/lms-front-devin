@@ -1,4 +1,4 @@
-import { Button, Card, Form, Input } from "@Lib/index";
+import { Button, Card, Form, Input } from "antd";
 
 import { Learner } from "@adewaskar/lms-common";
 import React from "react";

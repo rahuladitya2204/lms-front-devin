@@ -1,4 +1,4 @@
-import { Alert, Button, Col, Row, Skeleton } from "@Lib/index";
+import { Alert, Button, Col, Row, Skeleton } from "antd";
 import { Enum, Learner } from "@adewaskar/lms-common";
 import React, { Fragment, useMemo } from "react";
 
@@ -89,7 +89,7 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
               }
               type="info"
               showIcon
-              // action={ }
+            // action={ }
             />
             <Button
               size="large"

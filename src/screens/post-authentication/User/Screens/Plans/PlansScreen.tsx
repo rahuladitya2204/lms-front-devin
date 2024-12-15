@@ -15,7 +15,7 @@ import {
   Space,
   Table,
   Tag,
-} from "@Lib/index";
+} from "antd";
 import slugify from "slugify";
 import Header from "@User/Screens/UserRoot/UserHeader";
 import { Types, Utils } from "@adewaskar/lms-common";

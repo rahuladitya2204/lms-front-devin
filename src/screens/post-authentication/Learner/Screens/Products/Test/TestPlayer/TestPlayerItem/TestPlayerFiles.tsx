@@ -13,7 +13,7 @@ import {
   Spin,
   Tooltip,
   message,
-} from "@Lib/index";
+} from "antd";
 import { AppCamera, useCamera } from "@Components/ActionModal/Camera/AppCamera";
 
 import { Common, Learner, Types } from "@adewaskar/lms-common";
@@ -90,7 +90,7 @@ const TestPlayerFiles = (props: {
                 hoverIndex,
                 0,
                 form.getFieldValue(["answer", "subjective", "files"])[
-                  dragIndex
+                dragIndex
                 ],
               ],
             ],

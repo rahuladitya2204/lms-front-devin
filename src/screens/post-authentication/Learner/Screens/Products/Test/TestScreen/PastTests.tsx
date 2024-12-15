@@ -8,7 +8,7 @@ import {
   Skeleton,
   Space,
   Tag,
-} from "@Lib/index";
+} from "antd";
 import { CalendarOutlined, EditOutlined } from "@ant-design/icons";
 import { Enum, Learner, Types } from "@adewaskar/lms-common";
 

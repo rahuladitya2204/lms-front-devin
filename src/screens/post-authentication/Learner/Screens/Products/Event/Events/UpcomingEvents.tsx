@@ -1,4 +1,4 @@
-import { Avatar, Card, Col, List, Row, Space, Table } from "@Lib/index";
+import { Avatar, Card, Col, List, Row, Space, Table } from "antd";
 import { Learner, Types } from "@adewaskar/lms-common";
 
 import Image from "@Components/Image";
@@ -37,14 +37,14 @@ function UpcomingEvent(props: { filter: Types.GetEventsFilter }) {
             cover={
               <Image
                 alt="example"
-                // src={item.image}
+              // src={item.image}
               />
             }
-            // actions={[
-            //   <SettingOutlined key="setting" />,
-            //   <EditOutlined key="edit" />,
-            //   <EllipsisOutlined key="ellipsis" />
-            // ]}
+          // actions={[
+          //   <SettingOutlined key="setting" />,
+          //   <EditOutlined key="edit" />,
+          //   <EllipsisOutlined key="ellipsis" />
+          // ]}
           >
             <Meta
               // avatar={

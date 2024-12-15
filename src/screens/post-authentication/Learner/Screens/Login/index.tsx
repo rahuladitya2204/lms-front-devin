@@ -10,7 +10,7 @@ import {
   Row,
   Space,
   message,
-} from "@Lib/index";
+} from "antd";
 import {
   ArrowLeftOutlined,
   GoogleOutlined,

@@ -1,4 +1,4 @@
-import { Col, Collapse, List, Row, Skeleton, Tag } from "@Lib/index";
+import { Col, Collapse, List, Row, Skeleton, Tag } from "antd";
 import { Learner, Types } from "@adewaskar/lms-common";
 
 import LearnerProductCard from "@Components/LearnerProductCard";

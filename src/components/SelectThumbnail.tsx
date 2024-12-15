@@ -1,4 +1,4 @@
-import { Button, Modal, Space, Spin } from "@Lib/index";
+import { Button, Modal, Space, Spin } from "antd";
 import { Common, Types } from "@adewaskar/lms-common";
 
 import Image from "@Components/Image";
@@ -86,8 +86,8 @@ const SelectThumbnail = (props: SelectThumbnailPropsI) => {
   const spinText = generating
     ? "Generating Thumbnails.."
     : uploading
-    ? "Uploading Thumbnail.."
-    : null;
+      ? "Uploading Thumbnail.."
+      : null;
   return Url ? (
     <>
       <Button

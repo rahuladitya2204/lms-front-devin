@@ -1,4 +1,4 @@
-import { Button, Form, Input, message, Modal, Select } from "@Lib/index";
+import { Button, Form, Input, message, Modal, Select } from "antd";
 import { Learner, Types } from "@adewaskar/lms-common";
 import React, { ReactNode } from "react";
 import slugify from "slugify";

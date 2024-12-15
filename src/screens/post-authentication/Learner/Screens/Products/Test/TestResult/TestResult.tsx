@@ -8,7 +8,7 @@ import {
   Row,
   Skeleton,
   Tag,
-} from "@Lib/index";
+} from "antd";
 import { Cell, Legend, Pie, PieChart, Tooltip } from "recharts";
 
 import BackButton from "@Components/BackButton";
@@ -113,8 +113,8 @@ const LearnerTestResult = function () {
                                             ? "#f6ffed"
                                             : answeredByLearner &&
                                               !isCorrectOption
-                                            ? "#fff1f0"
-                                            : "",
+                                              ? "#fff1f0"
+                                              : "",
                                         }}
                                       >
                                         <Col>

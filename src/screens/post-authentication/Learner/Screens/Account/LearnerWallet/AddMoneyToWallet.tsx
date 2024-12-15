@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row, message } from "@Lib/index";
+import { Button, Col, Form, Input, Row, message } from "antd";
 import { Constants, Learner, Types, Utils } from "@adewaskar/lms-common";
 
 import CoinImage from "./CoinImage";

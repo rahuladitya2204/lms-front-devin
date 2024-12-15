@@ -1,4 +1,4 @@
-import { Button, Card, Col, Result, Row, Space } from "@Lib/index";
+import { Button, Card, Col, Result, Row, Space } from "antd";
 import { Learner, Types } from "@adewaskar/lms-common";
 
 import Image from "@Components/Image";

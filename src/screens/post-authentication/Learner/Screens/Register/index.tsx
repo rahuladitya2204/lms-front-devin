@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Form, Input, Row, message } from "@Lib/index";
+import { Button, Checkbox, Col, Form, Input, Row, message } from "antd";
 import { Common, Learner, Store, Types } from "@adewaskar/lms-common";
 import React, { useEffect } from "react";
 

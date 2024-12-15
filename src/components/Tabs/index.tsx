@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Tabs as AppTabs, TabsProps } from "@Lib/index";
+import { Tabs as AppTabs, TabsProps } from "antd";
 import { useSearchParams } from "@Router/index";
 
 interface AppTabPropsI extends TabsProps {

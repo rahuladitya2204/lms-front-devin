@@ -1,4 +1,4 @@
-import { Button, Col, Row } from "@Lib/index";
+import { Button, Col, Row } from "antd";
 import { CheckOutlined, ReloadOutlined } from "@ant-design/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
@@ -100,7 +100,7 @@ export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
             image={image}
             onChange={onChange}
             onDragStop={onDragStop}
-            // style={{ width: '100%', height: 'auto' }} // Example inline styling
+          // style={{ width: '100%', height: 'auto' }} // Example inline styling
           />
         </Col>
       </Row>

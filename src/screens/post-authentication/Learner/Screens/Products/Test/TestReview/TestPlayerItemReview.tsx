@@ -33,7 +33,7 @@ import {
   Tag,
   Tooltip,
   theme,
-} from "@Lib/index";
+} from "antd";
 import { Constants, Enum, Learner, Types } from "@adewaskar/lms-common";
 import { Fragment, useEffect, useMemo, useState } from "react";
 

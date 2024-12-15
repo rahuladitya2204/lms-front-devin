@@ -12,7 +12,7 @@ import {
   Space,
   Spin,
   Typography,
-} from "@Lib/index";
+} from "antd";
 import { Common, Types, User } from "@adewaskar/lms-common";
 import { Fragment, useEffect, useState } from "react";
 import { UploadOutlined, VideoCameraOutlined } from "@ant-design/icons";

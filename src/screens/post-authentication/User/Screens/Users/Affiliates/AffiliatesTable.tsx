@@ -9,7 +9,7 @@ import {
   Space,
   Tag,
   message,
-} from "@Lib/index";
+} from "antd";
 import {
   BookOutlined,
   CheckCircleOutlined,
@@ -163,11 +163,10 @@ function AffiliatesTable() {
                   confirm({
                     title: "Are you sure?",
                     // icon: <ExclamationCircleOutlined />,
-                    content: `You want to ${
-                      record.status === Enum.AffiliateAccountStatus.ACTIVE
+                    content: `You want to ${record.status === Enum.AffiliateAccountStatus.ACTIVE
                         ? "revoke"
                         : "release"
-                    } access for this learner`,
+                      } access for this learner`,
                     onOk() {
                       changeAccountStatus(
                         {
@@ -231,9 +230,8 @@ function AffiliatesTable() {
                 icon: <DeleteOutlined />,
                 onClick: () => {
                   confirm({
-                    title: `Are you sure? You want to remove ${
-                      record.learner.name || record.learner.email
-                    }`,
+                    title: `Are you sure? You want to remove ${record.learner.name || record.learner.email
+                      }`,
                     // icon: <ExclamationCircleOutlined />,
                     content: `Affiliate will no longer have any access to the platform`,
                     onOk() {

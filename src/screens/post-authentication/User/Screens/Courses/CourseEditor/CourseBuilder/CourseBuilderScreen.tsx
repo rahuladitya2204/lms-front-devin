@@ -12,7 +12,7 @@ import {
   Spin,
   Tag,
   message,
-} from "@Lib/index";
+} from "antd";
 import { Constants, Enum, Types, User, Utils } from "@adewaskar/lms-common";
 import { useNavigate, useParams } from "@Router/index";
 import { UploadOutlined } from "@ant-design/icons";

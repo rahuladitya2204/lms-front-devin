@@ -1,4 +1,4 @@
-import { Button, Form, Input, message } from "@Lib/index";
+import { Button, Form, Input, message } from "antd";
 
 import { Learner } from "@adewaskar/lms-common";
 import useMessage from "@Hooks/useMessage";

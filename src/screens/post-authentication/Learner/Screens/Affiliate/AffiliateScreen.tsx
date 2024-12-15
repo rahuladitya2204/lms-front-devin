@@ -14,7 +14,7 @@ import {
   TimeRangePickerProps,
   Tooltip,
   message,
-} from "@Lib/index";
+} from "antd";
 import { Learner, Utils } from "@adewaskar/lms-common";
 import { useNavigate } from "@Router/index";
 
@@ -97,7 +97,7 @@ export default function AffiliateScreen(props: AffiliateScreenPropsI) {
               },
             ],
           }}
-          // size={screen.isMobile?'small':'middle'}
+        // size={screen.isMobile?'small':'middle'}
         >
           <Row justify={"center"} align={"middle"}>
             <Col style={{ marginTop: -1 }}>
@@ -226,24 +226,24 @@ export default function AffiliateScreen(props: AffiliateScreenPropsI) {
                 items={
                   !learner.affiliate
                     ? [
-                        {
-                          label: "Registration",
-                          key: "register",
-                          children: <AffiliateForm />,
-                        },
-                      ]
+                      {
+                        label: "Registration",
+                        key: "register",
+                        children: <AffiliateForm />,
+                      },
+                    ]
                     : [
-                        {
-                          label: "Dashboard",
-                          key: "dashboard",
-                          children: <AffiliateDashboard />,
-                        },
-                        {
-                          label: "Products",
-                          key: "products",
-                          children: <AffiliateProducts />,
-                        },
-                      ]
+                      {
+                        label: "Dashboard",
+                        key: "dashboard",
+                        children: <AffiliateDashboard />,
+                      },
+                      {
+                        label: "Products",
+                        key: "products",
+                        children: <AffiliateProducts />,
+                      },
+                    ]
                 }
               />
             )}
@@ -254,7 +254,7 @@ export default function AffiliateScreen(props: AffiliateScreenPropsI) {
   );
 }
 
-interface AffiliateEarningsPropsI {}
+interface AffiliateEarningsPropsI { }
 
 export const AffiliateEarnings = (props: AffiliateEarningsPropsI) => {
   const {

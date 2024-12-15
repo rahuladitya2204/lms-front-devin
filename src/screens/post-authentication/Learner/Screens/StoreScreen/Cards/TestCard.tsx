@@ -1,4 +1,4 @@
-import { Badge, Card, Col, Divider, Rate, Row, Space, Tag } from "@Lib/index";
+import { Badge, Card, Col, Divider, Rate, Row, Space, Tag } from "antd";
 import {
   BarChartOutlined,
   BookOutlined,
@@ -101,17 +101,17 @@ function TestCard(props: TestCardPropsI) {
         }
       }}
       bodyStyle={{ padding: 15 }}
-      // cover={
-      //   test.thumbnailImage ? (
-      //     !props.hideCoverImg ? (
-      //       <Image
-      //         alt="example"
-      //         style={{ height: 140 }}
-      //         src={test.thumbnailImage}
-      //       />
-      //     ) : null
-      //   ) : null
-      // }
+    // cover={
+    //   test.thumbnailImage ? (
+    //     !props.hideCoverImg ? (
+    //       <Image
+    //         alt="example"
+    //         style={{ height: 140 }}
+    //         src={test.thumbnailImage}
+    //       />
+    //     ) : null
+    //   ) : null
+    // }
     >
       <Card.Meta
         title={

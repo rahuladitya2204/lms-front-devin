@@ -13,7 +13,7 @@ import {
   Space,
   Spin,
   Tag,
-} from "@Lib/index";
+} from "antd";
 import {
   CloudOutlined,
   DotChartOutlined,
@@ -127,7 +127,7 @@ export default function NewsDetailScreen(props: NewsDetailScreenPropsI) {
                   <AudioPlayer
                     // @ts-ignore
                     src={newsItem?.audio?.url}
-                    // preview
+                  // preview
                   />
                   <Divider />
                 </Col>
@@ -193,7 +193,7 @@ export default function NewsDetailScreen(props: NewsDetailScreenPropsI) {
                                       <Card
                                         style={{ marginBottom: 20 }}
                                         title={<Text>{article.title}</Text>}
-                                        // extra={article.category.map(c => <Tag color="blue">{c}</Tag>)}
+                                      // extra={article.category.map(c => <Tag color="blue">{c}</Tag>)}
                                       >
                                         {/* @ts-ignore */}
                                         <Text>{article?.text["eng"]}</Text>

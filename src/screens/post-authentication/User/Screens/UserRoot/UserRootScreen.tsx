@@ -1,4 +1,4 @@
-import { Col, Menu, Row } from "@Lib/index";
+import { Col, Menu, Row } from "antd";
 import { Constants, Enum, Store, User } from "@adewaskar/lms-common";
 import Layout, { Content, Sider } from "@Components/Layout";
 import { MENU_ITEMS, MenuItems } from "./constants";

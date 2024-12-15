@@ -13,7 +13,7 @@ import {
   Space,
   Table,
   Tag,
-} from "@Lib/index";
+} from "antd";
 import slugify from "slugify";
 import Container from "@Components/Container";
 import Header from "@User/Screens/UserRoot/UserHeader";

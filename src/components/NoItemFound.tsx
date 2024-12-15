@@ -1,4 +1,4 @@
-import { Button, Card, Col, Image, Row } from "@Lib/index";
+import { Button, Card, Col, Image, Row } from "antd";
 
 import { Title } from "./Typography/Typography";
 import { useNavigate } from "@Router/index";

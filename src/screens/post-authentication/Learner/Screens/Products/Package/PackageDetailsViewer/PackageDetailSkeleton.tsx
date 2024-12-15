@@ -12,7 +12,7 @@ import {
   Skeleton,
   Tag,
   message,
-} from "@Lib/index";
+} from "antd";
 import { AlertOutlined, UserOutlined } from "@ant-design/icons";
 import { Constants, Enum, Store, Types, Utils } from "@adewaskar/lms-common";
 import { useEffect, useState } from "react";
@@ -106,7 +106,7 @@ const PackageCard = () => {
               active
               block
               style={{ height: 200 }}
-              // preview={false}
+            // preview={false}
             />
           </Col>
           <Col span={24}>

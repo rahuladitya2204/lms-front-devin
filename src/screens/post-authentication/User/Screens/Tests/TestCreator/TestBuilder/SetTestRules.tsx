@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Form, Row, Space, Switch } from "@Lib/index";
+import { Button, Col, Divider, Form, Row, Space, Switch } from "antd";
 import { Types, User } from "@adewaskar/lms-common";
 
 import { Typography } from "@Components/Typography";
@@ -66,7 +66,7 @@ export default function SetTestRules(props: SetTestRulesPropsI) {
           <Form.Item
             valuePropName="checked"
             name={["procturing", "enabled"]}
-            // label=""
+          // label=""
           >
             <SwitchButton style={{ marginTop: 20 }} />
           </Form.Item>

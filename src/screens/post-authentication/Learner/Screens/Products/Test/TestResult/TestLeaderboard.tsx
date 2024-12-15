@@ -1,5 +1,5 @@
 import { Enum, Learner, Types, User } from "@adewaskar/lms-common";
-import { Table, Tag } from "@Lib/index";
+import { Table, Tag } from "antd";
 
 import { Title } from "@Components/Typography/Typography";
 import { Typography } from "@Components/Typography";

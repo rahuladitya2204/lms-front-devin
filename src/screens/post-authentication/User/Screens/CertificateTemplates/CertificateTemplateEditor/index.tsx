@@ -1,4 +1,4 @@
-import { Button, Card, Form, Select, Space, message } from "@Lib/index";
+import { Button, Card, Form, Select, Space, message } from "antd";
 import { Fragment, useEffect } from "react";
 
 import BackButton from "@Components/BackButton";

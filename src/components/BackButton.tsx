@@ -1,5 +1,5 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { Button } from "@Lib/index";
+import { Button } from "antd";
 import { ButtonProps } from "antd/lib";
 import { useNavigate } from "@Router/index";
 

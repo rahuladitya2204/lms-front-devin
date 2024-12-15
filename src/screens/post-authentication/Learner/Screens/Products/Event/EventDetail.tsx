@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Space, Tag, message } from "@Lib/index";
+import { Button, Card, Col, Row, Space, Tag, message } from "antd";
 import {
   Constants,
   Enum,
@@ -24,7 +24,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 const { Text, Title } = Typography;
 
-interface EventDetailScreenPropsI {}
+interface EventDetailScreenPropsI { }
 
 export default function EventDetailScreen(props: EventDetailScreenPropsI) {
   const isSignedIn = Store.useAuthentication((s) => s.isSignedIn);

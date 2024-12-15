@@ -8,7 +8,7 @@ import {
   Spin,
   Tag,
   message,
-} from "@Lib/index";
+} from "antd";
 import {
   ClockCircleOutlined,
   EyeOutlined,

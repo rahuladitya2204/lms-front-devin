@@ -8,7 +8,7 @@ import {
   Row,
   Space,
   Spin,
-} from "@Lib/index";
+} from "antd";
 import {
   LogoutOutlined,
   MenuOutlined,

@@ -1,4 +1,4 @@
-import { Col, Modal, Row, Spin } from "@Lib/index";
+import { Col, Modal, Row, Spin } from "antd";
 import React, {
   Fragment,
   Suspense,

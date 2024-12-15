@@ -1,6 +1,6 @@
 import { Enum, User } from "@adewaskar/lms-common";
 
-import { Button } from "@Lib/index";
+import { Button } from "antd";
 import Calendar from "@Components/Calendar/Calendar";
 import Header from "@User/Screens/UserRoot/UserHeader";
 import PastEvent from "./PastEvent";

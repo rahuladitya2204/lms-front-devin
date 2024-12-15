@@ -15,7 +15,7 @@ import {
   Spin,
   Tooltip,
   message,
-} from "@Lib/index";
+} from "antd";
 import { AppCamera, useCamera } from "@Components/ActionModal/Camera/AppCamera";
 import {
   ArrowLeftOutlined,
@@ -562,9 +562,8 @@ const DraggableFileItem = ({
   const { mutate: uploadFiles, isLoading: uploadingFile } =
     Common.Queries.useUploadFiles();
   const user = Store.useAuthentication((s) => s.user);
-  const prefixKey = `tests/${testId}/answer-sheets/${user._id}/page-${
-    index + 1
-  }`;
+  const prefixKey = `tests/${testId}/answer-sheets/${user._id}/page-${index + 1
+    }`;
   return (
     <Spin spinning={uploadingFile}>
       <div ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }}>

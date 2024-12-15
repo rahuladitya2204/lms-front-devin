@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input } from "@Lib/index";
+import { Button, Checkbox, Form, Input } from "antd";
 import { Types, User } from "@adewaskar/lms-common";
 
 import AuthenticationCard from "@Components/AuthenticationCard";

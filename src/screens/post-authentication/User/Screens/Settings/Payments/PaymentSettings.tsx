@@ -8,7 +8,7 @@ import {
   Row,
   Select,
   message,
-} from "@Lib/index";
+} from "antd";
 import { Fragment, useEffect } from "react";
 import { Types, User } from "@adewaskar/lms-common";
 
@@ -103,7 +103,7 @@ function PaymentSettings() {
           <Form.Item
             label="Tax Applicable"
             name={["global", "tax", "type"]}
-            // rules={[{ required: true, message: 'Please input your username!' }]}
+          // rules={[{ required: true, message: 'Please input your username!' }]}
           >
             <Select
               style={{ width: 200 }}
@@ -115,7 +115,7 @@ function PaymentSettings() {
           <Form.Item
             label="Tax Rate"
             name={["global", "tax", "rate"]}
-            // rules={[{ required: true, message: 'Please input your username!' }]}
+          // rules={[{ required: true, message: 'Please input your username!' }]}
           >
             <Input type="number" />
           </Form.Item>
@@ -124,7 +124,7 @@ function PaymentSettings() {
           <Form.Item
             label="Payment Gateway"
             name={["global", "gateway", "id"]}
-            // rules={[{ required: true, message: 'Please input your username!' }]}
+          // rules={[{ required: true, message: 'Please input your username!' }]}
           >
             <Select
               style={{ width: 200 }}
@@ -138,7 +138,7 @@ function PaymentSettings() {
               <Form.Item
                 label="Access Key"
                 name={["global", "gateway", "access", "key"]}
-                // rules={[{ required: true, message: 'Please input your username!' }]}
+              // rules={[{ required: true, message: 'Please input your username!' }]}
               >
                 <Input />
               </Form.Item>
@@ -148,7 +148,7 @@ function PaymentSettings() {
               <Form.Item
                 label="Access Secret"
                 name={["global", "gateway", "access", "secret"]}
-                // rules={[{ required: true, message: 'Please input your username!' }]}
+              // rules={[{ required: true, message: 'Please input your username!' }]}
               >
                 <Input />
               </Form.Item>

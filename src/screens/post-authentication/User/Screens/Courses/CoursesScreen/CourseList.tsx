@@ -15,7 +15,7 @@ import {
     Switch,
     Tabs,
     Tag,
-} from "@Lib/index";
+} from "antd";
 import {
     BarChartOutlined,
     ClockCircleOutlined,

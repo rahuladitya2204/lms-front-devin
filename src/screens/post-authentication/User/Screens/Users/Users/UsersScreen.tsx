@@ -8,7 +8,7 @@ import {
   message,
   Form,
   Switch,
-} from "@Lib/index";
+} from "antd";
 import {
   DeleteOutlined,
   EditOutlined,

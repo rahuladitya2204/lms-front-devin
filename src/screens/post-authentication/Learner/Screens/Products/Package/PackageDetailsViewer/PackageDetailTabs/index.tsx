@@ -4,7 +4,7 @@ import PackageOverview from "./PackageOverview";
 import PackageProducts from "./PackageProducts";
 import Tabs from "@Components/Tabs";
 import { Learner, Types } from "@adewaskar/lms-common";
-import { Button, Divider, Skeleton } from "@Lib/index";
+import { Button, Divider, Skeleton } from "antd";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 
 interface PackageDetailsTabsPropsI {

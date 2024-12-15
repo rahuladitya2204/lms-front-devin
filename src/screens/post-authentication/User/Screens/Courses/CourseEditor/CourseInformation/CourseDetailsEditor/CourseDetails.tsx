@@ -11,7 +11,7 @@ import {
   Space,
   Spin,
   TreeSelect,
-} from "@Lib/index";
+} from "antd";
 import { Constants, Types } from "@adewaskar/lms-common";
 import { User, Utils } from "@adewaskar/lms-common";
 

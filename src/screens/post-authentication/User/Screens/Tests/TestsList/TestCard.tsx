@@ -1,4 +1,4 @@
-import { Avatar, Badge, Card, Space, Tag, Tooltip } from "@Lib/index";
+import { Avatar, Badge, Card, Space, Tag, Tooltip } from "antd";
 import {
   BarChartOutlined,
   EyeOutlined,

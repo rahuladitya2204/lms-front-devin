@@ -12,7 +12,7 @@ import {
   Space,
   Tag,
   message,
-} from "@Lib/index";
+} from "antd";
 import { Learner, Utils } from "@adewaskar/lms-common";
 
 import BgImage from "./image.svg";

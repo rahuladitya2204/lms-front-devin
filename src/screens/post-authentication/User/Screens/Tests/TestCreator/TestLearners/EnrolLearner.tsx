@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row, Select, Spin, message } from "@Lib/index";
+import { Button, Col, Form, Row, Select, Spin, message } from "antd";
 import { Types, User } from "@adewaskar/lms-common";
 
 import { ActionModalI } from "@Components/ActionModal/ActionModal";

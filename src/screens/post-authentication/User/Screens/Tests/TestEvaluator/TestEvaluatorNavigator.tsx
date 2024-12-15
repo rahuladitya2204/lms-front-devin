@@ -1,4 +1,4 @@
-import { Button, Collapse, List, Modal, Space, Tag, Tooltip } from "@Lib/index";
+import { Button, Collapse, List, Modal, Space, Tag, Tooltip } from "antd";
 import {
   CheckCircleTwoTone,
   DeleteOutlined,

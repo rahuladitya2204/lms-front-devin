@@ -1,4 +1,4 @@
-import { Button, Col, Form, Popover, Row } from "@Lib/index";
+import { Button, Col, Form, Popover, Row } from "antd";
 import { Types, User } from "@adewaskar/lms-common";
 
 import TextArea from "@Components/Textarea";

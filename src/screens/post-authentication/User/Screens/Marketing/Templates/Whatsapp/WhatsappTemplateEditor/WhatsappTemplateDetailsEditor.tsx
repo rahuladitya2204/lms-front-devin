@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import { Common, Types, User } from "@adewaskar/lms-common";
-import { Form, Space } from "@Lib/index";
+import { Form, Space } from "antd";
 import React, { Fragment } from "react";
 
 import TextArea from "@Components/Textarea";

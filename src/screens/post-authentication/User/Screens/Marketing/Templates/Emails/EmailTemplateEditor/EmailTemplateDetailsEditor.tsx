@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { Col, Form, Input, Row, Space } from "@Lib/index";
+import { Col, Form, Input, Row, Space } from "antd";
 import { Common, Types, User } from "@adewaskar/lms-common";
 import React, { Fragment } from "react";
 

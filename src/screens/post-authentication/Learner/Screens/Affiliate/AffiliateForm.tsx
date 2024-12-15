@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row, message } from "@Lib/index";
+import { Button, Col, Form, Input, Row, message } from "antd";
 
 import AffiliateDashboard from "./AffiliateDashboard";
 import AppImage from "@Components/Image";

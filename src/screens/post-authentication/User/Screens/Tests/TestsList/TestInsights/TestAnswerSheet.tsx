@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Col, Divider, Row, message } from "@Lib/index";
+import { Alert, Button, Card, Col, Divider, Row, message } from "antd";
 import { Enum, User } from "@adewaskar/lms-common";
 import OMRComponent, {
   OMRSKeleton,

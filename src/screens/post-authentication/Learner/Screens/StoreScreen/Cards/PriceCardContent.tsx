@@ -1,4 +1,4 @@
-import { Col, Row, Space, Tag, Typography } from "@Lib/index";
+import { Col, Row, Space, Tag, Typography } from "antd";
 import { useSearchParams } from "@Router/index";
 import { Types, Utils } from "@adewaskar/lms-common";
 import { useMemo } from "react";
@@ -18,7 +18,7 @@ export default function PriceCardContent({ plan, coupons }: PriceCardContentT) {
   const finalPriceValue = Math.ceil(
     coupon
       ? plan.displayPrice.value -
-          (plan.displayPrice.value * coupon.discount.value) / 100
+      (plan.displayPrice.value * coupon.discount.value) / 100
       : plan.finalPrice.value
   );
 

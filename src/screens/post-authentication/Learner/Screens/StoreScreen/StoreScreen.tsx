@@ -7,7 +7,7 @@ import {
   List,
   Row,
   Space,
-} from "@Lib/index";
+} from "antd";
 import { Learner, Store } from "@adewaskar/lms-common";
 
 import BGImage from "./HomeScreen/image2.svg";
@@ -18,7 +18,7 @@ import Image from "@Components/Image";
 import { NavLink } from "@Router/index";
 import PackageCard from "./Cards/PackageCard";
 import Section from "@Components/Section";
-import { Skeleton } from "@Lib/index";
+import { Skeleton } from "antd";
 import SkeletonImage from "@Components/SkeletonImage";
 import TestCard from "./Cards/TestCard";
 import { Typography } from "@Components/Typography";

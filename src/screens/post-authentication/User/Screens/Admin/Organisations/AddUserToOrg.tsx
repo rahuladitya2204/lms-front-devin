@@ -1,4 +1,4 @@
-import { Button, Form, Input, message, Modal, Select } from "@Lib/index";
+import { Button, Form, Input, message, Modal, Select } from "antd";
 import { Constants, Enum, Types } from "@adewaskar/lms-common";
 import React, { Fragment, ReactNode, useEffect, useState } from "react";
 
@@ -113,7 +113,7 @@ const AddUser: React.FC<AddUserToOrgComponentPropsI> = (props) => {
         key="submit"
         htmlType="submit"
         type="primary"
-        // onClick={form.submit}
+      // onClick={form.submit}
       >
         Submit
       </Button>

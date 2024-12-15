@@ -13,7 +13,7 @@ import {
   Space,
   Spin,
   Typography,
-} from "@Lib/index";
+} from "antd";
 import { Enum, Learner, Types, User } from "@adewaskar/lms-common";
 import React, { useEffect, useState } from "react";
 

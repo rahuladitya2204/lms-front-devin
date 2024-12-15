@@ -13,7 +13,7 @@ import {
   Spin,
   Tag,
   Timeline,
-} from "@Lib/index";
+} from "antd";
 import {
   ArrowLeftOutlined,
   LogoutOutlined,

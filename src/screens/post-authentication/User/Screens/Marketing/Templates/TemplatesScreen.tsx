@@ -9,7 +9,7 @@ import {
   Table,
   Tabs,
   Tag,
-} from "@Lib/index";
+} from "antd";
 import { Common, Types } from "@adewaskar/lms-common";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 

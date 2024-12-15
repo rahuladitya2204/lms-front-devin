@@ -13,7 +13,7 @@ import {
   Row,
   Skeleton,
   Tabs,
-} from "@Lib/index";
+} from "antd";
 import { useEffect, useMemo, useState } from "react";
 import ShowMore from "@Components/ShowMore/ShowMore";
 import { FAQsList } from "@Components/CreateFaqsComponent";

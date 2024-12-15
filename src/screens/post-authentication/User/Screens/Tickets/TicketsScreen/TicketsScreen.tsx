@@ -7,7 +7,7 @@ import {
   Space,
   Table,
   Tag,
-} from "@Lib/index";
+} from "antd";
 import { DeleteOutlined, DownOutlined, EditOutlined } from "@ant-design/icons";
 
 import Header from "@User/Screens/UserRoot/UserHeader";
@@ -28,11 +28,11 @@ function TicketsScreen() {
       <Card
         bodyStyle={{ padding: 0 }}
         title={"Support Tickets"}
-        // extra={
-        //   <ActionModal cta={<Button type="primary">Add User</Button>}>
-        //     <AddUser> </AddUser>
-        //   </ActionModal>
-        // }
+      // extra={
+      //   <ActionModal cta={<Button type="primary">Add User</Button>}>
+      //     <AddUser> </AddUser>
+      //   </ActionModal>
+      // }
       >
         <Row>
           <Col span={24}>
@@ -44,11 +44,11 @@ function TicketsScreen() {
               }}
               dataSource={tickets}
               loading={loading}
-              // onRow={() => {
-              //   return {
-              //     onClick: (a: any, e: any) => console.log(e, 'eee')
-              //   }
-              // }}
+            // onRow={() => {
+            //   return {
+            //     onClick: (a: any, e: any) => console.log(e, 'eee')
+            //   }
+            // }}
             >
               {/* <Table.Column
                 title="Contact Name"

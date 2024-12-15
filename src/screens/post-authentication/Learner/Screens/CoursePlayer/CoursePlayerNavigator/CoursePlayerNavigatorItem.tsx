@@ -9,7 +9,7 @@ import {
   Space,
   Tag,
   Tooltip,
-} from "@Lib/index";
+} from "antd";
 import { Learner, Utils } from "@adewaskar/lms-common";
 import { Unit, unit } from "mathjs";
 

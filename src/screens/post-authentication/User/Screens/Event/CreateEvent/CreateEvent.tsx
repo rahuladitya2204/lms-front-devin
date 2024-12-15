@@ -12,7 +12,7 @@ import {
   Select,
   Table,
   Tag,
-} from "@Lib/index";
+} from "antd";
 import { Enum, Types } from "@adewaskar/lms-common";
 import React, { Fragment, ReactNode, useEffect, useState } from "react";
 import { useNavigate, useParams } from "@Router/index";

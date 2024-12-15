@@ -1,4 +1,4 @@
-import { Button, Card, Form, message } from "@Lib/index";
+import { Button, Card, Form, message } from "antd";
 import { Fragment, useEffect } from "react";
 
 import Header from "@Components/Header";

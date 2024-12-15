@@ -13,7 +13,7 @@ import {
   Spin,
   Tag,
   notification,
-} from "@Lib/index";
+} from "antd";
 import { Constants, Enum, Learner, Store } from "@adewaskar/lms-common";
 import { TERMS, TEST_RULES } from "./constant";
 import { useNavigate, useParams } from "@Router/index";

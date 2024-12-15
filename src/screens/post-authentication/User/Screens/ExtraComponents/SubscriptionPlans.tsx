@@ -21,7 +21,7 @@ import {
   Space,
   Badge,
   Modal,
-} from "@Lib/index";
+} from "antd";
 import { useNavigate } from "@Router/index";
 import { Learner } from "@adewaskar/lms-common";
 import Tabs from "@Components/Tabs";

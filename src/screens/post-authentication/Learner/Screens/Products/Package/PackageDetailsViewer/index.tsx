@@ -13,7 +13,7 @@ import {
   Skeleton,
   Tag,
   message,
-} from "@Lib/index";
+} from "antd";
 import {
   AlertOutlined,
   DollarOutlined,

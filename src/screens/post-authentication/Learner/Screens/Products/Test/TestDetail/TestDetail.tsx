@@ -10,7 +10,7 @@ import {
   Space,
   Tag,
   message,
-} from "@Lib/index";
+} from "antd";
 import {
   BookOutlined,
   CalendarOutlined,

@@ -12,7 +12,7 @@ import {
   Spin,
   Table,
   Tag,
-} from "@Lib/index";
+} from "antd";
 import { useEffect, useState } from "react";
 
 import EmailTemplatesScreen from "./EmailTemplatesScreen";

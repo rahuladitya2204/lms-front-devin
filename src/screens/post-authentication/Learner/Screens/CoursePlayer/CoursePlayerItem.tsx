@@ -6,7 +6,7 @@ import CoursePlayerTextItem from "./CoursePlayerItems/Text";
 import ErrorBoundary from "@Components/ErrorBoundary";
 import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
 import PDFViewer from "@Components/PDFViewer";
-import { Card, Col, Row, Skeleton, Spin } from "@Lib/index";
+import { Card, Col, Row, Skeleton, Spin } from "antd";
 
 import { useParams } from "@Router/index";
 import { useOutletContext } from "react-router";

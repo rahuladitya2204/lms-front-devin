@@ -6,7 +6,7 @@ import { FormInstance } from "antd/lib/form/Form";
 import { User } from "@adewaskar/lms-common";
 import { debounce } from "lodash";
 import useMessage from "@Hooks/useMessage";
-import { message } from "@Lib/index";
+import { message } from "antd";
 import { useCourseStore } from "../../useCourseStore";
 
 function useUploadItemForm(form?: FormInstance) {

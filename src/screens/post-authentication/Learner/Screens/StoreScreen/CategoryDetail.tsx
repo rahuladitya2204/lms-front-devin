@@ -1,4 +1,4 @@
-import { Col, Row, Skeleton } from "@Lib/index";
+import { Col, Row, Skeleton } from "antd";
 import { Learner, Types } from "@adewaskar/lms-common";
 
 import AppImage from "@Components/Image";
@@ -12,7 +12,7 @@ import { Typography } from "@Components/Typography";
 import { capitalize } from "lodash";
 import { useParams } from "@Router/index";
 
-interface CategoryDetailPropsI {}
+interface CategoryDetailPropsI { }
 
 const { Title, Text } = Typography;
 

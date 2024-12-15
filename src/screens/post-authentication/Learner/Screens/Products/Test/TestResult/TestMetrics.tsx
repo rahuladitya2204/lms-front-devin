@@ -29,7 +29,7 @@ import {
   Spin,
   Statistic,
   Tag,
-} from "@Lib/index";
+} from "antd";
 import {
   Bar,
   BarChart,

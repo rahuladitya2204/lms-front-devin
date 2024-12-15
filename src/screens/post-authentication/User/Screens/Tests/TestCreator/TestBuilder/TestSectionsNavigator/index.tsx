@@ -7,7 +7,7 @@ import {
   Spin,
   Tag,
   Tooltip,
-} from "@Lib/index";
+} from "antd";
 import {
   CheckCircleTwoTone,
   DeleteOutlined,

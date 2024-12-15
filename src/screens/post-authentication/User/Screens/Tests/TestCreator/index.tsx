@@ -10,7 +10,7 @@ import {
   Spin,
   Tag,
   message,
-} from "@Lib/index";
+} from "antd";
 import * as React from "react";
 import { Constants, Enum, Types, Utils } from "@adewaskar/lms-common";
 import {

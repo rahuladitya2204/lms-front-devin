@@ -9,7 +9,7 @@ import {
   Skeleton,
   Statistic,
   Tag,
-} from "@Lib/index";
+} from "antd";
 import {
   CloseOutlined,
   UserOutlined,
@@ -146,10 +146,10 @@ const TestStatus = () => {
                       <Statistic
                         title="Total Students"
                         value={result.totalStudents}
-                        // precision={2}
-                        // valueStyle={{ color: '#3f8600' }}
-                        // prefix={<UserOutlined />}
-                        // suffix="%"
+                      // precision={2}
+                      // valueStyle={{ color: '#3f8600' }}
+                      // prefix={<UserOutlined />}
+                      // suffix="%"
                       />
                     </Card>
                   </Col>
@@ -159,7 +159,7 @@ const TestStatus = () => {
                       <Statistic
                         title="Average Score"
                         value={Math.ceil(result.averageScore)}
-                        // prefix={<UserOutlined />}
+                      // prefix={<UserOutlined />}
                       />
                     </Card>
                   </Col>
@@ -169,7 +169,7 @@ const TestStatus = () => {
                       <Statistic
                         title="Absent Students"
                         value={result.absentStudents}
-                        // prefix={<CloseOutlined />}
+                      // prefix={<CloseOutlined />}
                       />
                     </Card>
                   </Col>
@@ -179,7 +179,7 @@ const TestStatus = () => {
                       <Statistic
                         title="Finished Students"
                         value={result.completedTest}
-                        // prefix={<UserOutlined />}
+                      // prefix={<UserOutlined />}
                       />
                     </Card>
                   </Col>
@@ -192,7 +192,7 @@ const TestStatus = () => {
                           <Statistic
                             title="Passed Students"
                             value={result.totalPassing}
-                            // prefix={<UserOutlined />}
+                          // prefix={<UserOutlined />}
                           />
                         </Card>
                       </Col>
@@ -202,7 +202,7 @@ const TestStatus = () => {
                             <Statistic
                               title="Failed Students"
                               value={result.totalFailed}
-                              // prefix={<UserOutlined />}
+                            // prefix={<UserOutlined />}
                             />
                           </Card>
                         </Col>

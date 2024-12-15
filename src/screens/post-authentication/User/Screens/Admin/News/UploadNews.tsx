@@ -6,7 +6,7 @@ import {
   Row,
   Select,
   message,
-} from "@Lib/index";
+} from "antd";
 import { Types, User } from "@adewaskar/lms-common";
 
 import FileList from "@Components/FileList";

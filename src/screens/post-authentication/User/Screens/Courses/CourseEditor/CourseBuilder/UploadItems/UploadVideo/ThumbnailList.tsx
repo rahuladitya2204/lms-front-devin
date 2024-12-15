@@ -7,7 +7,7 @@ import {
   Progress,
   Space,
   Spin,
-} from "@Lib/index";
+} from "antd";
 import { Common, Types, User } from "@adewaskar/lms-common";
 import { Fragment, useEffect, useState } from "react";
 import { debounce, uniqueId } from "lodash";
@@ -113,8 +113,8 @@ const ThumbnailList: any = (props: ThumbnailListPropsI) => {
   const spinText = generating
     ? "Generating Thumbnails.."
     : uploading
-    ? "Uploading Thumbnail.."
-    : null;
+      ? "Uploading Thumbnail.."
+      : null;
   return (
     <>
       <Button

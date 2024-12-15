@@ -1,6 +1,6 @@
 "use client";
 import SkeletonImage from "@Components/SkeletonImage";
-import { Col, Divider, Row, Skeleton } from "@Lib/index";
+import { Col, Divider, Row, Skeleton } from "antd";
 
 const HomeScreenSkeleton = () => {
   const arr = [1, 1, 1, 1, 1, 1, 1, 1];

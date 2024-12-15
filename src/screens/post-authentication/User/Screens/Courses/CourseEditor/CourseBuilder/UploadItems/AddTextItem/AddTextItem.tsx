@@ -9,7 +9,7 @@ import {
   Row,
   Spin,
   TreeSelect,
-} from "@Lib/index";
+} from "antd";
 import { Constants, Types, User } from "@adewaskar/lms-common";
 import React, { useEffect } from "react";
 import InputTags from "@Components/InputTags/InputTags";

@@ -10,7 +10,7 @@ import {
   Space,
   Switch,
   TreeSelect,
-} from "@Lib/index";
+} from "antd";
 import { Enum, Types, User } from "@adewaskar/lms-common";
 import { useEffect, useMemo } from "react";
 

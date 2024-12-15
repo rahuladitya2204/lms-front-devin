@@ -10,7 +10,7 @@ import {
   Input,
   Row,
   message,
-} from "@Lib/index";
+} from "antd";
 import {
   ArrowLeftOutlined,
   ContactsFilled,

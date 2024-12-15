@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, message, Row } from "@Lib/index";
+import { Button, Card, Col, Form, message, Row } from "antd";
 import { Constants, Types } from "@adewaskar/lms-common";
 import { EyeOutlined, SaveOutlined, UploadOutlined } from "@ant-design/icons";
 import { Fragment, useEffect, useState } from "react";

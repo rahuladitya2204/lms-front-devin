@@ -10,7 +10,7 @@ import {
   Space,
   Switch,
   message,
-} from "@Lib/index";
+} from "antd";
 import { Constants, Types } from "@adewaskar/lms-common";
 import { User } from "@adewaskar/lms-common";
 import { useEffect } from "react";

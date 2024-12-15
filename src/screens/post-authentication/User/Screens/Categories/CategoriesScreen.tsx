@@ -1,4 +1,4 @@
-import { Avatar, Button, Space } from "@Lib/index";
+import { Avatar, Button, Space } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
 

@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input } from "@Lib/index";
+import { Button, Checkbox, Form, Input } from "antd";
 
 import AuthenticationCard from "@Components/AuthenticationCard";
 import { NavLink } from "@Router/index";

@@ -1,6 +1,6 @@
 import { Enum, Learner, Types, Utils } from "@adewaskar/lms-common";
 
-import { Button, Card, Col, Row, Skeleton } from "@Lib/index";
+import { Button, Card, Col, Row, Skeleton } from "antd";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import ProductDiscussion from "@Learner/Screens/ProductDiscussion";
 import React from "react";

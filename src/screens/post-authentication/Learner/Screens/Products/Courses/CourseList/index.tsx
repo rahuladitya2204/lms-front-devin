@@ -1,4 +1,4 @@
-import { Card, Col, List, Row, Skeleton } from "@Lib/index";
+import { Card, Col, List, Row, Skeleton } from "antd";
 import React, { Fragment } from "react";
 
 import CourseCard from "./CourseCard";

@@ -7,7 +7,7 @@ import {
   Skeleton,
   Space,
   Spin,
-} from "@Lib/index";
+} from "antd";
 
 import ActionModal from "@Components/ActionModal/ActionModal";
 import CreateTicket from "../CreateTicket";

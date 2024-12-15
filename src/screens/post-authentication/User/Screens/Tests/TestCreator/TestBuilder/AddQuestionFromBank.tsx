@@ -10,7 +10,7 @@ import {
   TreeSelect,
   Typography,
   message,
-} from "@Lib/index";
+} from "antd";
 import { Constants, Enum, Types, User, Utils } from "@adewaskar/lms-common";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";

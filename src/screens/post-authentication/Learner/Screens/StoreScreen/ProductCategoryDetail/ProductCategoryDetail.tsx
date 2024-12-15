@@ -18,7 +18,7 @@ import {
   Tag,
   Tooltip,
   message,
-} from "@Lib/index";
+} from "antd";
 import {
   BookOutlined,
   CalendarOutlined,

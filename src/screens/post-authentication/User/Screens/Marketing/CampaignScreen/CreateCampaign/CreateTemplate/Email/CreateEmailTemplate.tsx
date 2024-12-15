@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Form, Input, Popover, Row } from "@Lib/index";
+import { Button, Col, Divider, Form, Input, Popover, Row } from "antd";
 import { Types, User } from "@adewaskar/lms-common";
 import { useLayoutEffect, useState } from "react";
 

@@ -8,7 +8,7 @@ import {
   Space,
   Table,
   Tag,
-} from "@Lib/index";
+} from "antd";
 import { Common, Types } from "@adewaskar/lms-common";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 
@@ -121,19 +121,19 @@ function WhatsappTemplatesScreen() {
                     items: [
                       record.status === "draft"
                         ? {
-                            label: (
-                              <a
-                                onClick={() => {
-                                  sendForApproval({
-                                    id: record._id + "",
-                                  });
-                                }}
-                              >
-                                Send for approval
-                              </a>
-                            ),
-                            key: "send",
-                          }
+                          label: (
+                            <a
+                              onClick={() => {
+                                sendForApproval({
+                                  id: record._id + "",
+                                });
+                              }}
+                            >
+                              Send for approval
+                            </a>
+                          ),
+                          key: "send",
+                        }
                         : null,
                       {
                         label: (

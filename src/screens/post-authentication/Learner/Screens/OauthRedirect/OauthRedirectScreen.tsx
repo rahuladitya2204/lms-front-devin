@@ -1,4 +1,4 @@
-import { Tabs } from "@Lib/index";
+import { Tabs } from "antd";
 import { useEffect } from "react";
 import { useSearchParams } from "@Router/index";
 

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Button, Popconfirm, Skeleton, Tree, message } from "@Lib/index";
+import { Button, Popconfirm, Skeleton, Tree, message } from "antd";
 import {
   DeleteOutlined,
   DownOutlined,

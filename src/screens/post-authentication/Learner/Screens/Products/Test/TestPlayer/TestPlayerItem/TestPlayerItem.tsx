@@ -30,7 +30,7 @@ import {
   Tag,
   Tooltip,
   theme,
-} from "@Lib/index";
+} from "antd";
 import { Enum, Learner, Store, Types } from "@adewaskar/lms-common";
 import {
   Fragment,

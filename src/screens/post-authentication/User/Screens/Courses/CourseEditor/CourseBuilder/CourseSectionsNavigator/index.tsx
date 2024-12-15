@@ -8,7 +8,7 @@ import {
   Modal,
   Space,
   Tooltip,
-} from "@Lib/index";
+} from "antd";
 import { DeleteOutlined, PlusOutlined, SaveOutlined } from "@ant-design/icons";
 import { Fragment, useCallback, useEffect, useState } from "react";
 

@@ -9,7 +9,7 @@ import {
   Spin,
   Tag,
   message,
-} from "@Lib/index";
+} from "antd";
 import { Enum, Types, Utils } from "@adewaskar/lms-common";
 import React, { Fragment, ReactNode, useEffect } from "react";
 import { useNavigate, useParams } from "@Router/index";
@@ -164,10 +164,10 @@ const CreateBlog: React.FC<CreateBlogComponentPropsI> = (props) => {
           {blogDetails.status !== Enum.BlogStatus.PUBLISHED
             ? PublishBlog
             : [
-                <Tag style={{ marginLeft: 10 }} color="green">
-                  Published
-                </Tag>,
-              ]}
+              <Tag style={{ marginLeft: 10 }} color="green">
+                Published
+              </Tag>,
+            ]}
         </span>
       }
       extra={[

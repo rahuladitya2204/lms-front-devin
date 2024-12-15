@@ -20,7 +20,7 @@ import {
   Tree,
   TreeSelect,
   message,
-} from "@Lib/index";
+} from "antd";
 import { Constants, Enum, Types, User, Utils } from "@adewaskar/lms-common";
 import {
   DeleteTwoTone,

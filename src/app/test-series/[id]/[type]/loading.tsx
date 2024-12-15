@@ -1,5 +1,5 @@
 "use client";
-import { Col, Divider, Row, Skeleton } from "@Lib/index";
+import { Col, Divider, Row, Skeleton } from "antd";
 
 export default function Loading() {
   return (
