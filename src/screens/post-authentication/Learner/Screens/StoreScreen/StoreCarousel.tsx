@@ -38,7 +38,7 @@ function HomeCarousel() {
         {packages.map(bundle => {
           return <div style={contentStyle}>
             <Row gutter={[10, 20]}>
-              <Col span={8}>
+              <Col xs={24} sm={24} md={8}>
                 <div style={{ margin: 'auto' }}><Image height={180} width={300} src={bundle.thumbnailImage} /></div>
               </Col>
               <Col span={16}>

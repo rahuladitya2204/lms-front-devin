@@ -72,7 +72,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
               <Divider style={{ marginBottom: 0 }} />
             </Col>
           ) : null}
-          <Col span={24}>
+          <Col xs={24} sm={24} md={24}>
             <Title style={{ marginBottom: 20, fontSize: 28 }} level={2}>
               Our Best In-Class Test Series
             </Title>
