@@ -35,27 +35,22 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
     currentQuestionIndex,
     loading: loadingQuestion,
   } = useQuestion();
+
   const TAB_ITEMS = [];
   if (currentQuestion.solution?.html[language]) {
-    TAB_ITEMS.push(
-      {
+    if (htmlToText(currentQuestion.solution?.html[language]).length) {
+      TAB_ITEMS.push({
         label: `Solution`,
         key: "notes",
         children: (
-          <HtmlViewer content={currentQuestion.solution?.html[language] + ""} />
+          <HtmlViewer customStyles={`
+             .html-viewer p {
+                font-size: 16px;
+              }
+              `} content={currentQuestion.solution?.html[language] + ""} />
         ),
-      },
-      {
-        label: `Discussion`,
-        key: "discussion",
-        children: (
-          <ProductDiscussion
-            itemId={props.itemId}
-            product={{ type: "test", id: test._id + "" }}
-          />
-        ),
-      }
-    );
+      })
+    }
   }
   const {
     mutate: printTestQuestionSolution,
@@ -179,6 +174,11 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
               </Col>
             </Row>
           </Col>
+          {TAB_ITEMS.length ? <Col span={24}>
+            <Card>
+              <Tabs tabKey="pyq-test" defaultActiveKey="1" items={TAB_ITEMS} />
+            </Card>
+          </Col> : null}
         </>
       )}
     </Row>

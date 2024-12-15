@@ -25,6 +25,7 @@ import { features } from "./constant";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import MiniCard from "../Cards/MiniCard";
 import { Link } from "@Router/index";
+import HomeCarousel from "../StoreCarousel";
 const { Title, Paragraph } = Typography;
 
 interface LearnerHomeScreenPropsI {
@@ -71,6 +72,19 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
               <Divider style={{ marginBottom: 0 }} />
             </Col>
           ) : null}
+          <Col span={24}>
+            <Title style={{ marginBottom: 20, fontSize: 28 }} level={2}>
+              Our Best In-Class Test Series
+            </Title>
+            <Card>
+              <Row>
+                <Col span={24}>
+                  <HomeCarousel />
+                </Col>
+              </Row>
+            </Card>
+
+          </Col>
           <Col span={24}>
             <Title style={{ marginBottom: 20, fontSize: 28 }} level={2}>
               Popular Exams

@@ -184,15 +184,21 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
                   const lng = Object.keys(O).filter((key) =>
                     htmlToText(O[key])
                   )[0];
+                  const LANG = Constants.LANGUAGES.find(
+                    (o) => o.value === language
+                  )?.label;
                   console.log(lng, "lng");
                   const body = {
                     title: form.getFieldValue(["title", "text", lng]),
                     options: options.map((i) => i.text[lng]),
-                    language: Constants.LANGUAGES.find(
-                      (o) => o.value === language
-                    )?.label,
+                    language: LANG,
+                    solution: form.getFieldValue(["solution", "html", lng])
                   };
-                  return translateQuestion(body);
+                  return translateQuestion(body, {
+                    onSuccess: () => {
+                      message.success(`Question has been translated to ${LANG}`)
+                    }
+                  });
                 });
                 Promise.all(promises).then((data) => {
                   console.log(data, "huhuh");
@@ -200,6 +206,10 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
                     form.setFieldValue(
                       ["title", "text", langs[index]],
                       tr.title
+                    );
+                    form.setFieldValue(
+                      ["solution", "html", langs[index]],
+                      tr.solution
                     );
                     tr.options.forEach((opt, ind) => {
                       form.setFieldValue(
@@ -690,17 +700,24 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
                       form.getFieldValue(["title", "text", language])
                     ),
                     options: options.map((i) => htmlToText(i.text[language])),
-                    correctOption: htmlToText(
-                      options.find((o) => o.isCorrect).text[language]
-                    ),
                     language: Constants.LANGUAGES.find(
                       (l) => l.value === language
                     )?.label,
+                    category: test.category
                   };
                   console.log(body, "popop");
                   solveQuestion(body, {
-                    onSuccess: (d) => {
-                      form.setFieldValue(["solution", "html", language], d);
+                    onSuccess: (response) => {
+                      const question = cloneDeep(form.getFieldsValue());
+                      if (question.options.length)
+                        question.options.forEach((option, index) => {
+                          option.isCorrect = false;
+                        })
+                      question.options[response.correctAnswerIndex - 1].isCorrect = true;
+                      question.solution.html[language] = response.solution;
+                      console.log(question, 'question', response, '123123')
+                      form.setFieldsValue(question)
+                      message.success('Question has been solved successfully')
                     },
                   });
                 }}
