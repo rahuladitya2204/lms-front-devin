@@ -48,7 +48,7 @@ const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {
   //     children: <CourseItemPYQs itemId={props.itemId} course={props.course} />
   //   })
   // }
-  return <Tabs defaultActiveKey="1" items={TAB_ITEMS} />
+  return <Tabs tabKey='couse-player' defaultActiveKey="1" items={TAB_ITEMS} />
 }
 
 export default CoursePlayerMoreInfo

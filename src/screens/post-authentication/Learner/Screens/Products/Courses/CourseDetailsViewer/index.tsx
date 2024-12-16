@@ -300,7 +300,7 @@ const CourseCard = ({
                           <Button
                             className="go-to-course-button"
                             onClick={() =>
-                              navigate(
+                              window.open(
                                 `/app/${courseId}/enrolled-course`
                               )
                             }

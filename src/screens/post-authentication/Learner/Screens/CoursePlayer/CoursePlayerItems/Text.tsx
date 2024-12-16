@@ -51,8 +51,8 @@ const CoursePlayerTextItem: React.FC<CoursePlayerItemsPropsI> = (props) => {
             }} highlights={highlights}
               // protected
               customStyles={`
-        .html-viewer div.ant-typography {
-        font-size: 16px;
+        .html-viewer div.ant-typography, .html-viewer li.ant-list-item {
+        font-size: 15px;
         }
 
         .html-viewer figure img {

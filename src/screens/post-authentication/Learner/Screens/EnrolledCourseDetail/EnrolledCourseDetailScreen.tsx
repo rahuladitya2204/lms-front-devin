@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   Button,
   Card,
   Col,
@@ -203,55 +204,56 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
                             size="small"
                             bordered={false}
                             dataSource={section.items}
-                            renderItem={(item) => (
-                              <List.Item>
-                                <Card
-                                  hoverable
-                                  onClick={() => {
-                                    playItem(item._id)
-                                  }}
-                                  style={{ width: "100%", borderRadius: 10 }}
-                                  bodyStyle={{ padding: "0 20px" }}
-                                >
-                                  <Row gutter={[10, 10]}>
-                                    {/* <Col>
-                                      <Image
-                                        height={70}
-                                        width={100}
-                                        src={item.metadata?.thumbnail}
-                                      />
-                                    </Col> */}
-                                    {/* <Col span={1} /> */}
-                                    <Col
-                                      span={24}
-                                      style={{
-                                        marginTop: 10,
-                                        marginBottom: 10,
-                                      }}
+                            renderItem={(item) => {
+                              const Component = <Card
+                                hoverable
+                                onClick={() => {
+                                  playItem(item._id)
+                                }}
+                                style={{ width: "100%", borderRadius: 10 }}
+                                bodyStyle={{ padding: "0 20px" }}
+                              >
+                                <Row gutter={[10, 10]}>
+                                  {/* <Col>
+                                <Image
+                                  height={70}
+                                  width={100}
+                                  src={item.metadata?.thumbnail}
+                                />
+                              </Col> */}
+                                  {/* <Col span={1} /> */}
+                                  <Col
+                                    span={24}
+                                    style={{
+                                      marginTop: 10,
+                                      marginBottom: 10,
+                                    }}
+                                  >
+                                    <Title
+                                      ellipsis={{ rows: 1 }}
+                                      style={{ marginTop: 0, fontSize: 14 }}
+                                      level={5}
                                     >
-                                      <Title
-                                        ellipsis={{ rows: 1 }}
-                                        style={{ marginTop: 0, fontSize: 14 }}
-                                        level={5}
-                                      >
-                                        {item.title.text[defaultLanguage]}
-                                      </Title>
-                                      <Space>
-                                        <CourseItemDurationTag item={item} />
-                                        {item.files.length ? (
-                                          <Tag>
-                                            <FileOutlined
-                                              style={{ marginRight: 3 }}
-                                            />
-                                            {item.files.length}
-                                          </Tag>
-                                        ) : null}
-                                      </Space>
-                                    </Col>
-                                  </Row>
-                                </Card>
+                                      {item.title.text[defaultLanguage]}
+                                    </Title>
+                                    <Space>
+                                      <CourseItemDurationTag item={item} />
+                                      {item.files.length ? (
+                                        <Tag>
+                                          <FileOutlined
+                                            style={{ marginRight: 3 }}
+                                          />
+                                          {item.files.length}
+                                        </Tag>
+                                      ) : null}
+                                    </Space>
+                                  </Col>
+                                </Row>
+                              </Card>
+                              return <List.Item>
+                                {completed.includes(item._id) ? <Badge.Ribbon color='green-inverse' text='Completed'>{Component}</Badge.Ribbon> : Component}
                               </List.Item>
-                            )}
+                            }}
                           />
                         </Col>
                       );
