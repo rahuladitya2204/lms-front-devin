@@ -148,7 +148,7 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
 
                     <Col sm={12} xs={24} md={8} lg={5}>
                       <EditOutlined />{" "}
-                      <Text strong>{notes.length} Notes Taken</Text>
+                      <Text strong>{notes?.length} Notes Taken</Text>
                     </Col>
 
                     <Col sm={12} xs={24} md={8} lg={5}>
