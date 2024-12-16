@@ -40,13 +40,20 @@ import { Typography } from "@Components/Typography";
 import dayjs from "dayjs";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { CourseItemDurationTag } from "../CoursePlayer/CoursePlayerNavigator/CoursePlayerNavigatorItem";
+import styled from "styled-components";
 
 const { Title, Text } = Typography;
 const { Content } = Layout;
 
+const CustomProgress = styled(Progress)`
+.ant-progress-outer {
+padding: 0 !important;
+}
+`
 interface EnrolledCourseDetailScreenPropsI {
   //   courseId: string;
 }
+
 
 const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
   props
@@ -91,24 +98,42 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
               <Row>
                 <Col lg={18} md={18} sm={24} xs={24}>
                   <Title style={{ marginTop: 0 }}>{course.title}</Title>
-                  <Row justify="space-between">
-                    {/* <Col>
-                      <Space align="start">
-                        <Avatar
-                          style={{ marginBottom: 20 }}
-                          src={user.image}
-                        />
-                        <Text style={{ position: "relative", top: 4 }}>
-                          {user.name}
-                        </Text>
-                      </Space>
+                  <CustomProgress
+                    style={{ padding: 0 }}
+                    percent={progress}
+                    strokeColor={{ "0%": "#108ee9", "100%": "#87d068" }}
+                    format={() => null}
+                  />
+                  <Row gutter={[30, 10]}>
+                    <Col sm={12} xs={24} md={8} lg={6}>
+                      <FundProjectionScreenOutlined />{" "}
+                      <Text strong>
+                        {completed.length}/{course.totalItems} Lessons
+                      </Text>
+                    </Col>
+
+                    <Col sm={12} xs={24} md={8} lg={6}>
+                      {notes?.length ? <><EditOutlined />{" "}
+                        <Text strong>{notes?.length} Notes Taken</Text></> : null}
+                    </Col>
+
+                    {/* <Col sm={12} xs={24} md={8} lg={6}>
+                      <ClockCircleOutlined />{" "}
+                      <Text strong>{watchTime} Mins Watched</Text>
                     </Col> */}
-                    <Col
-                      // xs={24}
-                      flex={1}
-                      style={{ display: "flex", justifyContent: "flex-end" }}
-                    >
-                      {lastPlayed ? (
+
+                    <Col sm={12} xs={24} md={8} lg={6}>
+                      {expiresAt ? (
+                        <>
+                          <CalendarOutlined />{" "}
+                          <Text strong>{dayjs(expiresAt).format("LLL")}</Text>
+
+                        </>
+                      ) : null}
+                    </Col>
+
+                    <Col style={{ display: 'flex', justifyContent: 'end' }} sm={12} xs={24} md={8} lg={6}>
+                      {completed.length > 1 ? (
                         <Button
                           onClick={continueLearning}
                           icon={<PlayCircleOutlined />}
@@ -118,7 +143,7 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
                         </Button>
                       ) : (
                         <Button
-                          size={isMobile ? "large" : "middle"}
+                          size={isMobile ? "large" : "small"}
                           block={isMobile}
                           onClick={() => {
                             playItem(
@@ -130,39 +155,7 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
                         >
                           Start Learning
                         </Button>
-                      )}
-                    </Col>
-                  </Row>
-                  <Progress
-                    style={{ padding: 0 }}
-                    percent={progress}
-                    strokeColor={{ "0%": "#108ee9", "100%": "#87d068" }}
-                    format={() => null}
-                  />
-                  <Row gutter={[30, 10]}>
-                    <Col sm={12} xs={24} md={8} lg={5}>
-                      <FundProjectionScreenOutlined />{" "}
-                      <Text strong>
-                        {completed.length}/{course.totalItems} Lessons
-                      </Text>
-                    </Col>
-
-                    <Col sm={12} xs={24} md={8} lg={5}>
-                      <EditOutlined />{" "}
-                      <Text strong>{notes?.length} Notes Taken</Text>
-                    </Col>
-
-                    <Col sm={12} xs={24} md={8} lg={5}>
-                      <ClockCircleOutlined />{" "}
-                      <Text strong>{watchTime} Mins Watched</Text>
-                    </Col>
-
-                    {expiresAt ? (
-                      <Col sm={12} xs={24} md={8} lg={5}>
-                        <CalendarOutlined />{" "}
-                        <Text strong>{dayjs(expiresAt).format("LLL")}</Text>
-                      </Col>
-                    ) : null}
+                      )}</Col>
                   </Row>
                 </Col>
                 <Col span={1} />
