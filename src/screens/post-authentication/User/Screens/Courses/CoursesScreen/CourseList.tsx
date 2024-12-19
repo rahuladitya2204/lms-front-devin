@@ -69,7 +69,7 @@ function CoursesList(props) {
                 key: "course-builder",
                 icon: <SettingOutlined />,
                 onClick: () => {
-                    window.open(`/admin/products/courses/${course._id}/builder`);
+                    window.open(`/admin/products/course/${course._id}/builder`);
                 },
             },
             // {
@@ -143,7 +143,7 @@ function CoursesList(props) {
                         dataIndex="title"
                         key="title"
                         render={(_: any, course: Types.Course) => (
-                            <NavLink to={`/admin/products/courses/${course._id}/editor`}>
+                            <NavLink to={`/admin/products/course/${course._id}/editor`}>
                                 {course.title}
                             </NavLink>
                         )}

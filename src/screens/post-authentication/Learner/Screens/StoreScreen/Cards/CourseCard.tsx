@@ -40,7 +40,7 @@ function CourseCard(props: CourseCardPropsI) {
     // <Badge.Ribbon text="Best Seller" color="orange">
     <CustomCard
       hoverable
-      onClick={() => navigate(`../courses/${course._id}`)}
+      onClick={() => navigate(`../course/${course._id}`)}
       bodyStyle={{ padding: 15 }}
       cover={
         <Image

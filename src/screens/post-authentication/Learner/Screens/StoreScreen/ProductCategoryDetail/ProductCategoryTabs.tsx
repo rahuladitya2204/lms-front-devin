@@ -307,8 +307,8 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
     const tabs: any[] = [];
     if (packages.length) {
       tabs.push({
-        label: "Test Series",
-        key: "test-series",
+        label: "Products",
+        key: "products",
         children: (
           <PromotedProducts
             categoryId={categoryId}
@@ -337,7 +337,7 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
     }
     return tabs;
   }, [PYQTests, categoryId, type, packages]);
-  const [productTab, setProductTab] = useState("test-series");
+  const [productTab, setProductTab] = useState("products");
 
   return (
     <>

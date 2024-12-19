@@ -27,7 +27,7 @@ export default function PackageLandingPageEditor(
               type: "package.promoVideo",
               value: packageId + "",
             }}
-            prefixKey={`courses/${packageId}/promo`}
+            prefixKey={`course/${packageId}/promo`}
             width="300px"
             name={["landingPage", "promoVideo"]}
             height="250px"
@@ -45,7 +45,7 @@ export default function PackageLandingPageEditor(
                   : "Upload Promo Video"}
               </Button>
             )}
-            // url={promoVideoFile}
+          // url={promoVideoFile}
           />,
         ]}
       >

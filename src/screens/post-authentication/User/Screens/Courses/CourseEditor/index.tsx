@@ -77,7 +77,7 @@ function CourseEditor() {
               title={
                 <span>
                   <BackButton
-                    onClick={() => navigate(`/admin/products/courses`)}
+                    onClick={() => navigate(`/admin/products/course`)}
                   />{" "}
                   {course.title}
                 </span>
@@ -109,7 +109,7 @@ function CourseEditor() {
                     Publish Course
                   </Button>
                 ),
-                <Link to={`/admin/products/courses/${course._id}/builder`}>
+                <Link to={`/admin/products/course/${course._id}/builder`}>
                   <Button style={{ marginRight: 15 }} icon={<UploadOutlined />}>
                     Go to Course Builder
                   </Button>

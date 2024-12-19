@@ -148,6 +148,7 @@ import PlansScreen from "@User/Screens/Plans/PlansScreen";
 import { Card, Col, Row } from "antd";
 import LearnerLogin from "./post-authentication/Learner/Screens/Login";
 import TextsScreen from "@User/Screens/Admin/Texts/TextsScreen";
+import LearnerPackages from "./post-authentication/Learner/Screens/Products/Package/PackagesList";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -188,11 +189,21 @@ const router = (userType: string) => {
                 <Route path="account" element={<LearnerAccount />} />
                 <Route path="tickets" element={<LearnersTicketsScreen />} />
                 <Route path="tickets/:id" element={<LearnerTicketDetail />} />
-                <Route path="courses">
+                <Route path="course">
                   <Route path="" element={<LearnerCourses />} />
                   <Route path=":id" element={<CourseDetailViewer />} />
                 </Route>
+                <Route path="package">
+                  <Route path="" element={<LearnerPackages />} />
+                  <Route path=":id" element={<PackageDetailViewer />} />
+                </Route>
                 <Route path="test-series/:id" element={<PackageDetailViewer />}>
+                  <Route
+                    path=":type"
+                    element={<PackageDetailsTabs isServer={false} />}
+                  />
+                </Route>
+                <Route path="course-bundle/:id" element={<PackageDetailViewer />}>
                   <Route
                     path=":type"
                     element={<PackageDetailsTabs isServer={false} />}
@@ -206,15 +217,23 @@ const router = (userType: string) => {
                   {/* <Route path="" element={<LearnerCourses />} /> */}
                   <Route path=":slug" element={<PackagesList />} />
                   {/* <Route path=":slug/:exam" element={<PackagesExamScreen />} /> */}
-                  <Route
+                  {/* <Route
                     path=":packageId/enrolled-package"
                     element={
                       <SigninProtectedRoutes>
                         <EnrolledPackageDetailScreen />
                       </SigninProtectedRoutes>
                     }
-                  />
+                  /> */}
                 </Route>
+                <Route
+                  path=":packageId/enrolled-package"
+                  element={
+                    <SigninProtectedRoutes>
+                      <EnrolledPackageDetailScreen />
+                    </SigninProtectedRoutes>
+                  }
+                />
                 <Route path="test">
                   <Route path="" element={<LearnerTestScreen />} />
                   <Route path=":testId" element={<LearnerTestDetailScreen />} />
@@ -313,7 +332,7 @@ const router = (userType: string) => {
                   path="oauth/:provider/redirect"
                   element={<OauthRedirect />}
                 />
-                <Route path="app/courses/:id/player" element={<CoursePlayer />}>
+                <Route path="app/course/:id/player" element={<CoursePlayer />}>
                   <Route path=":itemId" element={<CoursePlayerItem />} />
                 </Route>
                 <Route
@@ -383,7 +402,7 @@ const router = (userType: string) => {
                     element={<CertificateTemplateEditor />}
                   />
                   <Route
-                    path="admin/products/courses/:id/editor"
+                    path="admin/products/course/:id/editor"
                     element={<CourseEditor />}
                   />
                   <Route
@@ -400,7 +419,7 @@ const router = (userType: string) => {
                     element={<ProductCategoryEditor />}
                   />
                   <Route
-                    path="admin/products/courses/:id/builder"
+                    path="admin/products/course/:id/builder"
                     element={<CourseBuilderScreen />}
                   >
                     <Route path="">
@@ -532,7 +551,7 @@ const router = (userType: string) => {
                   <Route path="tickets" element={<UsersTicketsScreen />} />
                   <Route path="tickets/:id" element={<UserTicketDetail />} />
                   <Route path="products">
-                    <Route path="courses">
+                    <Route path="course">
                       <Route path="" element={<CoursesScreen />} />
                       <Route
                         path=":id/analytics"
@@ -575,7 +594,7 @@ const router = (userType: string) => {
                     <Route path=":eventId/edit" element={<CreateEvent />} />
                   </Route>
                   <Route
-                    path="courses/:id/editor/information"
+                    path="course/:id/editor/information"
                     element={<CourseInformationEditor />}
                   />
                 </Route>
@@ -595,7 +614,7 @@ const router = (userType: string) => {
           <Route path="ended" element={<UserMeetingEnded />} />
         </Route> */}
                 <Route
-                  path="courses/:id/preview"
+                  path="course/:id/preview"
                   element={<CourseDetailViewer />}
                 />
               </>

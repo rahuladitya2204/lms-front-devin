@@ -149,7 +149,7 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
                     value: courseId + ''
                   }}
                   uploadType="file"
-                  prefixKey={`courses/${courseId}/${sectionId}/${itemId
+                  prefixKey={`course/${courseId}/${sectionId}/${itemId
                     }/files/${uniqueId()}`}
                   onUpload={({ name, _id }) => {
                     onFormChange({

@@ -89,6 +89,9 @@ const LearnerHeaderClient = ({
     course: user.enrolledProducts.filter(
       (i) => i.enrolledProduct.type === "course"
     ),
+    package: user.enrolledProducts.filter(
+      (i) => i.enrolledProduct.type === "package"
+    ),
   };
   // console.log(enrolledProducts.test, "kya baat hai");
   const {
@@ -124,10 +127,10 @@ const LearnerHeaderClient = ({
     const MENU_ITEMS = [
       { label: "Home", key: "store", icon: <ShopOutlined /> },
     ];
-    if (enrolledProducts.test && enrolledProducts.test.length) {
+    if (enrolledProducts.package && enrolledProducts.package.length) {
       MENU_ITEMS.push({
-        label: "My Tests",
-        key: "test",
+        label: "My Purchases",
+        key: "package",
         icon: <EditOutlined />,
       });
     }
@@ -138,13 +141,13 @@ const LearnerHeaderClient = ({
         icon: <EditOutlined />,
       });
     }
-    if (enrolledProducts.course && enrolledProducts.course.length) {
-      MENU_ITEMS.push({
-        label: "My Courses",
-        key: "courses",
-        icon: <EditOutlined />,
-      });
-    }
+    // if (enrolledProducts.course && enrolledProducts.course.length) {
+    //   MENU_ITEMS.push({
+    //     label: "My Courses",
+    //     key: "course",
+    //     icon: <EditOutlined />,
+    //   });
+    // }
     if (isMobileOrTablet && isSignedIn) {
       MENU_ITEMS.unshift({
         label: "Wallet",

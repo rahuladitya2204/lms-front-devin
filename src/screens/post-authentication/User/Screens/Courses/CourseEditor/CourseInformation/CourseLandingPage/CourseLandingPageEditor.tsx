@@ -33,7 +33,7 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
               type: "course.promoVideo",
               value: courseId + "",
             }}
-            prefixKey={`courses/${courseId}/promo`}
+            prefixKey={`course/${courseId}/promo`}
             width="300px"
             name="promoVideo"
             height="250px"

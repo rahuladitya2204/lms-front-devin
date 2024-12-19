@@ -86,7 +86,7 @@ const ThumbnailList: any = (props: ThumbnailListPropsI) => {
           files: [
             {
               file: file,
-              prefixKey: `courses/${courseId}/${sectionId}/${itemId}/lecture/thumbnail`,
+              prefixKey: `course/${courseId}/${sectionId}/${itemId}/lecture/thumbnail`,
               source: {
                 type: "course.section.item.file",
                 value: courseId + "",

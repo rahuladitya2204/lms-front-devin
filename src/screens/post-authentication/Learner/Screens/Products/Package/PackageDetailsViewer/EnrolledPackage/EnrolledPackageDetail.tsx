@@ -50,6 +50,8 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import ActionModal from "@Components/ActionModal/ActionModal";
 import OrderAddressForm from "./AddressForm";
+import EnrolledCourseItem from "./EnrolledCourseItem";
+import BackButton from "@Components/BackButton";
 
 // @ts-nocheck
 
@@ -131,7 +133,7 @@ const EnrolledPackageDetailScreen: React.FC<
       packageData.products[k].forEach((product) => {
         // @ts-ignore
         totalItems[k] += 1;
-        if (product.metadata.test.endedAt) {
+        if (product?.metadata?.[k]?.endedAt) {
           // @ts-ignore
           completedItems[k] += 1;
         }
@@ -302,7 +304,12 @@ const EnrolledPackageDetailScreen: React.FC<
     <Row>
       <Col span={24}>{RefundBox}</Col>
       <Col span={24}>
-        <Row>
+        <Row gutter={[0, 10]}>
+          <Col span={24}>
+            <BackButton onClick={() => {
+              navigate(`/app/package`)
+            }}></BackButton>
+          </Col>
           <Col span={24}>
             <Card size="small" title={null}>
               <Row>
@@ -492,10 +499,12 @@ const EnrolledPackageDetailScreen: React.FC<
                                     bordered={false}
                                     dataSource={sortBy(
                                       packageData.products[k],
-                                      (e) => e.metadata.test.endedAt
+                                      (e) => e?.metadata?.[k]?.endedAt
                                     )}
                                     renderItem={(item: any) => (
-                                      <EnrolledTestItem
+                                      k === 'test' ? <EnrolledTestItem
+                                        enrolledProduct={item}
+                                      /> : <EnrolledCourseItem
                                         enrolledProduct={item}
                                       />
                                     )}

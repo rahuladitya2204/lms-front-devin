@@ -142,7 +142,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
           const lastSection = course.sections.pop();
           const lastItem = lastSection?.items.pop();
           if (lastSection && lastItem)
-            navigate(`/admin/products/courses/${courseId}/builder/${lastItem.type}/${lastItem._id}`);
+            navigate(`/admin/products/course/${courseId}/builder/${lastItem.type}/${lastItem._id}`);
         },
       }
     );

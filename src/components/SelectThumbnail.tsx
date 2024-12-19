@@ -64,7 +64,7 @@ const SelectThumbnail = (props: SelectThumbnailPropsI) => {
           files: [
             {
               file: file,
-              prefixKey: `courses/${courseId}/${sectionId}/${itemId}/lecture/thumbnail`,
+              prefixKey: `course/${courseId}/${sectionId}/${itemId}/lecture/thumbnail`,
               source: {
                 type: "course.section.item.file",
                 value: courseId + "",

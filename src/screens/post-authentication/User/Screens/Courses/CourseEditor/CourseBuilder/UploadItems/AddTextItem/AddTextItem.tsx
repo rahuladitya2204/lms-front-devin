@@ -35,7 +35,7 @@ const AddTextItem: React.FC = (props: AddTextItemPropsI) => {
   const { language } = useOutletContext();
   const { mutate: generateFAQs, isLoading: generatingFAQs } = User.Queries.GenerateFAQsFromDescription();
   const course = useCourseStore(s => s.course)
-  const prefixKey = `courses/${courseId}/${itemId}`;
+  const prefixKey = `course/${courseId}/${itemId}`;
   const ContentComponent = (field: string) => {
     return <Col span={24}>
       <Form.Item

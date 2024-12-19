@@ -6,15 +6,15 @@ import { BookTwoTone } from "@ant-design/icons";
 import { capitalize } from "lodash";
 
 interface ShowSyllabusPropsI {
-  testId: string;
+  product: Types.Product;
 }
 
 export default function ShowSyllabus(props: ShowSyllabusPropsI) {
-  const { data: test, isLoading: loadingTest } =
-    Learner.Queries.useGetTestDetails(props.testId);
+  const { data: product, isLoading: loadingTest } =
+    Learner.Queries.useGetProductDetail(props.product);
   const { data: treeData, isLoading: loadingTree } =
-    Learner.Queries.useGetTopicTree(test.topics, 2);
-  const language = test.languages.length < 2 ? test.languages[0] : 'eng'
+    Learner.Queries.useGetTopicTree(product.topics, 2);
+  const language = product.languages.length < 2 ? product.languages[0] : 'eng'
 
   return <Row>
     <Col span={24}>

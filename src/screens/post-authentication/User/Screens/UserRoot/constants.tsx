@@ -44,7 +44,7 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
       {
         title: "Courses",
         permissions: [Enum.UserRolePermissions.GET_TESTS],
-        path: "courses",
+        path: "course",
         // roles:[Enum.UserRole.TEST_MANAGER]
       },
       {

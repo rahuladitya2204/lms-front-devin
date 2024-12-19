@@ -34,7 +34,8 @@ import {
 import { useModal } from "./ActionModal/ModalContext";
 import ShowSyllabus from "./ShowSyllabus";
 import { Link, useNavigate } from "@Router/index";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
+import { capitalize } from "lodash";
 
 const CustomTag = styled(Text)`
   margin-top: 3px;
@@ -53,11 +54,13 @@ interface LearnerProductCardPropsI {
 }
 
 const LearnerProductCard = (props: LearnerProductCardPropsI) => {
+  const hasBadge = useRef(null);
   const navigate = useNavigate();
   const {
     product: { data: product },
   } = props;
   const linkPrefix = useMemo(() => {
+    console.log(props.product, '12321123')
     let prefix = "test";
     switch (props.product.type) {
       case "test": {
@@ -66,6 +69,11 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
       }
       case "package": {
         prefix = "test-series";
+        break;
+      }
+
+      case "course": {
+        prefix = "course";
         break;
       }
       default: {
@@ -133,14 +141,14 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
                 {product?.topics?.length ? (
                   <>
                     <Button className="show-syllabus-button" type='dashed' icon={<BookOutlined />} onClick={() => {
-                      openModal(<ShowSyllabus testId={props.product.id} />, {
+                      openModal(<ShowSyllabus product={props.product} />, {
                         title: 'Test Syllabus'
                       })
                     }} size='small'>Show Syllabus</Button>
-                    <Divider type="vertical" />
+                    {/* <Divider type="vertical" /> */}
                   </>
                 ) : null}
-                <Button
+                {/* <Button
                   style={{ padding: 0, fontSize: 13 }}
                   type="link"
                 // title={``}
@@ -152,7 +160,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
                         Constants.LANGUAGES.find((l) => l.value === i)?.label
                     )
                     .join(", ")}
-                </Button>
+                </Button> */}
               </Col>
               <Divider type="vertical" />
               <Col>{TryNowButton}</Col>
@@ -177,7 +185,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
         </>
       }
     >
-      <Title level={5} style={{ fontSize: 13 }}>
+      <Title level={5} style={{ fontSize: 13, marginTop: hasBadge.current ? 15 : 0 }}>
         <Row justify={"space-between"}>
           <Col>
             <Text style={{ marginRight: 5 }}>{product.title}</Text>
@@ -222,12 +230,12 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
         <Divider style={{ margin: "10px 0" }} />
       ) : null}
 
-      {product?.duration?.enabled ? (
-        <CustomTag color="blue">
-          {product.duration.value} mins
-          <Divider type="vertical" />
-        </CustomTag>
-      ) : null}
+      {/* {product?.duration?.enabled ? ( */}
+      {(product?.duration?.value) ? <CustomTag color="blue-inverse">
+        <strong>{formatTime(product.duration.value)}</strong>
+        <Divider type="vertical" />
+      </CustomTag> : null}
+      {/* ) : null} */}
       {product?.stats?.score?.total ? (
         <CustomTag color="orange">
           {product.stats.score.total} marks
@@ -238,7 +246,9 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
         <Row justify={"space-between"}>
           <Col>
             <CustomTag color="purple">
-              {product?.products?.test?.length} Tests
+              {Object.keys(product?.products).map(key => {
+                return `${product?.products[key].length} ${capitalize(key)}s`
+              })}
             </CustomTag>
           </Col>
           <Col>{TryNowButton}</Col>
@@ -275,6 +285,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
     </Card>
   );
   if (props.isTrial) {
+    hasBadge.current = true;
     return (
       <div style={{ paddingLeft: 10 }} className={`${props.product.type}-product-card`}>
         <Badge.Ribbon color="red" placement="start" text="Free Demo">
@@ -284,6 +295,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
     );
   }
   if (product?.featured?.enabled) {
+    hasBadge.current = true;
     return (
       <div style={{ paddingLeft: 10 }} className={`${props.product.type}-product-card`}>
         <Badge.Ribbon
@@ -300,8 +312,23 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
       </div>
     );
   } else {
+    hasBadge.current = false;
     return Component;
   }
 };
 
 export default LearnerProductCard;
+
+
+function formatTime(minutes: number) {
+  if (minutes < 120) {
+    return minutes;
+  }
+  const seconds = 60 * minutes;
+  if (seconds < 3600) {
+    return "< 1hr";
+  } else {
+    const hours = Math.floor(seconds / 3600);
+    return `${hours}hr+`;
+  }
+}

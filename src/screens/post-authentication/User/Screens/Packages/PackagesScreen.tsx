@@ -59,6 +59,12 @@ function PackagesScreen() {
               )}
             />
             <Table.Column
+              title="Package Type"
+              dataIndex="type"
+              key="type"
+            // render={(_: any, bundle: Types.Package) => bundle.slug || "-"}
+            />
+            <Table.Column
               title="URL Slug"
               dataIndex="slug"
               key="slug"

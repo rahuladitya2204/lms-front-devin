@@ -66,10 +66,8 @@ function CourseMetadata(props: CourseMetadataPropsI) {
   } = Learner.Queries.useGetCourseDetails(courseId, {
     enabled: !!courseId
   })
-  // if (loadingCourse) {
-  //   return <Skeleton paragraph={{ rows: 10 }} active />
-  // }
-  data.duration.value = formatTime(course.totalDuration)
+  console.log(course, 'eeeee')
+  data.duration.value = formatTime(course.duration.value)
   // data.enrolled.value = `${course.analytics.enrolled.count} students`
   // data.lectures.value = course.totalItems
   // data.certificate.value = course.certificate ? 'Yes' : ''
@@ -94,7 +92,8 @@ function CourseMetadata(props: CourseMetadataPropsI) {
 
 export default CourseMetadata
 
-function formatTime(seconds: number) {
+function formatTime(minute: number) {
+  const seconds = minute * 60;
   if (seconds < 3600) {
     return '< 1hr'
   } else {

@@ -149,9 +149,8 @@ const UploadPDFForm: React.FC = () => {
                       value: courseId + ''
                     }}
                     uploadType="file"
-                    prefixKey={`courses/${courseId}/${sectionId}/${
-                      itemId
-                    }/files/${uniqueId()}`}
+                    prefixKey={`course/${courseId}/${sectionId}/${itemId
+                      }/files/${uniqueId()}`}
                     onUpload={({ name, _id }) => {
                       onFormChange({
                         files: [...item.files, { name, file: _id }]

@@ -19,7 +19,7 @@ const useUserOauth = (provider: string) => {
           Utils.Storage.SetItem("user-auth-token", token);
           setIsSignedin(true);
           setLoading(false);
-          navigate(`/admin/courses`);
+          navigate(`/admin/course`);
         }
       },
       false

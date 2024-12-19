@@ -173,7 +173,7 @@ const UploadVideoForm: any = () => {
                     }
                   >
                     <UploadVideo
-                      prefixKey={`courses/${courseId}/${itemId}/lecture/index`}
+                      prefixKey={`course/${courseId}/${itemId}/lecture/index`}
                       item={item}
                       onUpload={(item) => {
                         // console.log(item,'item')
@@ -197,7 +197,7 @@ const UploadVideoForm: any = () => {
                           value: courseId + "",
                         }}
                         uploadType="image"
-                        prefixKey={`courses/${courseId}/${sectionId}/${itemId}/thumbnail}`}
+                        prefixKey={`course/${courseId}/${sectionId}/${itemId}/thumbnail}`}
                         onUpload={({ name, _id, url }) => {
                           onFormChange({
                             metadata: {
@@ -299,7 +299,7 @@ const UploadVideoForm: any = () => {
                       value: courseId + "",
                     }}
                     uploadType="file"
-                    prefixKey={`courses/${courseId}/${sectionId}/${itemId}/files/${uniqueId()}`}
+                    prefixKey={`course/${courseId}/${sectionId}/${itemId}/files/${uniqueId()}`}
                     onUpload={({ name, _id }) => {
                       onFormChange({
                         files: [...item.files, { name, file: _id }],

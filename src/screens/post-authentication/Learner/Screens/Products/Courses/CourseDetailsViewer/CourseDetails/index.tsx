@@ -1,3 +1,4 @@
+import { Card } from "antd";
 import CourseCurriculum from "./CourseCurriculum";
 import CourseOverview from "./CourseOverview";
 import CourseReviews from "./CourseReviews/CourseReviews";
@@ -10,28 +11,20 @@ interface CourseDetailsPropsI {
 
 function CourseDetails(props: CourseDetailsPropsI) {
   return (
-    <Tabs
-      tabKey="course-detail"
-      items={[
-        {
-          key: "overview",
-          label: `Overview`,
-          children: <CourseOverview course={props.course} />,
-        },
-        // {
-        //   key: "curriculum",
-        //   label: `Curriculum`,
-        //   children: <CourseCurriculum course={props.course} />,
-        // },
-        // {
-        //   key: "reviews",
-        //   label: `Reviews`,
-        //   children: <CourseReviews course={props.course} />,
-        // },
-      ]}
-      style={{ fontSize: 30 }}
-      size="middle"
-    />
+    <Card bodyStyle={{ paddingTop: 0 }}>
+      <Tabs
+        tabKey="course-detail"
+        items={[
+          {
+            key: "overview",
+            label: `Overview`,
+            children: <CourseOverview course={props.course} />,
+          },
+        ]}
+        style={{ fontSize: 30 }}
+        size="middle"
+      />
+    </Card>
   );
 }
 

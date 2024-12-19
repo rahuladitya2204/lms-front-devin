@@ -12,7 +12,7 @@ import {
   Spin,
   TreeSelect,
 } from "antd";
-import { Constants, Types } from "@adewaskar/lms-common";
+import { Constants, Enum, Types } from "@adewaskar/lms-common";
 import { User, Utils } from "@adewaskar/lms-common";
 
 import ActionModal from "@Components/ActionModal/ActionModal";
@@ -29,6 +29,7 @@ import { useEffect, useMemo } from "react";
 import { useParams } from "@Router/index";
 import TopicSelect from "@Components/TopicSelect";
 import ValidateProductSlug from "@User/Screens/ExtraComponents/ValidateProductSlug";
+import { capitalize } from "lodash";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -75,7 +76,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
           name="thumbnailImage"
           width="200px"
           height="300px"
-          prefixKey={`courses/${courseId}/thumbnailImage`}
+          prefixKey={`course/${courseId}/thumbnailImage`}
           renderItem={() => <Image preview={false} src={thumbnailImage} />}
           onUpload={(e) => {
             form.setFieldValue(['thumbnailImage'], e.url);
@@ -156,6 +157,26 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
         </Col>
         <Col span={8}>
           <SelectProductCategory name={["category"]} />
+        </Col>
+        <Col span={8}>
+          <Form.Item label="Status" style={{ margin: 0 }} name={["status"]}>
+            <Select
+              options={[
+                {
+                  label: capitalize(Enum.TestStatus.DRAFT),
+                  value: Enum.CourseStatus.DRAFT,
+                },
+                {
+                  label: capitalize(Enum.CourseStatus.PUBLISHED),
+                  value: Enum.CourseStatus.PUBLISHED,
+                },
+                {
+                  label: capitalize('live'),
+                  value: 'live',
+                },
+              ]}
+            />
+          </Form.Item>
         </Col>
       </Row>
     </>

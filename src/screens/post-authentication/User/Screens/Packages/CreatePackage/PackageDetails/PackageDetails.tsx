@@ -201,16 +201,48 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
                 <Switch />
               </Form.Item>
             </Col>
-            {/* <Col span={8}>
+            <Col span={8}>
               <Form.Item
                 style={{ margin: 0, marginLeft: 10 }}
-                valuePropName="checked"
-                name={["offlineKit", "enabled"]}
-                label="Offline Kit"
+                name={["type"]}
+                label="Package Type"
               >
-                <Switch />
+                <Select options={[
+                  {
+                    label: 'Test Series',
+                    value: 'test-series'
+                  },
+                  {
+                    label: 'Course Bundle',
+                    value: 'course-bundle'
+                  },
+                  {
+                    label: 'Hybrid',
+                    value: 'hybrid'
+                  }
+                ]} />
               </Form.Item>
-            </Col> */}
+            </Col>
+            <Col span={8}>
+              <Form.Item label="Status" style={{ margin: 0 }} name={["status"]}>
+                <Select
+                  options={[
+                    {
+                      label: capitalize(Enum.TestStatus.DRAFT),
+                      value: Enum.CourseStatus.DRAFT,
+                    },
+                    {
+                      label: capitalize(Enum.CourseStatus.PUBLISHED),
+                      value: Enum.CourseStatus.PUBLISHED,
+                    },
+                    {
+                      label: capitalize('live'),
+                      value: 'live',
+                    },
+                  ]}
+                />
+              </Form.Item>
+            </Col>
           </Row>
         </Col>
         <Col span={8}>

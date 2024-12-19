@@ -220,7 +220,7 @@ function CourseBuilderScreen() {
           <span>
             {" "}
             <BackButton
-              onClick={() => navigate(`/admin/products/courses/${courseId}/editor`)}
+              onClick={() => navigate(`/admin/products/course/${courseId}/editor`)}
             />{" "}
             {course.title}
           </span>
@@ -270,7 +270,7 @@ function CourseBuilderScreen() {
                       key: 'demo',
                       onClick: () => {
                         const website = window.location.origin.replace('-admin', '')
-                        window.open(`${website}/app/courses/${courseId}`)
+                        window.open(`${website}/app/course/${courseId}`)
                       }
                     }
                   ]
@@ -334,7 +334,7 @@ function CourseBuilderScreen() {
                                   value: courseId + "",
                                 }}
                                 uploadType="image"
-                                prefixKey={`courses/${courseId}/thumbnailImage`}
+                                prefixKey={`course/${courseId}/thumbnailImage`}
                                 cropper={{ width: 330, height: 200 }}
                                 width="100%"
                                 // height="200px"

@@ -25,7 +25,7 @@ function CourseOverview(props: CourseOverviewPropsI) {
   return (
     <Fragment>
       <Row gutter={[30, 30]}>
-        {!props.hidePreview ? (
+        {(landingPage?.promoVideo?.url) ? (
           <Col span={24}>
             <Card
               style={{ margin: '20px 0' }}

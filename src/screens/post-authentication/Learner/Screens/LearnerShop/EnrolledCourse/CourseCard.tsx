@@ -35,7 +35,7 @@ const EnrolledCourseCard: React.FC<EnrolledCourseCardPropsI> = (props) => {
             </Title>
             <Text>By {user?.name}</Text>
           </Space>
-          <Link title={course.title} to={`../courses`}>
+          <Link title={course.title} to={`../course`}>
             <Button
               style={{ marginTop: 15 }}
               type="primary"
