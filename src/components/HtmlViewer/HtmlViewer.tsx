@@ -412,7 +412,7 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
     </div>
   ) : (
     // Render content normally when not protected
-    <div ref={containerRef} className="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred">
+    <div suppressHydrationWarning ref={containerRef} className="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred">
       <div className="html-viewer">
         <style>
           {`

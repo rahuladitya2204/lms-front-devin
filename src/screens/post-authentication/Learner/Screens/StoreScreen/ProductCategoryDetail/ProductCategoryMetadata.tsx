@@ -105,7 +105,7 @@ function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
   // @ts-ignore
   data.examDate.value = categoryDetails.info.examDate ? ( // @ts-ignore
     <Tag color="red-inverse">
-      {getIsServer() ? 'Loading...' : categoryDetails.info.examDate}
+      {categoryDetails.info.examDate}
     </Tag>
   ) : null;
 
