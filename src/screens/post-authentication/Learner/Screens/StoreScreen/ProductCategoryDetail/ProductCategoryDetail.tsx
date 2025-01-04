@@ -79,7 +79,9 @@ interface ProductCategoryDetailScreenPropsI {
   children?: React.ReactNode;
   product?: string;
 }
-
+const ProductRow = dynamic(() => import('./ProductDetailRow'), {
+  ssr: false
+});
 export default function ProductCategoryDetailScreen(
   props: ProductCategoryDetailScreenPropsI
 ) {
@@ -153,101 +155,13 @@ export default function ProductCategoryDetailScreen(
             </Col>
           </Row>
 
-          <Row justify={"space-between"} align={"middle"}>
-            <Col lg={21}>
-              <Row>
-                <Col
-                  style={{
-                    margin: isMobile ? "auto" : 0,
-                    marginBottom: isMobile ? 15 : "auto",
-                  }}
-                  lg={3}
-                >
-                  <AppImage
-                    alt={productCategory.title}
-                    width={100}
-                    height={100}
-                    style={{ borderRadius: "50%" }}
-                    src={productCategory.thumbnailImage}
-                  />
-                </Col>
-                <Col lg={18} style={{ display: "flex", alignItems: "center" }}>
-                  <Row>
-                    <Col span={24}>
-                      <Title
-                        style={{
-                          // fontSize: 16,
-                          whiteSpace: "normal", // Ensures text wraps
-                          overflowWrap: "break-word", // Breaks words to prevent overflow
-                          margin: 0,
-                          textAlign: isMobile ? "center" : "left",
-                          fontSize: isMobile ? 18 : 25,
-                        }}
-                        level={5}
-                      >
-                        {productCategory.subtitle}
-                        <br />
-                        {isMobile ? (
-                          <span>
-                            (
-                            <ThunderboltFilled
-                              style={{ color: "goldenrod", fontSize: 25 }}
-                            />
-                            Upcoming)
-                          </span>
-                        ) : null}
-                      </Title>
-                    </Col>
-                    <Col span={24}>
-                      <Text suppressHydrationWarning
-                        style={{
-                          // fontSize: 16,
-                          whiteSpace: "normal", // Ensures text wraps
-                          overflowWrap: "break-word", // Breaks words to prevent overflow
-                          margin: isMobile ? "auto" : 0,
-                          textAlign: isMobile ? "center" : "left",
-                          display: "block",
-                        }}
-                      // type="secondary"
-                      >
-                        <ClockCircleOutlined /> Last Updated on{" "}
-                        {dayjs(productCategory.updatedAt).format("LL")}
-                        {isDesktop ? (
-                          <>
-                            <Divider type="vertical" />{" "}
-                            <ANTDTypography.Link>
-                              Authored by Rahul Sharma
-                            </ANTDTypography.Link>
-                          </>
-                        ) : null}
-                      </Text>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </Col>
-            {productCategory.info.isUpcoming && !isMobile ? (
-              <Col
-                style={{ display: "flex", flexDirection: "row-reverse" }}
-                lg={3}
-              >
-                <Row align={"middle"}>
-                  <Col>
-                    <ThunderboltFilled
-                      style={{
-                        color: "goldenrod",
-                        fontSize: 30,
-                        marginRight: 5,
-                      }}
-                    />
-                  </Col>
-                  <Col>
-                    <Text style={{ fontSize: 22 }}>Upcoming</Text>
-                  </Col>
-                </Row>
-              </Col>
-            ) : null}
-          </Row>
+          {!loadingProductCategory && productCategory && (
+            <ProductRow
+              productCategory={productCategory}
+              isMobile={isMobile}
+              isDesktop={isDesktop}
+            />
+          )}
           <Row>
             <Col span={24} style={{ marginTop: 20 }}>
               <Card>{Metadata}</Card>

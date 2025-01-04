@@ -60,7 +60,6 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
     product: { data: product },
   } = props;
   const linkPrefix = useMemo(() => {
-    console.log(props.product, '12321123')
     let prefix = "test";
     switch (props.product.type) {
       case "test": {

@@ -23,7 +23,7 @@ class ErrorBoundary extends React.Component {
       return this.props.fallbackComponent;
     }
 
-    return this.props.children;
+    return <div suppressHydrationWarning>{this.props.children}</div>;
   }
 }
 
