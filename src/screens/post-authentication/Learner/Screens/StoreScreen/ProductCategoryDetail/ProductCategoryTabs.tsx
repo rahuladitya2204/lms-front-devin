@@ -39,7 +39,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
   const params = useParams();
   const id = props.id || params.id;
   const type = props.type || params.type || "overview";
-
+  console.log(id, 'ididid')
   const { data: productCategory, isLoading: loadingCategory } =
     Learner.Queries.useGetProductCategoryDetails(id + '', 'basic');
 
@@ -90,7 +90,8 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
   }, [productCategory]);
 
   return loadingCategory ? (
-    <ProductCategoryTabsSkeleton />
+    <>
+      <ProductCategoryTabsSkeleton /></>
   ) : (
     <Row gutter={[0, 20]}>
       <Col span={24} style={{ marginTop: 15 }}>

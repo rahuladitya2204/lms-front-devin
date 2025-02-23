@@ -66,7 +66,7 @@ function CourseMetadata(props: CourseMetadataPropsI) {
   } = Learner.Queries.useGetCourseDetails(courseId, {
     enabled: !!courseId
   })
-  console.log(course, 'eeeee')
+
   data.duration.value = formatTime(course.duration.value)
   // data.enrolled.value = `${course.analytics.enrolled.count} students`
   // data.lectures.value = course.totalItems

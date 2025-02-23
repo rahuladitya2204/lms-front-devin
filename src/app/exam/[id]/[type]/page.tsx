@@ -102,6 +102,7 @@ export default async function Page({
     getProductCategoryDetails,
     getOrgDetails,
   } = Learner.Queries.Definitions;
+  console.log(params.id, 'params.id')
   return (
     <>
       <RenderFAQJson faqs={link?.faqs} />

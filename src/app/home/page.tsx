@@ -7,7 +7,7 @@ import { getToken } from "@Network/index";
 export default function Page() {
   const {
     getLearnerProductCategories,
-    // getRecommendedProducts,
+    getRecommendedProducts,
     // getCartDetails,
     getOrgDetails,
     getLearnerDetails,
@@ -17,7 +17,7 @@ export default function Page() {
   return (
     <Hydrator
       queries={[
-        // getRecommendedProducts(),
+        getRecommendedProducts(),
         getLearnerProductCategories({ mode: 'basic' }),
         getOrgDetails(),
         // authenticated routes should only be called if token is present
