@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Node.js version
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18.x'
 
@@ -46,7 +46,7 @@ jobs:
         run: (cd ./.next/standalone && zip -r ../../release.zip .)
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4  # ✅ Updated version
+        uses: actions/upload-artifact@v3
         with:
           name: node-app
           path: release.zip
@@ -64,7 +64,7 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v4  # ✅ Updated version
+        uses: actions/download-artifact@v3
         with:
           name: node-app
 
