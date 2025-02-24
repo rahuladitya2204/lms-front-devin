@@ -57,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write  # Required for JWT authentication
@@ -94,5 +94,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'nimblebee-front'
-          slot-name: 'production'
+          slot-name: 'Production'
           package: .
