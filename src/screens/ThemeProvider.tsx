@@ -15,6 +15,7 @@ const { darkAlgorithm } = theme;
 function ThemeProvider(props: any) {
   const { data: organisation, isLoading: loadingOrgDetails } =
     Common.Queries.useGetOrgDetails();
+  // console.log(organisation, 'organisation1231212123')
   // @ts-ignore
   const { branding, shortName } =
     organisation || Constants.INITIAL_ORG_SETTING_DETAILS.branding;
@@ -51,7 +52,6 @@ function ThemeProvider(props: any) {
               <Space align="center">
                 <OrgLogo showName />  <Spin tip="Loading.." />
               </Space>
-
             </div>
           ) : (
             props.children

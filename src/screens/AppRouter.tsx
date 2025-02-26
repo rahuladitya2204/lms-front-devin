@@ -161,9 +161,7 @@ const router = (userType: string) => {
             <>
               <Route index element={<ReturnLearnerToStore />} />
               <Route path="app" element={
-                <Suspense fallback={<LoadingScreen />}>
-                  <LearnerRootScreen />
-                </Suspense>
+                <LearnerRootScreen />
               }>
                 <Route path="cart" element={<LearnerCart />} />
                 <Route path="wallet" element={<LearnerWallet />} />
@@ -265,9 +263,9 @@ const router = (userType: string) => {
                 <Route path="policies" element={<LearnerPrivacyPolicy />} />
               </Route>
               <Route path="" element={
-                <Suspense fallback={<LoadingScreen />}>
-                  <LearnerFullPageHolder />
-                </Suspense>
+                // <Suspense fallback={<LoadingScreen />}>
+                <LearnerFullPageHolder />
+                // </Suspense>
               }>
                 {/* <Route
                   path="app/interview/player"
@@ -317,9 +315,9 @@ const router = (userType: string) => {
                     path="player"
                     element={
                       <SigninProtectedRoutes>
-                        <Suspense fallback={<LoadingScreen />}>
-                          <TestPlayer />
-                        </Suspense>
+                        {/* <Suspense fallback={<LoadingScreen />}> */}
+                        <TestPlayer />
+                        {/* </Suspense> */}
                       </SigninProtectedRoutes>
                     }
                   >
@@ -347,9 +345,9 @@ const router = (userType: string) => {
                   path="app/test/:testId/review"
                   element={
                     <SigninProtectedRoutes>
-                      <Suspense fallback={<LoadingScreen />}>
-                        <TestReviewPlayer />
-                      </Suspense>
+                      {/* <Suspense fallback={<LoadingScreen />}> */}
+                      <TestReviewPlayer />
+                      {/* </Suspense> */}
                     </SigninProtectedRoutes>
                   }
                 >
@@ -363,9 +361,9 @@ const router = (userType: string) => {
                 <Route
                   path="previous-year-questions"
                   element={
-                    <Suspense fallback={<LoadingScreen />}>
-                      <TestPublicPlayer />
-                    </Suspense>
+                    // <Suspense fallback={<LoadingScreen />}>
+                    <TestPublicPlayer />
+                    // </Suspense>
                   }
                 >
                   <Route

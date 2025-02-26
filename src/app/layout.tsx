@@ -138,6 +138,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <meta name="mobile-web-app-capable" content="yes" />
+      <meta name="fast2sms" content="nkRd7PnOUZwUD3o4yKkkERxtVE0QWRgU" />
       <body style={{ margin: 0 }}>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <Providers>{children}</Providers>

@@ -13,8 +13,8 @@ export function ClientOnly(): JSX.Element {
   useDehydration();
   // @ts-ignore
   return (
-    <Suspense fallback={<LoadingScreen />}>
-      <App />
-    </Suspense>
+    // <Suspense fallback={<LoadingScreen />}>
+    <App />
+    // </Suspense>
   );
 }

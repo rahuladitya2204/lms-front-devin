@@ -17,24 +17,24 @@ export default function Page({ params }: { params: { id: string } }) {
 
   const token = getToken();
   return (
-    <Suspense>
-      <Hydrator
-        queries={[
-          getOrgDetails(),
-          getBlogs(),
-          // authenticated routes should only be called if token is present
-          ...(token
-            ? [
-                // getCartDetails(),
-                getLearnerDetails(),
-              ]
-            : []),
-        ]}
-      >
-        <LearnerRootScreen noSignIn isServer>
-          <LearnerBlogsScreen isServer />
-        </LearnerRootScreen>
-      </Hydrator>
-    </Suspense>
+    // <Suspense>
+    <Hydrator
+      queries={[
+        getOrgDetails(),
+        getBlogs(),
+        // authenticated routes should only be called if token is present
+        ...(token
+          ? [
+            // getCartDetails(),
+            getLearnerDetails(),
+          ]
+          : []),
+      ]}
+    >
+      <LearnerRootScreen noSignIn isServer>
+        <LearnerBlogsScreen isServer />
+      </LearnerRootScreen>
+    </Hydrator>
+    // </Suspense>
   );
 }
