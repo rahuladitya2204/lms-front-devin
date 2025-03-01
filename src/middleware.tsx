@@ -63,7 +63,10 @@ export async function middleware(request: NextRequest) {
   try {
     if (!hasOrgAlias || !hasUserType) {
       const host = request.headers.get("host");
-      const orgAlias = getSubdomainFromHost(host);
+      let orgAlias = getSubdomainFromHost(host);
+      if (orgAlias.includes('nimblebee')) {
+        orgAlias = 'www'
+      }
       const userType = Utils.getUserType(orgAlias);
 
       console.log("[Middleware]: validating org alias");

@@ -30,7 +30,6 @@ const CustomCarousel = styled(Carousel)`
 function HomeCarousel() {
   const { data: { packages } } = Learner.Queries.useGetRecommendedProducts()
   const navigate = useNavigate();
-  console.log(packages, 'packages')
   const { width } = useBreakpoint();
   return (
     <div style={{ width: width }}>
