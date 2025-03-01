@@ -71,6 +71,7 @@ import { isServer } from "@tanstack/react-query";
 import { LogEvent } from "@ServerHooks/useDehydration";
 import LearnerProductCard from "@Components/LearnerProductCard";
 import dynamic from "next/dynamic";
+import ProductDetailRow from "./ProductDetailRow";
 
 const { Text, Paragraph } = Typography;
 
@@ -79,9 +80,7 @@ interface ProductCategoryDetailScreenPropsI {
   children?: React.ReactNode;
   product?: string;
 }
-const ProductRow = dynamic(() => import('./ProductDetailRow'), {
-  ssr: false
-});
+
 export default function ProductCategoryDetailScreen(
   props: ProductCategoryDetailScreenPropsI
 ) {
@@ -156,7 +155,7 @@ export default function ProductCategoryDetailScreen(
           </Row>
 
           {!loadingProductCategory && productCategory && (
-            <ProductRow
+            <ProductDetailRow
               productCategory={productCategory}
               isMobile={isMobile}
               isDesktop={isDesktop}
