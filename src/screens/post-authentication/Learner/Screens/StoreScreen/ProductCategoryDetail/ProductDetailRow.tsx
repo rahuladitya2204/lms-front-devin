@@ -75,8 +75,8 @@ const ProductDetailRow = ({
                                             display: "block",
                                         }}
                                     >
-                                        {/* <ClockCircleOutlined /> Last Updated on{" "} */}
-                                        {productCategory.updatedAt && dayjs(productCategory.updatedAt).format("LL")}
+                                        {/* <ClockCircleOutlined /> Last Updated on{" "}
+                                        {productCategory.updatedAt && dayjs(productCategory.updatedAt).format("LL")} */}
                                         {isDesktop && (
                                             <>
                                                 <Divider type="vertical" />{" "}
