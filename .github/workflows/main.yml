@@ -1,19 +1,21 @@
 name: Deploy to Azure
 
 on:
-  workflow_dispatch:  # Allow manual triggering from GitHub UI
-  push:
-    branches:
-      - main  # Only trigger on push to the 'main' branch
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: 'Commit SHA to deploy'
+        required: true
 
 jobs:
   build:
-    # Ensure the job only runs on manual trigger or push to the 'main' branch
-    if: ${{ github.event_name == 'workflow_dispatch' || github.ref_name == 'main' }}
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout specific commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.commit_sha }}  # Checkout the specified commit
 
       - name: Set up Node.js version
         uses: actions/setup-node@v3
@@ -40,8 +42,6 @@ jobs:
           path: release.zip
 
   deploy:
-    # Ensure deployment only runs on manual trigger or push to the 'main' branch
-    if: ${{ github.event_name == 'workflow_dispatch' || github.ref_name == 'main' }}
     runs-on: ubuntu-latest
     needs: build
     environment:
