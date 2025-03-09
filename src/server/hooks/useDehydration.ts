@@ -1,18 +1,12 @@
 // utils/dehydration.ts
 import { initializeApp } from "@Utils/index";
-import { Learner, Store } from "@adewaskar/lms-common";
+import { Store } from "@adewaskar/lms-common";
 import { useEffect } from "react";
 const SG_KEY = 'GKpmiOtoXu0V7YpohCF5CoWv2Q747fmY'
 const GA_KEY = 'G-09G526DHYD'
 import { AnalyticsBrowser } from '@segment/analytics-next';
 import ReactGA from 'react-ga';
-import { getIsServer } from "@ServerUtils/index";
-let analytics;
-import { ApplicationInsights } from '@microsoft/applicationinsights-web';
-import { ReactPlugin, withAITracking } from '@microsoft/applicationinsights-react-js';
-import { createBrowserHistory } from "history";
-import { isLocalMode } from "@Components/Editor/SunEditor/utils";
-var reactPlugin = new ReactPlugin();
+const analytics = AnalyticsBrowser.load({ writeKey: SG_KEY })
 // const FACEBOOK_PIXEL_ID = '1215625842884170'
 // import dynamic from "next/dynamic";
 
@@ -21,29 +15,15 @@ var reactPlugin = new ReactPlugin();
 // });
 
 export const initAnalytics = () => {
-  const browserHistory = createBrowserHistory({ basename: '' });
   ReactGA.initialize(GA_KEY);
-  analytics = AnalyticsBrowser.load({ writeKey: SG_KEY })
   // ReactPixel.init(FACEBOOK_PIXEL_ID); // Replace with your Pixel ID
   // ReactPixel.pageView(); // Track initial page load
-
-  var appInsights = new ApplicationInsights({
-    config: {
-      instrumentationKey: isLocalMode() ? '203cb49b-ee89-463c-9828-6883f9be714b' : '695456fb-3b4c-4ce9-9e57-c159c31d728e',
-      extensions: [reactPlugin],
-      extensionConfig: {
-        [reactPlugin.identifier]: { history: browserHistory }
-      }
-    }
-  });
-  appInsights.loadAppInsights();
 
 }
 
 const useDehydration = () => {
   const isServer = typeof window === "undefined";
   const { user, learner, userType } = Store.useAuthentication(s => s);
-  Learner.Queries.useGetTexts();
   // console.log(user,learner,'aaaaa')
   useEffect(() => {
     if (!isServer) {
@@ -54,7 +34,6 @@ const useDehydration = () => {
 
 
   useEffect(() => {
-    const isServer = getIsServer();
     if (learner._id) {
       console.log('Setting User ID on Segment');
       window.analytics_enabled = true;
@@ -63,7 +42,7 @@ const useDehydration = () => {
         interests: learner.interests
       })
     }
-  }, [learner._id, isServer])
+  }, [learner._id])
 
 };
 
@@ -71,7 +50,7 @@ export default useDehydration;
 
 
 export const LogEvent = (category, action, label, data = {}) => {
-  if (category && action && window.analytics_enabled && analytics) {
+  if (category && action && window.analytics_enabled) {
     analytics.track(action, {
       category: category,
       label: label,
