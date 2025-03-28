@@ -56,7 +56,7 @@ export const initDateFormats = () => {
 
 
 export const initializeApp = () => {
-  initInterceptors();
+  // initInterceptors();
   initDateFormats();
   initStorage();
 };

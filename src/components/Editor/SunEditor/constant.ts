@@ -1,5 +1,6 @@
 import katex from 'katex'
-// import { markdownPlugin } from './plugins/markdown.plugin'
+import TikzPlugin from './plugins/tikz-plugin'
+import math from 'suneditor/src/plugins/dialog/math';
 
 export const BasicEditorOptions = {
   // plugins: [markdownPlugin],
@@ -30,206 +31,209 @@ export const IntermediateEditorOptions = {
   ]
 }
 
-export const AdvancedEditorOptions = {
-  katex: katex,
-  // plugins: [audioUploadPlugin],
-  buttonList: [
-    // ['audioUpload'],
-    // ['markdownPaste'],
-    // ['backgroundPlugin'],
-    // ['variablePlugin'],
-    // default
-    ['undo', 'redo'],
-    [
-      //   ':p-More Paragraph-default.more_paragraph',
-      'font',
-      'fontSize',
-      'formatBlock',
-      'paragraphStyle',
-      'blockquote'
-    ],
-    ['math'],
-    ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
-    ['fontColor', 'hiliteColor', 'textStyle'],
-    ['removeFormat'],
-    ['outdent', 'indent'],
-    ['align', 'horizontalRule', 'list', 'lineHeight'],
-    [
-      '-right',
-      ':i-More Misc-default.more_vertical',
-      'fullScreen',
-      'showBlocks',
-      'codeView',
-      'preview',
-      'print',
-      'save',
-      'template'
-    ],
-    ['-right', ':r-More Rich-default.more_plus', 'table'],
-    ['-right', 'image', 'video', 'audio', 'link'],
-    // (min-width: 992)
-    [
-      '%992',
+export const AdvancedEditorOptions = editor => {
+  return {
+    katex: katex,
+    plugins: [TikzPlugin(editor), math],
+    buttonList: [
+      ['tikzDialog'],
+      // ['audioUpload'],
+      // ['markdownPaste'],
+      // ['backgroundPlugin'],
+      // ['variablePlugin'],
+      // default
+      ['undo', 'redo'],
       [
-        ['undo', 'redo'],
+        //   ':p-More Paragraph-default.more_paragraph',
+        'font',
+        'fontSize',
+        'formatBlock',
+        'paragraphStyle',
+        'blockquote'
+      ],
+      ['math'],
+      ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+      ['fontColor', 'hiliteColor', 'textStyle'],
+      ['removeFormat'],
+      ['outdent', 'indent'],
+      ['align', 'horizontalRule', 'list', 'lineHeight'],
+      [
+        '-right',
+        ':i-More Misc-default.more_vertical',
+        'fullScreen',
+        'showBlocks',
+        'codeView',
+        'preview',
+        'print',
+        'save',
+        'template'
+      ],
+      ['-right', ':r-More Rich-default.more_plus', 'table'],
+      ['-right', 'image', 'video', 'audio', 'link'],
+      // (min-width: 992)
+      [
+        '%992',
         [
-          ':p-More Paragraph-default.more_paragraph',
-          'font',
-          'fontSize',
-          'formatBlock',
-          'paragraphStyle',
-          'blockquote'
-        ],
-        ['bold', 'underline', 'italic', 'strike'],
-        [
-          ':t-More Text-default.more_text',
-          'subscript',
-          'superscript',
-          'fontColor',
-          'hiliteColor',
-          'textStyle'
-        ],
-        ['removeFormat'],
-        ['outdent', 'indent'],
-        ['align', 'horizontalRule', 'list', 'lineHeight'],
-        // [
-        //   '-right',
-        //   ':i-More Misc-default.more_vertical',
-        //   'fullScreen',
-        //   'showBlocks',
-        //   'codeView',
-        //   'preview',
-        //   'print',
-        //   'save',
-        //   'template'
-        // ],
-        [
-          '-right',
-          ':r-More Rich-default.more_plus',
-          'table',
-          'link',
-          'image',
-          'video',
-          'audio',
-          // 'audioUpload',
-          'math'
+          ['undo', 'redo'],
+          [
+            ':p-More Paragraph-default.more_paragraph',
+            'font',
+            'fontSize',
+            'formatBlock',
+            'paragraphStyle',
+            'blockquote'
+          ],
+          ['bold', 'underline', 'italic', 'strike'],
+          [
+            ':t-More Text-default.more_text',
+            'subscript',
+            'superscript',
+            'fontColor',
+            'hiliteColor',
+            'textStyle'
+          ],
+          ['removeFormat'],
+          ['outdent', 'indent'],
+          ['align', 'horizontalRule', 'list', 'lineHeight'],
+          // [
+          //   '-right',
+          //   ':i-More Misc-default.more_vertical',
+          //   'fullScreen',
+          //   'showBlocks',
+          //   'codeView',
+          //   'preview',
+          //   'print',
+          //   'save',
+          //   'template'
+          // ],
+          [
+            '-right',
+            ':r-More Rich-default.more_plus',
+            'table',
+            'link',
+            'image',
+            'video',
+            'audio',
+            // 'audioUpload',
+            'math'
+          ]
         ]
-      ]
-    ],
-    // (min-width: 767)
-    [
-      '%767',
+      ],
+      // (min-width: 767)
       [
-        ['undo', 'redo'],
+        '%767',
         [
-          ':p-More Paragraph-default.more_paragraph',
-          'font',
-          'fontSize',
-          'formatBlock',
-          'paragraphStyle',
-          'blockquote'
-        ],
-        [
-          ':t-More Text-default.more_text',
-          'bold',
-          'underline',
-          'italic',
-          'strike',
-          'subscript',
-          'superscript',
-          'fontColor',
-          'hiliteColor',
-          'textStyle'
-        ],
-        ['removeFormat'],
-        ['outdent', 'indent'],
-        [
-          ':e-More Line-default.more_horizontal',
-          'align',
-          'horizontalRule',
-          'list',
-          'lineHeight'
-        ],
-        [
-          ':r-More Rich-default.more_plus',
-          'table',
-          'link',
-          'image',
-          'video',
-          'audio',
-          'math'
-        ],
-        [
-          '-right',
-          ':i-More Misc-default.more_vertical',
-          'fullScreen',
-          'showBlocks',
-          'codeView',
-          'preview',
-          'print',
-          'save',
-          'template'
+          ['undo', 'redo'],
+          [
+            ':p-More Paragraph-default.more_paragraph',
+            'font',
+            'fontSize',
+            'formatBlock',
+            'paragraphStyle',
+            'blockquote'
+          ],
+          [
+            ':t-More Text-default.more_text',
+            'bold',
+            'underline',
+            'italic',
+            'strike',
+            'subscript',
+            'superscript',
+            'fontColor',
+            'hiliteColor',
+            'textStyle'
+          ],
+          ['removeFormat'],
+          ['outdent', 'indent'],
+          [
+            ':e-More Line-default.more_horizontal',
+            'align',
+            'horizontalRule',
+            'list',
+            'lineHeight'
+          ],
+          [
+            ':r-More Rich-default.more_plus',
+            'table',
+            'link',
+            'image',
+            'video',
+            'audio',
+            'math'
+          ],
+          [
+            '-right',
+            ':i-More Misc-default.more_vertical',
+            'fullScreen',
+            'showBlocks',
+            'codeView',
+            'preview',
+            'print',
+            'save',
+            'template'
+          ]
         ]
-      ]
-    ],
-    // (min-width: 480)
-    [
-      '%480',
+      ],
+      // (min-width: 480)
       [
-        ['undo', 'redo'],
+        '%480',
         [
-          ':p-More Paragraph-default.more_paragraph',
-          'font',
-          'fontSize',
-          'formatBlock',
-          'paragraphStyle',
-          'blockquote'
-        ],
-        [
-          ':t-More Text-default.more_text',
-          'bold',
-          'underline',
-          'italic',
-          'strike',
-          'subscript',
-          'superscript',
-          'fontColor',
-          'hiliteColor',
-          'textStyle',
-          'removeFormat'
-        ],
-        [
-          ':e-More Line-default.more_horizontal',
-          'outdent',
-          'indent',
-          'align',
-          'horizontalRule',
-          'list',
-          'lineHeight'
-        ],
-        [
-          ':r-More Rich-default.more_plus',
-          'table',
-          'link',
-          'image',
-          'video',
-          'audio',
-          'math'
-        ],
-        [
-          '-right',
-          ':i-More Misc-default.more_vertical',
-          'fullScreen',
-          'showBlocks',
-          'codeView',
-          'preview',
-          'print',
-          'save',
-          'template'
+          ['undo', 'redo'],
+          [
+            ':p-More Paragraph-default.more_paragraph',
+            'font',
+            'fontSize',
+            'formatBlock',
+            'paragraphStyle',
+            'blockquote'
+          ],
+          [
+            ':t-More Text-default.more_text',
+            'bold',
+            'underline',
+            'italic',
+            'strike',
+            'subscript',
+            'superscript',
+            'fontColor',
+            'hiliteColor',
+            'textStyle',
+            'removeFormat'
+          ],
+          [
+            ':e-More Line-default.more_horizontal',
+            'outdent',
+            'indent',
+            'align',
+            'horizontalRule',
+            'list',
+            'lineHeight'
+          ],
+          [
+            ':r-More Rich-default.more_plus',
+            'table',
+            'link',
+            'image',
+            'video',
+            'audio',
+            'math'
+          ],
+          [
+            '-right',
+            ':i-More Misc-default.more_vertical',
+            'fullScreen',
+            'showBlocks',
+            'codeView',
+            'preview',
+            'print',
+            'save',
+            'template'
+          ]
         ]
       ]
     ]
-  ]
+  }
 }
 
 export const TEST_TEMPLATES = [

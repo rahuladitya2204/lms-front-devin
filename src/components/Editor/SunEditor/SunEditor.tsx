@@ -89,7 +89,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
   if (level === 2) {
     options = IntermediateEditorOptions;
   } else if (level === 3) {
-    options = AdvancedEditorOptions;
+    options = AdvancedEditorOptions(editorRef.current);
   }
 
   const handleUpload = (file: any) => {

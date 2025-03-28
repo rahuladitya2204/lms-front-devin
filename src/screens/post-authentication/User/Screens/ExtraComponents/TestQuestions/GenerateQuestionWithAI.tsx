@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row, Select } from 'antd'
+import { Button, Checkbox, Col, Form, Input, Row, Select } from 'antd'
 import { Enum, Types, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 
@@ -155,11 +155,11 @@ export default function GenerateQuestionWithAI({
             />
           </Form.Item>
         </Col>
-        {/* <Col span={24}>
-          <Form.Item label='Guidelines' name='guidelines'>
-            <TextArea name={['guidelines']} />
+        <Col span={24}>
+          <Form.Item name="solution" valuePropName="checked">
+            <Checkbox>Solution</Checkbox>
           </Form.Item>
-        </Col> */}
+        </Col>
       </Row>
       <Row justify={'end'}>
         <Col> <Button loading={loading} type="primary" onClick={form.submit}>

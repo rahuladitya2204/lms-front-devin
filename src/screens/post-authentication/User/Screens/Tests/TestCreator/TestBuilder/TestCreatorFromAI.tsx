@@ -8,7 +8,8 @@ import {
   Typography,
   Divider,
   Space,
-  Select
+  Select,
+  Checkbox
 } from "antd";
 import { PlusOutlined, DeleteOutlined, SearchOutlined } from "@ant-design/icons";
 import { Types, User, Enum } from "@adewaskar/lms-common";
@@ -99,6 +100,7 @@ export default function TestCreatorFromAI({
       layout="vertical"
       onFinish={onSubmit}
     >
+
       <Form.List name="sections">
         {(sectionFields, { add: addSection, remove: removeSection }) => (
           <Row>
@@ -131,7 +133,7 @@ export default function TestCreatorFromAI({
                     }
                   >
                     <Row gutter={[20, 20]}>
-                      <Col span={24}>
+                      <Col span={18}>
                         <Form.Item
                           label="Section Title"
                           name={[sectionField.name, "title"]}
@@ -140,6 +142,12 @@ export default function TestCreatorFromAI({
                           <Input placeholder="Enter section title" />
                         </Form.Item>
                       </Col>
+                      <Col span={6}>
+                        <Form.Item
+                          name={[sectionField.name, "solution"]}
+                          valuePropName="checked">
+                          <Checkbox>Solution</Checkbox>
+                        </Form.Item></Col>
                     </Row>
 
                     <Form.List name={[sectionField.name, "topics"]}>

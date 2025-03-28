@@ -11,6 +11,7 @@ import {
 import {
   CheckCircleTwoTone,
   DeleteOutlined,
+  FileImageOutlined,
   ReadOutlined,
   WarningTwoTone,
 } from "@ant-design/icons";
@@ -341,6 +342,17 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                                 color="orange-inverse"
                               >
                                 {correctOptions.join(",")}
+                              </Tag>
+                            );
+                          }
+                          if (item.title.text.eng.includes('<img')) {
+                            actions.unshift(
+                              <Tag
+                                style={{ textAlign: "center" }}
+                                color="blue-inverse"
+                                icon={<FileImageOutlined />}
+                              >
+                                {/* {correctOptions.join(",")} */}
                               </Tag>
                             );
                           }
