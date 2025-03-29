@@ -162,7 +162,7 @@ const PackageText = ({ id }: { id: string }) => {
     <Link
       title={bundle.title}
       onClick={(e) => {
-        window.open(`/app/test-series/${id}/enrolled-package`);
+        window.open(`/app/${id}/enrolled-package`);
         e.stopPropagation();
       }}
     >

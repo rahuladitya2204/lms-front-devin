@@ -23,7 +23,7 @@ const LearnerPackages: React.FC = () => {
                         {" "}
                         <PackageCard
                             onClick={() =>
-                                navigate(`../${enrolledProduct.product.id}/enrolled-package`)
+                                navigate(`/app/${enrolledProduct.product.id}/enrolled-package`)
                             }
                             packageId={enrolledProduct.product.id}
                             enrolledProduct={enrolledProduct}

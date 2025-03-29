@@ -328,19 +328,21 @@ const PackageCard = ({
                       <Link
                         title={bundle.title}
                         anchor={isServer}
-                        // to={`/app/test-series/${packageId}/enrolled-package`}
+                        // to={`/app/${packageId}/enrolled-package`}
                         onClick={() =>
                           navigate(
-                            `/app/test-series/${packageId}/enrolled-package`
+                            `/app/${packageId}/enrolled-package`
                           )
                         }
                       >
                         <Button
                           className="go-to-package-button"
-                          onClick={() =>
+                          onClick={() => {
+                            debugger;
                             navigate(
-                              `/app/test-series/${packageId}/enrolled-package`
+                              `/app/${packageId}/enrolled-package`
                             )
+                          }
                           }
                           size="large"
                           type="primary"

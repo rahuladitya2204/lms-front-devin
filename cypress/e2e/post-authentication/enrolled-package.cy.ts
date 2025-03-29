@@ -2,7 +2,7 @@ describe('Enrolled Packages details', () => {
     const appUrl = Cypress.env('appUrl');
     beforeEach(async () => {
         await cy.apiRequest({ method: 'POST', url: 'user/test/create-package-enrollment' })
-        cy.visit(`${appUrl}/app/test-series/test-package/enrolled-package`)
+        cy.visit(`${appUrl}/app/test-package/enrolled-package`)
         cy.loginLearner();
     })
 
