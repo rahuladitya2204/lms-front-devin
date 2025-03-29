@@ -14,7 +14,8 @@ export default function ShowSyllabus(props: ShowSyllabusPropsI) {
     Learner.Queries.useGetProductDetail(props.product);
   const { data: treeData, isLoading: loadingTree } =
     Learner.Queries.useGetTopicTree(product.topics, 2);
-  const language = product.languages.length < 2 ? product.languages[0] : 'eng'
+  console.log(product, 'product')
+  const language = product?.languages?.length < 2 ? product?.languages[0] : 'eng'
 
   return <Row>
     <Col span={24}>

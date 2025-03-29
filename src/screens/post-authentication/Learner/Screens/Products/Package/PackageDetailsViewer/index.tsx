@@ -338,7 +338,7 @@ const PackageCard = ({
                         <Button
                           className="go-to-package-button"
                           onClick={() => {
-                            debugger;
+                            // debugger;
                             navigate(
                               `/app/${packageId}/enrolled-package`
                             )
