@@ -72,7 +72,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
               <Divider style={{ marginBottom: 0 }} />
             </Col>
           ) : null}
-          <Col xs={24} sm={24} md={24}>
+          {/* <Col xs={24} sm={24} md={24}>
             <Title style={{ marginBottom: 20, fontSize: 28 }} level={2}>
               Our Best In-Class Test Series
             </Title>
@@ -84,7 +84,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
               </Row>
             </Card>
 
-          </Col>
+          </Col> */}
           <Col span={24}>
             <Title style={{ marginBottom: 20, fontSize: 28 }} level={2}>
               Popular Exams

@@ -10,7 +10,7 @@ import SelectProductCategory from '@Components/SelectProductCategory'
 import { useBuildTopicTree } from '@User/Screens/Tests/TestCreator/TestInformation/TestDetailsEditor/TestDetails'
 import TextArea from '@Components/Textarea'
 
-const DIFFICULTY_LEVELS = [
+export const DIFFICULTY_LEVELS = [
   { label: 'Easy', value: 'easy' },
   { label: 'Medium', value: 'medium' },
   { label: 'Difficult', value: 'difficult' }

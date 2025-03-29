@@ -19,7 +19,7 @@ import { AddQuestionFromBank } from "./AddQuestionFromBank";
 import TopicSelect from "@Components/TopicSelect";
 import { useNavigate } from "@Router/index";
 import { useBuildTopicTree } from "../TestInformation/TestDetailsEditor/TestDetails";
-import { QUESTION_PATTERNS } from "@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI";
+import { DIFFICULTY_LEVELS, QUESTION_PATTERNS } from "@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI";
 
 const { Text } = Typography;
 const { Panel } = Collapse;
@@ -70,11 +70,13 @@ export default function TestCreatorFromAI({
   const onSubmit = (values: CreateTestCreatorFromAI) => {
     const formattedData = values.sections.map(section => ({
       title: section.title,
+      // solution: section.solution,
       questions: section.topics.map(topic => ({
         topic: topic.topics, // Since TopicSelect component sets the value in 'topics' field
         count: topic.questionCount,
         topicPath: getFullTopicPath(topic.topics),
-        type: topic.type
+        type: topic.type,
+        difficultyLevel: topic.difficultyLevel
       })),
       category: testDetails.category,
       language: 'eng',
@@ -142,12 +144,12 @@ export default function TestCreatorFromAI({
                           <Input placeholder="Enter section title" />
                         </Form.Item>
                       </Col>
-                      <Col span={6}>
+                      {/* <Col span={6}>
                         <Form.Item
                           name={[sectionField.name, "solution"]}
                           valuePropName="checked">
                           <Checkbox>Solution</Checkbox>
-                        </Form.Item></Col>
+                        </Form.Item></Col> */}
                     </Row>
 
                     <Form.List name={[sectionField.name, "topics"]}>
@@ -155,7 +157,7 @@ export default function TestCreatorFromAI({
                         <>
                           {formFields.map((formField) => (
                             <Row key={formField.key} gutter={[16, 16]} align="middle">
-                              <Col span={12}>
+                              <Col span={10}>
                                 <TopicSelect
                                   notDisabled
                                   topicId={testDetails?.topics}
@@ -163,6 +165,17 @@ export default function TestCreatorFromAI({
                                   label="Topics"
                                   rules={[{ required: true, message: "Topic is required" }]}
                                 />
+                              </Col>
+                              <Col span={4}>
+                                <Form.Item
+                                  label="Difficulty Level"
+                                  name={[formField.name, "difficultyLevel"]}
+                                  rules={[
+                                    { required: true, message: "Please select difficulty level!" },
+                                  ]}
+                                >
+                                  <Select options={DIFFICULTY_LEVELS} />
+                                </Form.Item>
                               </Col>
                               <Col span={4}>
                                 <Form.Item
@@ -182,7 +195,7 @@ export default function TestCreatorFromAI({
                                   <Select options={QUESTION_PATTERNS} />
                                 </Form.Item>
                               </Col>
-                              <Col span={4}>
+                              <Col span={2}>
                                 <Form.Item label=" " colon={false}>
                                   <Button
                                     danger

@@ -34,7 +34,7 @@ import { capitalize } from "lodash";
 const { TextArea } = Input;
 const { Text } = Typography;
 
-const DIFFICULTY_LEVELS = [
+export const DIFFICULTY_LEVELS = [
   {
     label: "Beginner",
     value: "beginner",
