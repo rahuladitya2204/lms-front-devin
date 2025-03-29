@@ -545,6 +545,22 @@ function TestBuilderScreen() {
                     ),
                 },
                 {
+                  label: "Convert Image to Tikz",
+                  key: "img-to-tikz",
+                  onClick: () =>
+                    openModal(
+                      <TestCreatorFromAI
+                        sections={test.sections}
+                        testId={testId + ""}
+                      />,
+                      {
+                        width: 900,
+                        keyboard: false,
+                        title: "Create Test From AI",
+                      }
+                    ),
+                },
+                {
                   label: `Print Action`,
                   key: "print-test",
                   onClick: () =>

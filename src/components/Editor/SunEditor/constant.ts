@@ -1,6 +1,7 @@
 import katex from 'katex'
 import TikzPlugin from './plugins/tikz-plugin'
 import math from 'suneditor/src/plugins/dialog/math';
+import ImgToTikzPlugin from './plugins/img-to-tikz';
 
 export const BasicEditorOptions = {
   // plugins: [markdownPlugin],
@@ -34,8 +35,9 @@ export const IntermediateEditorOptions = {
 export const AdvancedEditorOptions = editor => {
   return {
     katex: katex,
-    plugins: [TikzPlugin(editor), math],
+    plugins: [TikzPlugin(editor), ImgToTikzPlugin(editor), math],
     buttonList: [
+      ['imgToTikz'],
       ['tikzDialog'],
       // ['audioUpload'],
       // ['markdownPaste'],

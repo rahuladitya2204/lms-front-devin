@@ -2,38 +2,38 @@
 import axios from 'axios';
 
 const TikzContainerPlugin = (editorInstance) => {
-    return {
-        name: 'tikzDialog',
-        display: 'dialog',  // Tells SunEditor to treat it as a “dialog” plugin
+  return {
+    name: 'tikzDialog',
+    display: 'dialog',  // Tells SunEditor to treat it as a “dialog” plugin
 
-        add(core, targetElement) {
-            // Build the dialog markup, passing the REAL editor instance
-            const container = this._makeContainer(core, editorInstance);
-            container.editorInstance = editorInstance
-            // Register as a “dialog” plugin, not a “container” plugin
-            core.initMenuTarget(this.name, targetElement, container, 'dialog');
+    add(core, targetElement) {
+      // Build the dialog markup, passing the REAL editor instance
+      const container = this._makeContainer(core, editorInstance);
+      container.editorInstance = editorInstance
+      // Register as a “dialog” plugin, not a “container” plugin
+      core.initMenuTarget(this.name, targetElement, container, 'dialog');
 
-            // Must store { container } in context so the built-in overlay logic can find it
-            core.context.tikzDialog = { container };
-        },
+      // Must store { container } in context so the built-in overlay logic can find it
+      core.context.tikzDialog = { container };
+    },
 
-        // Called automatically when user clicks the “tikzDialog” toolbar button
-        open() {
-            const container = this.context.tikzDialog.container;
-            if (container) {
-                // Show the custom modal
-                container.querySelector('.se-tikz-modal').style.display = 'block';
-            }
-        },
+    // Called automatically when user clicks the “tikzDialog” toolbar button
+    open() {
+      const container = this.context.tikzDialog.container;
+      if (container) {
+        // Show the custom modal
+        container.querySelector('.se-tikz-modal').style.display = 'block';
+      }
+    },
 
-        // Build your custom markup, passing the real editor instance
-        _makeContainer(core, editor, ...args) {
-            console.log(core, editor, args, '1232112121')
-            // Make a <div> for the .se-dialog-content
-            const container = core.util.createElement('DIV');
+    // Build your custom markup, passing the real editor instance
+    _makeContainer(core, editor, ...args) {
+      console.log(core, editor, args, '1232112121')
+      // Make a <div> for the .se-dialog-content
+      const container = core.util.createElement('DIV');
 
-            // Provide your HTML & inline CSS
-            container.innerHTML = `
+      // Provide your HTML & inline CSS
+      container.innerHTML = `
         <style>
           .se-tikz-modal {
             display: none;
@@ -117,69 +117,69 @@ const TikzContainerPlugin = (editorInstance) => {
         </div>
       `;
 
-            console.log(editor, '22222'); // We can now see the real editor instance
+      console.log(editor, '22222'); // We can now see the real editor instance
 
-            // Grab references to the controls
-            const modalBox = container.querySelector('.se-tikz-modal');
-            const textarea = container.querySelector('#tikz_input');
-            const previewDiv = container.querySelector('.se-tikz-preview');
-            const previewBtn = container.querySelector('.se-tikz-preview-btn');
-            const submitBtn = container.querySelector('.se-tikz-submit-btn');
-            const closeBtn = container.querySelector('.se-tikz-close-btn');
-            let previewImg;
-            // “Preview”
-            previewBtn.addEventListener('click', async () => {
-                const code = textarea.value.trim();
-                if (!code) {
-                    previewDiv.innerHTML = '<em style="color:red;">Please enter TikZ code.</em>';
-                    return;
-                }
-                try {
-                    previewDiv.innerHTML = 'Rendering...';
-                    const resp = await axios.post('http://localhost:4000/generative/tikz-to-svg', { code });
-                    previewDiv.innerHTML = resp.data.svg || '<em>No SVG returned.</em>';
-                    previewImg = previewDiv.innerHTML;
-                } catch (err) {
-                    previewDiv.innerHTML = `<em style="color:red;">Error: ${err.message}</em>`;
-                }
-            });
-
-            // “Submit”
-            submitBtn.addEventListener('click', () => {
-                const code = textarea.value.trim();
-                core.focus();
-                if (!previewImg) return;
-
-                const svgDataUrl = svgToBase64(previewImg); // Convert SVG to base64 data URL
-                const imgTag = `<span data-code="${code}"><img src="${svgDataUrl}" alt="TikZ SVG" /></span>`;
-
-                core.functions.insertHTML(imgTag);
-
-                // Close & reset
-                modalBox.style.display = 'none';
-                textarea.value = '';
-                previewDiv.innerHTML = '';
-            });
-
-
-            // “Close”
-            closeBtn.addEventListener('click', () => {
-                modalBox.style.display = 'none';
-                textarea.value = '';
-                previewDiv.innerHTML = '';
-            });
-
-            return container;
+      // Grab references to the controls
+      const modalBox = container.querySelector('.se-tikz-modal');
+      const textarea = container.querySelector('#tikz_input');
+      const previewDiv = container.querySelector('.se-tikz-preview');
+      const previewBtn = container.querySelector('.se-tikz-preview-btn');
+      const submitBtn = container.querySelector('.se-tikz-submit-btn');
+      const closeBtn = container.querySelector('.se-tikz-close-btn');
+      let previewImg;
+      // “Preview”
+      previewBtn.addEventListener('click', async () => {
+        const code = textarea.value.trim();
+        if (!code) {
+          previewDiv.innerHTML = '<em style="color:red;">Please enter TikZ code.</em>';
+          return;
         }
-    };
+        try {
+          previewDiv.innerHTML = 'Rendering...';
+          const resp = await axios.post('http://localhost:4000/generative/tikz-to-img', { code });
+          previewDiv.innerHTML = resp.data || '<em>No SVG returned.</em>';
+          previewImg = previewDiv.innerHTML;
+        } catch (err) {
+          previewDiv.innerHTML = `<em style="color:red;">Error: ${err.message}</em>`;
+        }
+      });
+
+      // “Submit”
+      submitBtn.addEventListener('click', () => {
+        const code = textarea.value.trim();
+        core.focus();
+        if (!previewImg) return;
+
+        const svgDataUrl = svgToBase64(previewImg); // Convert SVG to base64 data URL
+        const imgTag = `<span data-code="${code}"><img src="${svgDataUrl}" alt="TikZ SVG" /></span>`;
+
+        core.functions.insertHTML(imgTag);
+
+        // Close & reset
+        modalBox.style.display = 'none';
+        textarea.value = '';
+        previewDiv.innerHTML = '';
+      });
+
+
+      // “Close”
+      closeBtn.addEventListener('click', () => {
+        modalBox.style.display = 'none';
+        textarea.value = '';
+        previewDiv.innerHTML = '';
+      });
+
+      return container;
+    }
+  };
 };
 
 export default TikzContainerPlugin;
 
 function svgToBase64(svg) {
-    const encoded = encodeURIComponent(svg)
-        .replace(/'/g, '%27')
-        .replace(/"/g, '%22');
-    const header = "data:image/svg+xml;charset=utf-8,";
-    return header + encoded;
+  const encoded = encodeURIComponent(svg)
+    .replace(/'/g, '%27')
+    .replace(/"/g, '%22');
+  const header = "data:image/svg+xml;charset=utf-8,";
+  return header + encoded;
 }

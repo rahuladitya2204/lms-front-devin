@@ -26,6 +26,7 @@ import { useModal } from "@Components/ActionModal/ModalContext";
 import MiniCard from "../Cards/MiniCard";
 import { Link } from "@Router/index";
 import HomeCarousel from "../StoreCarousel";
+import { useText } from "@Components/Editor/SunEditor/utils";
 const { Title, Paragraph } = Typography;
 
 interface LearnerHomeScreenPropsI {
@@ -36,6 +37,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
   const { isFetching } = Learner.Queries.useGetRecommendedProducts();
   const { data: categories } = Learner.Queries.useGetLearnerCategories({ mode: 'basic' });
   const { isMobile, isDesktop } = useBreakpoint();
+  const { FormatLangText, FormatNumber } = useText('eng');
   return (
     <Row gutter={[30, 30]}>
       {isFetching ? (
@@ -87,7 +89,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
           </Col> */}
           <Col span={24}>
             <Title style={{ marginBottom: 20, fontSize: 28 }} level={2}>
-              Popular Exams
+              {FormatLangText('POPULAR_EXAMS')}
             </Title>
             <Row gutter={[30, 20]}>
               {categories.map((cat, index) => {

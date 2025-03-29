@@ -11,6 +11,7 @@ import {
   Button,
   Col,
   Form,
+  message,
   Popconfirm,
   Row,
   Select,
@@ -62,6 +63,76 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     value = props.value;
   }
   const previousValue = useRef<string | null | undefined>(props.value);
+
+  // === NEW: Copy image URL on click inside the editor, accounting for <figure> parents
+  useEffect(() => {
+    if (!editorRef.current) return;
+
+    const editorCore = editorRef.current.core;
+    if (!editorCore?.context?.element?.wysiwyg) return;
+
+    const wysiwygArea = editorCore.context.element.wysiwyg;
+
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+
+      if (target instanceof HTMLImageElement) {
+        copyImageSrc(target.src);
+      } else if (target.tagName.toLowerCase() === "figure") {
+        const img = (target as HTMLElement).querySelector("img");
+        if (img?.src) {
+          copyImageSrc(img.src);
+        }
+      }
+    };
+
+    const copyImageSrc = async (src: string) => {
+      // Check if modern async Clipboard API is available
+      if (navigator?.clipboard?.writeText) {
+        try {
+          await navigator.clipboard.writeText(src);
+          console.log("Copied image URL:", src);
+        } catch (err) {
+          console.error("Failed to copy text (clipboard API):", err);
+          // Fallback
+          fallbackCopyTextToClipboard(src);
+        }
+      } else {
+        // Fallback
+        fallbackCopyTextToClipboard(src);
+      }
+    };
+
+    // Old approach using <textarea> and document.execCommand("copy")
+    const fallbackCopyTextToClipboard = (text: string) => {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+
+      // Position off-screen so it doesn't show
+      textArea.style.position = "fixed";
+      textArea.style.left = "-99999px";
+      textArea.style.top = "-99999px";
+
+      document.body.appendChild(textArea);
+      textArea.select();
+
+      try {
+        document.execCommand("copy");
+        console.log("Fallback: Copied image URL:", text);
+        message.success('Image Link Copied')
+      } catch (err) {
+        console.error("Fallback: Failed to copy text:", err);
+      }
+
+      document.body.removeChild(textArea);
+    };
+
+    wysiwygArea.addEventListener("click", handleClick);
+    return () => {
+      wysiwygArea.removeEventListener("click", handleClick);
+    };
+  }, []);
+
 
   useEffect(() => {
     const editor = editorRef.current;
