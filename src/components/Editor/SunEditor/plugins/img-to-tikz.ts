@@ -203,8 +203,8 @@ const ImgToTikzPlugin = (editorInstance) => {
 
                 // Convert the <svg> string to a base64 data URL
                 const svgDataUrl = svgToBase64(convertedSvg);
-                const imgTag = `<span data-tikz="${convertedCode}"><img src="${svgDataUrl}" alt="TikZ SVG" /></span>`;
-
+                const imgTag = `<span data-tikz="${convertedCode}"><img src="${svgDataUrl}" alt="${convertedCode}" /></span>`;
+                console.log(imgTag, '123')
                 // Insert the new image
                 core.functions.insertHTML(imgTag);
 
