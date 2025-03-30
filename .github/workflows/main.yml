@@ -1,44 +1,86 @@
-name: Deploy to S3
+name: Deploy to Azure
 
 on:
-    workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main  # Or whichever branch you want to trigger deployments from
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: 'Commit SHA to deploy'
+        required: true
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout specific commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.commit_sha }}  # Checkout the specified commit
 
-    - name: Install dependencies and build
-      run: |
-        yarn --frozen-lockfile
-        CI=false yarn build
-      env:
-        NODE_OPTIONS: --max-old-space-size=4096  # Correctly placed in the build step
+      - name: Set up Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
 
+      - name: Install yarn
+        run: npm install -g yarn
 
-    - name: Deploy to S3
-      uses: jakejarvis/s3-sync-action@master
-      with:
-        args: --follow-symlinks --delete
-      env:
-        AWS_S3_BUCKET: ${{ secrets.S3_BUCKET_NAME }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: 'us-west-2'  # or your AWS region
-        SOURCE_DIR: 'build'
+      - name: Build image
+        run: |
+          yarn install
+          yarn build
+        env:
+          SENTRY_AUTH_TOKEN: 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
 
-    # Invalidate CloudFront Distribution Cache
-    - name: Invalidate CloudFront Distribution
-      run: |
-        aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: 'us-west-2'
-        DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} # Your CloudFront distribution ID
+      - name: Zip artifact for deployment
+        run: (cd ./.next/standalone && zip -r ../../release.zip .)
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-app
+          path: release.zip
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write  # Required for JWT authentication
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: node-app
+
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_4405A45699474090BBF161078DF725FB }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_CF2241290AE3402CB767D18D2E330330 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F63FCF82167448FDAB2D87D1A5A3CCE9 }}
+
+      - name: Upload static files to Azure Blob Storage
+        run: |
+          az storage blob sync -c 'nimblebee-front-static' --account-name nimblebeefrontstorage --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} -s './.next/static' -d '_next/static'
+          az storage blob sync -c 'nimblebee-front-static' --account-name nimblebeefrontstorage --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} -s './public' -d 'public'
+        continue-on-error: true
+
+      - name: Purge Azure CDN endpoint
+        run: |
+          az cdn endpoint purge --content-paths '/*' --profile-name nimblebee-front-cdn --name nimblebee-front-cdn --resource-group nimblebee-front_group
+        continue-on-error: true
+
+      - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'nimblebee-front'
+          slot-name: 'Production'
+          package: .
