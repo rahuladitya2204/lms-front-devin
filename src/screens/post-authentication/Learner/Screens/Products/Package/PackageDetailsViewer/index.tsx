@@ -369,7 +369,7 @@ const PackageCard = ({
                             // particle: true,
                           });
                           window.open(
-                            `/app/test-series/${packageId}/enrolled-package`
+                            `/app/${packageId}/enrolled-package`
                           );
                         }}
                         product={{ type: "package", id: packageId + "" }}
