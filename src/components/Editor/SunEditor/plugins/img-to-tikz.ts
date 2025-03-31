@@ -14,7 +14,7 @@ const ImgToTikzPlugin = (editorInstance) => {
             // 2) Register as a “dialog” plugin
             core.initMenuTarget(this.name, targetElement, container, 'dialog');
 
-            // 3) Store { container } in the core context so the built-in overlay logic can find it
+            // 3) Store { container } so the built-in overlay logic can find it
             core.context.imgToTikz = { container };
         },
 
@@ -30,76 +30,105 @@ const ImgToTikzPlugin = (editorInstance) => {
             // Create a <div> to hold the dialog content
             const container = core.util.createElement('DIV');
 
-            // Provide your custom HTML & inline CSS
+            // Larger width & improved styling for better previews
             container.innerHTML = `
         <style>
           .se-tikz-modal {
             display: none;
             position: fixed;
-            top: 150px; 
+            top: 80px;
             left: 50%;
             transform: translateX(-50%);
-            width: 600px;
+            width: 800px; /* Increase width for a bigger preview area */
             background: #fff;
             border: 1px solid #ccc;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             border-radius: 4px;
             z-index: 999999;
             font-family: sans-serif;
+            max-height: 90vh; /* Ensures the dialog doesn't overflow screen */
+            overflow-y: auto; /* Allow vertical scroll if content is tall */
           }
+
           .se-tikz-header {
             background: #f5f5f5;
             padding: 12px 16px;
             border-bottom: 1px solid #ccc;
             font-size: 16px;
             font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 1;
           }
+
           .se-tikz-body {
             padding: 16px;
           }
+
           .se-row {
             display: flex;
             align-items: center;
             gap: 8px;
             margin-bottom: 12px;
+            flex-wrap: wrap; /* So if it's smaller screen, it adjusts */
           }
+
+          .se-row label {
+            min-width: 80px;
+          }
+
           .se-row input {
             flex: 1;
             padding: 6px;
             border: 1px solid #ccc;
             border-radius: 4px;
           }
+
           .se-tikz-preview-row {
             display: flex;
             gap: 16px;
             justify-content: space-between;
             margin-bottom: 16px;
+            flex-wrap: wrap; 
           }
+
           .se-preview-side {
-            flex: 1;
+            flex: 1 1 300px; /* Each side at least 300px wide */
             border: 1px solid #ccc;
             background: #fafafa;
-            min-height: 150px;
+            min-height: 250px; /* Larger vertical space */
             padding: 8px;
             text-align: center;
+            overflow: auto; /* In case the content is large */
           }
+          .se-preview-side h4 {
+            margin-bottom: 8px;
+          }
+
           .se-preview-side img {
             max-width: 100%;
-            max-height: 140px;
+            max-height: 220px;
             display: block;
             margin: 0 auto;
           }
+
           .se-converted-preview svg {
             max-width: 100%;
-            max-height: 140px;
+            max-height: 220px;
           }
+
           .se-tikz-footer {
             display: flex;
             align-items: center;
             justify-content: flex-end;
             padding: 8px 16px;
             border-top: 1px solid #ccc;
+            position: sticky;
+            bottom: 0;
+            background: #fff;
+            z-index: 1;
           }
+
           .se-tikz-footer button {
             margin-left: 8px;
           }
@@ -110,7 +139,7 @@ const ImgToTikzPlugin = (editorInstance) => {
           <div class="se-tikz-body">
             <!-- Row with URL input + two buttons: Preview & Convert -->
             <div class="se-row">
-              <label style="min-width:80px;">Image URL:</label>
+              <label>Image URL:</label>
               <input type="text" id="image_url_input" placeholder="https://example.com/image.png" />
               <button type="button" class="se-btn se-btn-secondary se-preview-btn">Preview</button>
               <button type="button" class="se-btn se-btn-primary se-convert-btn">Convert</button>
@@ -145,7 +174,8 @@ const ImgToTikzPlugin = (editorInstance) => {
             const submitBtn = container.querySelector('.se-tikz-submit-btn');
             const closeBtn = container.querySelector('.se-tikz-close-btn');
 
-            let convertedSvg = '', convertedCode = ''; // Will store the final converted SVG as a string
+            let convertedSvg = '';
+            let convertedCode = '';
 
             // (A) “Preview” → Show the original image on the left side
             previewBtn.addEventListener('click', () => {
@@ -167,7 +197,7 @@ const ImgToTikzPlugin = (editorInstance) => {
                 // Clear any previous conversion result
                 convertedPreview.innerHTML = 'Converting...';
                 convertedSvg = '';
-                convertedCode = ''
+                convertedCode = '';
 
                 try {
                     // Example: calling your backend that converts images to TikZ
@@ -176,9 +206,7 @@ const ImgToTikzPlugin = (editorInstance) => {
                         imageUrl: url,
                     });
 
-                    // Suppose the server returns { svg: "<svg> ... </svg>" }
                     if (resp.data) {
-                        console.log(resp.data, '123123')
                         convertedSvg = resp.data.svg;
                         convertedCode = resp.data.code;
                         convertedPreview.innerHTML = `<span data-tikz="${convertedCode}">${convertedSvg}</span>`;
@@ -204,8 +232,8 @@ const ImgToTikzPlugin = (editorInstance) => {
                 // Convert the <svg> string to a base64 data URL
                 const svgDataUrl = svgToBase64(convertedSvg);
                 const imgTag = `<span data-tikz="${convertedCode}"><img src="${svgDataUrl}" alt="${convertedCode}" /></span>`;
-                console.log(imgTag, '123')
-                // Insert the new image
+
+                // Insert the new image into the SunEditor content
                 core.functions.insertHTML(imgTag);
 
                 // Close & reset
@@ -214,7 +242,7 @@ const ImgToTikzPlugin = (editorInstance) => {
                 originalImgEl.src = '';
                 convertedPreview.innerHTML = '';
                 convertedSvg = '';
-                convertedCode = ''
+                convertedCode = '';
             });
 
             // (D) “Close”
@@ -224,7 +252,7 @@ const ImgToTikzPlugin = (editorInstance) => {
                 originalImgEl.src = '';
                 convertedPreview.innerHTML = '';
                 convertedSvg = '';
-                convertedCode = ''
+                convertedCode = '';
             });
 
             return container;
