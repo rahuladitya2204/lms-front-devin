@@ -65,7 +65,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
       console.warn("ModalProvider is already initialized. Avoid multiple instances.");
     } else {
       initializedRef.current = true;
-      console.log("[MODAL PROVIDER]: Initialized successfully.");
+      // console.log("[MODAL PROVIDER]: Initialized successfully.");
     }
   }, []);
 

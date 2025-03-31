@@ -1,11 +1,12 @@
 // utils/dehydration.ts
 import { initializeApp } from "@Utils/index";
-import { Store } from "@adewaskar/lms-common";
+import { Learner, Store } from "@adewaskar/lms-common";
 import { useEffect } from "react";
 const SG_KEY = 'GKpmiOtoXu0V7YpohCF5CoWv2Q747fmY'
 const GA_KEY = 'G-09G526DHYD'
 import { AnalyticsBrowser } from '@segment/analytics-next';
 import ReactGA from 'react-ga';
+import { isLocal } from "@Components/Editor/SunEditor/utils";
 const analytics = AnalyticsBrowser.load({ writeKey: SG_KEY })
 // const FACEBOOK_PIXEL_ID = '1215625842884170'
 // import dynamic from "next/dynamic";
@@ -23,8 +24,8 @@ export const initAnalytics = () => {
 
 const useDehydration = () => {
   const isServer = typeof window === "undefined";
-  const { user, learner, userType } = Store.useAuthentication(s => s);
-  // console.log(user,learner,'aaaaa')
+  const { data: learner } = Learner.Queries.useGetLearnerDetails();
+  // console.log(learner, 'aaaaa')
   useEffect(() => {
     if (!isServer) {
       initAnalytics();
@@ -34,9 +35,10 @@ const useDehydration = () => {
 
 
   useEffect(() => {
-    if (learner._id) {
+    if (learner._id && !isLocal()) {
       console.log('Setting User ID on Segment');
       window.analytics_enabled = true;
+      console.log('Analytics Initialized', learner)
       identifyUser(learner._id, {
         name: learner.name,
         interests: learner.interests

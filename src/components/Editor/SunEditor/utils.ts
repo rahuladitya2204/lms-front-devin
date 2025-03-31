@@ -135,11 +135,15 @@ export async function downloadFileFromUrl(fileUrl: string, fileName?: string): P
 }
 
 export const getAxiosInstance = () => {
-  console.log(process.env.NEXT_API_URL, 'process.env.NEXT_API_URL')
+  // console.log(process.env.NEXT_API_URL, 'process.env.NEXT_API_URL')
   const api = axios.create({
     baseURL: process.env.NEXT_API_URL
   });
   return api;
+}
+
+export const isLocal = () => {
+  return window.location.host.includes('local')
 }
 
 export const useText = (language: string) => {

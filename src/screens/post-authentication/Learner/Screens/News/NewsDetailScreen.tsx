@@ -196,7 +196,7 @@ export default function NewsDetailScreen(props: NewsDetailScreenPropsI) {
                                       // extra={article.category.map(c => <Tag color="blue">{c}</Tag>)}
                                       >
                                         {/* @ts-ignore */}
-                                        <Text>{article?.text["eng"]}</Text>
+                                        <Text>{article?.text}</Text>
                                       </Card>
                                     </Col>
                                   ))}
