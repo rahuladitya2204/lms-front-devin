@@ -91,7 +91,8 @@ export default function GenerateQuestionWithAI({
     if (data) {
       form.setFieldsValue(data)
     }
-  }, [data])
+  }, [data]);
+
   return (
     <Form
       form={form}

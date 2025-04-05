@@ -80,7 +80,7 @@ export default function EnrolledCourseItem(props: EnrolledCourseItemPropsI) {
                             </Col>
                         </Row>
                         <Row align="middle">
-                            <Col>
+                            {/* <Col>
                                 <Button className="show-syllabus-button" type='dashed' icon={<BookOutlined />} onClick={() => {
                                     openModal(<ShowSyllabus product={{ type: Enum.ProductType.COURSE, id: course._id }} />, {
                                         title: 'Course Syllabus'
@@ -88,7 +88,7 @@ export default function EnrolledCourseItem(props: EnrolledCourseItemPropsI) {
                                 }} size='small'>Show Syllabus</Button>
 
                                 <Divider type="vertical" />
-                            </Col>
+                            </Col> */}
                             <Col>
                                 {course.duration.enabled ? (
                                     <Tag color="blue-inverse">{course.duration.value} mins</Tag>

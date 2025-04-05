@@ -137,16 +137,15 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
           {product?.languages?.length ? (
             <Row justify={"space-between"} align={"middle"}>
               <Col>
-                {product?.topics?.length ? (
+                {/* {product?.topics?.length ? (
                   <>
                     <Button className="show-syllabus-button" type='dashed' icon={<BookOutlined />} onClick={() => {
                       openModal(<ShowSyllabus product={props.product} />, {
                         title: 'Test Syllabus'
                       })
                     }} size='small'>Show Syllabus</Button>
-                    {/* <Divider type="vertical" /> */}
                   </>
-                ) : null}
+                ) : null} */}
                 {/* <Button
                   style={{ padding: 0, fontSize: 13 }}
                   type="link"

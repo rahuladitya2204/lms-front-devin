@@ -35,15 +35,14 @@ export const IntermediateEditorOptions = {
 export const AdvancedEditorOptions = editor => {
   return {
     katex: katex,
-    plugins: [TikzPlugin(editor), ImgToTikzPlugin(editor), math],
+    plugins: [
+      // TikzPlugin(editor), 
+      // ImgToTikzPlugin(editor), 
+      math
+    ],
     buttonList: [
-      ['imgToTikz'],
-      ['tikzDialog'],
-      // ['audioUpload'],
-      // ['markdownPaste'],
-      // ['backgroundPlugin'],
-      // ['variablePlugin'],
-      // default
+      // ['imgToTikz'],
+      // ['tikzDialog'],
       ['undo', 'redo'],
       [
         //   ':p-More Paragraph-default.more_paragraph',
