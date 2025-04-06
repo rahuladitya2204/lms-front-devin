@@ -90,11 +90,41 @@ export default function TestCreatorFromAI({
       {
         onSuccess: (e) => {
           console.log(e, 'eee')
-          navigate(`/admin/products/test/${testId}/builder`)
+          closeModal && closeModal();
+          navigate(`/admin/products/test/${testId}/builder/${e.sections[0].items[0]._id}`)
         },
       }
     );
   };
+
+  useEffect(() => {
+    const initialSections = QUESTION_PATTERNS.map((pattern) => ({
+      title: pattern.label,
+      topics: [
+        {
+          // topics: testDetails?.topics, // Default to first topic if available
+          difficultyLevel: 'easy',
+          questionCount: 50,
+          type: pattern.value,
+        },
+        {
+          // topics: testDetails?.topics,
+          difficultyLevel: 'medium',
+          questionCount: 50,
+          type: pattern.value,
+        },
+        {
+          // topics: testDetails?.topics,
+          difficultyLevel: 'difficult',
+          questionCount: 50,
+          type: pattern.value,
+        },
+      ],
+    }));
+
+    form.setFieldsValue({ sections: initialSections });
+  }, [testDetails]);
+
 
   return (
     <Form
