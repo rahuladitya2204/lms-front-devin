@@ -77,11 +77,11 @@ export default function TestCreatorFromAI({
         topicPath: getFullTopicPath(topic.topics),
         type: topic.type,
         difficultyLevel: topic.difficultyLevel
-      })),
+      })).filter((topic) => topic.topicPath && topic.count > 0),
       category: testDetails.category,
       language: 'eng',
       choice: 'single'
-    }));
+    })).filter(i => i?.questions?.length);
 
     console.log('Formatted Output:', formattedData);
     // Uncomment when ready to submit
@@ -90,7 +90,7 @@ export default function TestCreatorFromAI({
       {
         onSuccess: (e) => {
           console.log(e, 'eee')
-          closeModal && closeModal();
+          // closeModal && closeModal();
           navigate(`/admin/products/test/${testId}/builder/${e.sections[0].items[0]._id}`)
         },
       }
@@ -104,19 +104,19 @@ export default function TestCreatorFromAI({
         {
           // topics: testDetails?.topics, // Default to first topic if available
           difficultyLevel: 'easy',
-          questionCount: 50,
+          questionCount: 1,
           type: pattern.value,
         },
         {
           // topics: testDetails?.topics,
           difficultyLevel: 'medium',
-          questionCount: 50,
+          questionCount: 1,
           type: pattern.value,
         },
         {
           // topics: testDetails?.topics,
           difficultyLevel: 'difficult',
-          questionCount: 50,
+          questionCount: 1,
           type: pattern.value,
         },
       ],

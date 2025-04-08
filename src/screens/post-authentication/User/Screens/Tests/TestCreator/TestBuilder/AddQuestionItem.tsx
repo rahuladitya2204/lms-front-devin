@@ -708,12 +708,17 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
                   console.log(body, "popop");
                   solveQuestion(body, {
                     onSuccess: (response) => {
+                      if (response.invalidQuestion) {
+                        message.error("Invalid question");
+                        // question.solution.html[language]='INVALID QUESTION'
+                        return;
+                      }
                       const question = cloneDeep(form.getFieldsValue());
                       if (question.options.length)
                         question.options.forEach((option, index) => {
                           option.isCorrect = false;
                         })
-                      question.options[response.correctAnswerIndex - 1].isCorrect = true;
+                      question.options[response.correctAnswerIndex].isCorrect = true;
                       question.solution.html[language] = response.solution;
                       console.log(question, 'question', response, '123123')
                       form.setFieldsValue(question)
