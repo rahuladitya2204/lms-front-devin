@@ -63,7 +63,7 @@ export default function TestCreatorFromAI({
 
   const navigate = useNavigate();
   let { getFullTopicPath } = useBuildTopicTree(
-    testDetails.topics,
+    null,
     4,
     true
   );

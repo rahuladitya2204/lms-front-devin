@@ -461,52 +461,63 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
 export default TestDetailsEditor;
 
 export const useBuildTopicTree = (
-  topic: string | string[],
+  topic: string | string[] | null,   // ← now allows null
   level = 3,
   notDisabled?: boolean
 ) => {
+  /**
+   * Normalise the incoming topic argument:
+   *   • null / undefined  →  []
+   *   • string            →  [string]
+   *   • string[]          →  string[]
+   */
+  const topicIds: string[] = topic == null
+    ? []                       // fetch from the root
+    : Array.isArray(topic)
+      ? topic
+      : [topic];
+
+  // When topicIds is an empty array we want the root‑level tree.
+  // `useGetTopicTree` already interprets [] as “start from the root”,
+  // so we can pass it through directly.
   const { data: TOPIC_TREE_DATA, isLoading } = User.Queries.useGetTopicTree(
-    Array.isArray(topic) ? topic : [topic],
+    topicIds,
     level,
     notDisabled
   );
 
-  const getFullTopicPath = useCallback((topicId: string): string => {
-    if (!TOPIC_TREE_DATA || !topicId) return '';
+  /** Convert a topicId into its full path (e.g. "Maths → Algebra → Quadratics") */
+  const getFullTopicPath = useCallback(
+    (topicId: string): string => {
+      if (!TOPIC_TREE_DATA || !topicId) return '';
 
-    // Create topic map from tree
-    const topicMap: Record<string, any> = {};
-    const buildMap = (node: any) => {
-      topicMap[node._id] = node;
-      if (node.children) {
-        node.children.forEach(buildMap);
+      /* ---- build a flat lookup map from the tree ---- */
+      const topicMap: Record<string, any> = {};
+      const buildMap = (node: any) => {
+        topicMap[node._id] = node;
+        node.children?.forEach(buildMap);
+      };
+      TOPIC_TREE_DATA.forEach(buildMap);
+
+      /* ---- climb up the ancestry chain ---- */
+      const path: string[] = [];
+      const visited = new Set<string>();
+      let currentId: string | undefined = topicId;
+
+      while (currentId && !visited.has(currentId)) {
+        visited.add(currentId);
+        const node = topicMap[currentId];
+        if (!node) break;
+        path.push(node.title?.eng || '[Unknown Topic]');
+        currentId = node.parentId;
       }
-    };
-    TOPIC_TREE_DATA.forEach(buildMap);
 
-    // Build path
-    const path: string[] = [];
-    const visitedIds = new Set<string>();
-    let currentId: string | undefined = topicId;
+      return path.reverse().join(' → ');
+    },
+    [TOPIC_TREE_DATA]
+  );
 
-    while (currentId && !visitedIds.has(currentId)) {
-      visitedIds.add(currentId);
-      const currentTopic = topicMap[currentId];
-
-      if (!currentTopic) break;
-
-      path.push(currentTopic.title?.eng || '[Unknown Topic]');
-      currentId = currentTopic.parentId;
-    }
-
-    return path.reverse().join(' -> ');
-  }, [TOPIC_TREE_DATA]);
-
-  return {
-    data: TOPIC_TREE_DATA,
-    isLoading,
-    getFullTopicPath
-  };
+  return { data: TOPIC_TREE_DATA, isLoading, getFullTopicPath };
 };
 
 export const buildTopicTree = (
