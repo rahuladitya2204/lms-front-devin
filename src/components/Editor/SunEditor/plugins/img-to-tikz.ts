@@ -233,7 +233,7 @@ const ImgToTikzPlugin = (editorInstance) => {
 
         // Convert the <svg> string to a base64 data URL
         const svgDataUrl = svgToBase64(convertedSvg);
-        const imgTag = `<span data-tikz="${convertedCode}"><img src="${svgDataUrl}" alt="${convertedCode}" /></span>`;
+        const imgTag = `<span data-tikz="${convertedCode}"><img src="${svgDataUrl}" alt="tikz_code_${convertedCode}" /></span>`;
 
         // Insert the new image into the SunEditor content
         core.functions.insertHTML(imgTag);
