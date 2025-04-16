@@ -174,3 +174,11 @@ export const useText = (language: string) => {
 export const isLocalMode = () => {
   return window.location.host.includes('local')
 }
+
+export function stringToBase64(input: string): string {
+  return Buffer.from(input, 'utf-8').toString('base64');
+}
+
+export function base64ToString(base64: string): string {
+  return decodeURIComponent(escape(atob(base64)));
+}

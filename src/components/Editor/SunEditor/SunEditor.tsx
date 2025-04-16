@@ -20,14 +20,11 @@ import {
   Tag,
 } from "antd";
 import { Common, Types, User } from "@adewaskar/lms-common";
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useMemo, useRef, useState } from "react";
 
 import SunEditor from "suneditor-react";
 import { debounce, uniqueId } from "lodash";
-import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
-import { Title } from "@Components/Typography/Typography";
 import ActionModal from "@Components/ActionModal/ActionModal";
-import { RephraseText } from "@adewaskar/lms-common/lib/cjs/types/User/Api";
 import RephraseTextComponent from "./ModifyTextComponent";
 
 interface SunEditorPropsI {
@@ -118,7 +115,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
 
       try {
         document.execCommand("copy");
-        console.log("Fallback: Copied image URL:", text);
+        // console.log("Fallback: Copied image URL:", text);
         message.success('Image Link Copied')
       } catch (err) {
         console.error("Fallback: Failed to copy text:", err);
@@ -132,7 +129,6 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
       wysiwygArea.removeEventListener("click", handleClick);
     };
   }, []);
-
 
   useEffect(() => {
     const editor = editorRef.current;
@@ -160,7 +156,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
   if (level === 2) {
     options = IntermediateEditorOptions;
   } else if (level === 3) {
-    options = AdvancedEditorOptions(editorRef.current);
+    options = AdvancedEditorOptions(editorRef.current)
   }
 
   const handleUpload = (file: any) => {

@@ -1,7 +1,12 @@
 import katex from 'katex'
-import TikzPlugin from './plugins/tikz-plugin'
+import TikzContainerPlugin from './plugins/tikz-plugin'
+import ImgToTikzPlugin from './plugins/img-to-tikz'
 import math from 'suneditor/src/plugins/dialog/math';
-import ImgToTikzPlugin from './plugins/img-to-tikz';
+import table from 'suneditor/src/plugins/submenu/table';
+import audio from 'suneditor/src/plugins/dialog/audio';
+import video from 'suneditor/src/plugins/dialog/video';
+import image from 'suneditor/src/plugins/dialog/image';
+import link from 'suneditor/src/plugins/dialog/link';
 
 export const BasicEditorOptions = {
   // plugins: [markdownPlugin],
@@ -36,13 +41,22 @@ export const AdvancedEditorOptions = editor => {
   return {
     katex: katex,
     plugins: [
-      // TikzPlugin(editor), 
-      // ImgToTikzPlugin(editor), 
-      math
+      table,
+      TikzContainerPlugin(editor), ImgToTikzPlugin(editor),
+      math,
+      audio,
+      video,
+      image,
+      link
     ],
     buttonList: [
-      // ['imgToTikz'],
-      // ['tikzDialog'],
+      ['imgToTikz'],
+      ['tikzDialog'],
+      // ['audioUpload'],
+      // ['markdownPaste'],
+      // ['backgroundPlugin'],
+      // ['variablePlugin'],
+      // default
       ['undo', 'redo'],
       [
         //   ':p-More Paragraph-default.more_paragraph',

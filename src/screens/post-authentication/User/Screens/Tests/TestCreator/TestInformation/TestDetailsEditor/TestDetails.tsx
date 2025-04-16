@@ -529,7 +529,7 @@ export const buildTopicTree = (
     topics: Types.Topic[],
     parentId?: string,
     currentLevel: number = 1
-  ): [] => {
+  ) => {
     if (parentId) {
       return buildSubTreeData(parentId, topics, currentLevel);
     } else {

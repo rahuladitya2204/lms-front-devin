@@ -720,7 +720,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
                         })
                       question.options[response.correctAnswerIndex].isCorrect = true;
                       question.solution.html[language] = response.solution;
-                      console.log(question, 'question', response, '123123')
+                      // console.log(question, 'question', response, '123123')
                       form.setFieldsValue(question)
                       message.success('Question has been solved successfully')
                     },
@@ -823,7 +823,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
                       })
                     question.topic = response.topic;
                     question.solution.html[response.language] = response.solution;
-                    console.log(question, 'question', response, '123123')
+                    // console.log(question, 'question', response, '123123')
                     form.setFieldsValue(question)
                   }} />
                 </ActionModal>

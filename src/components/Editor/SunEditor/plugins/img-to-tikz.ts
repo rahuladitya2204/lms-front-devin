@@ -1,37 +1,38 @@
 // ImgToTikzPlugin.js
 import axios from 'axios';
+import { stringToBase64 } from '../utils';
 
 const ImgToTikzPlugin = (editorInstance) => {
-    return {
-        name: 'imgToTikz',
-        display: 'dialog', // Tells SunEditor to treat it as a “dialog” plugin
+  return {
+    name: 'imgToTikz',
+    display: 'dialog', // Tells SunEditor to treat it as a “dialog” plugin
 
-        add(core, targetElement) {
-            // 1) Build the dialog markup
-            const container = this._makeContainer(core, editorInstance);
-            container.editorInstance = editorInstance;
+    add(core, targetElement) {
+      // 1) Build the dialog markup
+      const container = this._makeContainer(core, editorInstance);
+      container.editorInstance = editorInstance;
 
-            // 2) Register as a “dialog” plugin
-            core.initMenuTarget(this.name, targetElement, container, 'dialog');
+      // 2) Register as a “dialog” plugin
+      core.initMenuTarget(this.name, targetElement, container, 'dialog');
 
-            // 3) Store { container } so the built-in overlay logic can find it
-            core.context.imgToTikz = { container };
-        },
+      // 3) Store { container } so the built-in overlay logic can find it
+      core.context.imgToTikz = { container };
+    },
 
-        // Called automatically when user clicks the “imgToTikz” toolbar button
-        open() {
-            const container = this.context.imgToTikz.container;
-            if (container) {
-                container.querySelector('.se-tikz-modal').style.display = 'block';
-            }
-        },
+    // Called automatically when user clicks the “imgToTikz” toolbar button
+    open() {
+      const container = this.context.imgToTikz.container;
+      if (container) {
+        container.querySelector('.se-tikz-modal').style.display = 'block';
+      }
+    },
 
-        _makeContainer(core, editor) {
-            // Create a <div> to hold the dialog content
-            const container = core.util.createElement('DIV');
+    _makeContainer(core, editor) {
+      // Create a <div> to hold the dialog content
+      const container = core.util.createElement('DIV');
 
-            // Larger width & improved styling for better previews
-            container.innerHTML = `
+      // Larger width & improved styling for better previews
+      container.innerHTML = `
         <style>
           .se-tikz-modal {
             display: none;
@@ -164,100 +165,101 @@ const ImgToTikzPlugin = (editorInstance) => {
         </div>
       `;
 
-            // Grab references to elements
-            const modalBox = container.querySelector('.se-tikz-modal');
-            const imageUrlInput = container.querySelector('#image_url_input');
-            const previewBtn = container.querySelector('.se-preview-btn');
-            const convertBtn = container.querySelector('.se-convert-btn');
-            const originalImgEl = container.querySelector('.se-original-img');
-            const convertedPreview = container.querySelector('.se-converted-preview');
-            const submitBtn = container.querySelector('.se-tikz-submit-btn');
-            const closeBtn = container.querySelector('.se-tikz-close-btn');
+      // Grab references to elements
+      const modalBox = container.querySelector('.se-tikz-modal');
+      const imageUrlInput = container.querySelector('#image_url_input');
+      const previewBtn = container.querySelector('.se-preview-btn');
+      const convertBtn = container.querySelector('.se-convert-btn');
+      const originalImgEl = container.querySelector('.se-original-img');
+      const convertedPreview = container.querySelector('.se-converted-preview');
+      const submitBtn = container.querySelector('.se-tikz-submit-btn');
+      const closeBtn = container.querySelector('.se-tikz-close-btn');
 
-            let convertedSvg = '';
-            let convertedCode = '';
+      let convertedSvg = '';
+      let convertedCode = '';
 
-            // (A) “Preview” → Show the original image on the left side
-            previewBtn.addEventListener('click', () => {
-                const url = imageUrlInput.value.trim();
-                if (!url) {
-                    alert('Please enter a valid image URL first.');
-                    return;
-                }
-                originalImgEl.src = url;
-            });
-
-            // (B) “Convert” → Call server to get TikZ-based SVG, show on right side
-            convertBtn.addEventListener('click', async () => {
-                const url = imageUrlInput.value.trim();
-                if (!url) {
-                    alert('Please enter a valid image URL first.');
-                    return;
-                }
-                // Clear any previous conversion result
-                convertedPreview.innerHTML = 'Converting...';
-                convertedSvg = '';
-                convertedCode = '';
-
-                try {
-                    // Example: calling your backend that converts images to TikZ
-                    // (Adjust the endpoint & response structure as needed)
-                    const resp = await axios.post('http://localhost:4000/generative/img-to-tikz', {
-                        imageUrl: url,
-                    });
-
-                    if (resp.data) {
-                        convertedSvg = resp.data.svg;
-                        convertedCode = resp.data.code;
-                        convertedPreview.innerHTML = `<span data-tikz="${convertedCode}">${convertedSvg}</span>`;
-                    } else {
-                        convertedPreview.innerHTML = '<em>No SVG returned.</em>';
-                    }
-                } catch (err) {
-                    console.error('Conversion error:', err);
-                    convertedPreview.innerHTML = `<em style="color:red;">Error: ${err.message}</em>`;
-                }
-            });
-
-            // (C) “Submit” → Insert the converted TikZ as an <img> (encoded SVG) into the editor
-            submitBtn.addEventListener('click', () => {
-                if (!convertedSvg) {
-                    alert('No converted SVG to insert. Please “Convert” first.');
-                    return;
-                }
-
-                // Focus the editor before inserting
-                core.focus();
-
-                // Convert the <svg> string to a base64 data URL
-                const svgDataUrl = svgToBase64(convertedSvg);
-                const imgTag = `<span data-tikz="${convertedCode}"><img src="${svgDataUrl}" alt="${convertedCode}" /></span>`;
-
-                // Insert the new image into the SunEditor content
-                core.functions.insertHTML(imgTag);
-
-                // Close & reset
-                modalBox.style.display = 'none';
-                imageUrlInput.value = '';
-                originalImgEl.src = '';
-                convertedPreview.innerHTML = '';
-                convertedSvg = '';
-                convertedCode = '';
-            });
-
-            // (D) “Close”
-            closeBtn.addEventListener('click', () => {
-                modalBox.style.display = 'none';
-                imageUrlInput.value = '';
-                originalImgEl.src = '';
-                convertedPreview.innerHTML = '';
-                convertedSvg = '';
-                convertedCode = '';
-            });
-
-            return container;
+      // (A) “Preview” → Show the original image on the left side
+      previewBtn.addEventListener('click', () => {
+        const url = imageUrlInput.value.trim();
+        if (!url) {
+          alert('Please enter a valid image URL first.');
+          return;
         }
-    };
+        originalImgEl.src = url;
+      });
+
+      // (B) “Convert” → Call server to get TikZ-based SVG, show on right side
+      convertBtn.addEventListener('click', async () => {
+        const url = imageUrlInput.value.trim();
+        if (!url) {
+          alert('Please enter a valid image URL first.');
+          return;
+        }
+        // Clear any previous conversion result
+        convertedPreview.innerHTML = 'Converting...';
+        convertedSvg = '';
+        convertedCode = '';
+
+        try {
+          // Example: calling your backend that converts images to TikZ
+          // (Adjust the endpoint & response structure as needed)
+          const resp = await axios.post('http://localhost:4000/generative/img-to-tikz', {
+            imageUrl: url,
+          });
+
+          if (resp.data) {
+            convertedSvg = resp.data.svg;
+            convertedCode = stringToBase64(resp.data.code);
+            console.log(convertedCode, 'convertedCode')
+            convertedPreview.innerHTML = `<span data-tikz="${convertedCode}">${convertedSvg}</span>`;
+          } else {
+            convertedPreview.innerHTML = '<em>No SVG returned.</em>';
+          }
+        } catch (err) {
+          console.error('Conversion error:', err);
+          convertedPreview.innerHTML = `<em style="color:red;">Error: ${err.message}</em>`;
+        }
+      });
+
+      // (C) “Submit” → Insert the converted TikZ as an <img> (encoded SVG) into the editor
+      submitBtn.addEventListener('click', () => {
+        if (!convertedSvg) {
+          alert('No converted SVG to insert. Please “Convert” first.');
+          return;
+        }
+
+        // Focus the editor before inserting
+        core.focus();
+
+        // Convert the <svg> string to a base64 data URL
+        const svgDataUrl = svgToBase64(convertedSvg);
+        const imgTag = `<span data-tikz="${convertedCode}"><img src="${svgDataUrl}" alt="${convertedCode}" /></span>`;
+
+        // Insert the new image into the SunEditor content
+        core.functions.insertHTML(imgTag);
+
+        // Close & reset
+        modalBox.style.display = 'none';
+        imageUrlInput.value = '';
+        originalImgEl.src = '';
+        convertedPreview.innerHTML = '';
+        convertedSvg = '';
+        convertedCode = '';
+      });
+
+      // (D) “Close”
+      closeBtn.addEventListener('click', () => {
+        modalBox.style.display = 'none';
+        imageUrlInput.value = '';
+        originalImgEl.src = '';
+        convertedPreview.innerHTML = '';
+        convertedSvg = '';
+        convertedCode = '';
+      });
+
+      return container;
+    }
+  };
 };
 
 export default ImgToTikzPlugin;
@@ -267,9 +269,9 @@ export default ImgToTikzPlugin;
  * This allows embedding the returned SVG directly as an <img src="data:image/svg+xml...">
  */
 function svgToBase64(svg) {
-    const encoded = encodeURIComponent(svg)
-        .replace(/'/g, '%27')
-        .replace(/"/g, '%22');
-    const header = "data:image/svg+xml;charset=utf-8,";
-    return header + encoded;
+  const encoded = encodeURIComponent(svg)
+    .replace(/'/g, '%27')
+    .replace(/"/g, '%22');
+  const header = "data:image/svg+xml;charset=utf-8,";
+  return header + encoded;
 }
