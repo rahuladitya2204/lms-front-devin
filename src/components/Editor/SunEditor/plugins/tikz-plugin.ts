@@ -159,7 +159,7 @@ const TikzContainerPlugin = (editorInstance) => {
         if (!previewImg) return;
 
         const svgDataUrl = svgToBase64(previewImg); // Convert SVG to base64 data URL
-        const imgTag = `<span data-code="${code}"><img src="${svgDataUrl}" alt="TikZ SVG" /></span>`;
+        const imgTag = `<span class="tikz-img" data-code="${code}"><img class="tikz-img" src="${svgDataUrl}" alt="TikZ SVG" /></span>`;
 
         core.functions.insertHTML(imgTag);
 
