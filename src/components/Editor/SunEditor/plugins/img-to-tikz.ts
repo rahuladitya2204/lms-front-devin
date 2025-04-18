@@ -176,7 +176,7 @@ const ImgToTikzPlugin = (editorInstance) => {
       const closeBtn = container.querySelector('.se-tikz-close-btn');
 
       let convertedSvg = '';
-      let convertedCode = '';
+      let convertedCode, diagramType = '';
 
       // (A) “Preview” → Show the original image on the left side
       previewBtn.addEventListener('click', () => {
@@ -199,7 +199,7 @@ const ImgToTikzPlugin = (editorInstance) => {
         convertedPreview.innerHTML = 'Converting...';
         convertedSvg = '';
         convertedCode = '';
-
+        diagramType = ''
         try {
           // Example: calling your backend that converts images to TikZ
           // (Adjust the endpoint & response structure as needed)
@@ -209,7 +209,8 @@ const ImgToTikzPlugin = (editorInstance) => {
 
           if (resp.data) {
             convertedSvg = resp.data.svg;
-            convertedCode = stringToBase64(resp.data.code);
+            diagramType = resp.data.type;
+            convertedCode = stringToBase64(JSON.stringify(resp.data.code));
             console.log(convertedCode, 'convertedCode')
             convertedPreview.innerHTML = `<span data-tikz="${convertedCode}">${convertedSvg}</span>`;
           } else {
@@ -233,7 +234,7 @@ const ImgToTikzPlugin = (editorInstance) => {
 
         // Convert the <svg> string to a base64 data URL
         const svgDataUrl = svgToBase64(convertedSvg);
-        const imgTag = `<span data-tikz="${convertedCode}"><img src="${svgDataUrl}" alt="tikz_code_${convertedCode}" /></span>`;
+        const imgTag = `<span data-tikz="${convertedCode}"><img src="${svgDataUrl}" alt="code_${diagramType}_${convertedCode}" /></span>`;
 
         // Insert the new image into the SunEditor content
         core.functions.insertHTML(imgTag);

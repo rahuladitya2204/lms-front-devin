@@ -42,7 +42,8 @@ export const AdvancedEditorOptions = editor => {
     katex: katex,
     plugins: [
       table,
-      TikzContainerPlugin(editor), ImgToTikzPlugin(editor),
+      // TikzContainerPlugin(editor), 
+      ImgToTikzPlugin(editor),
       math,
       audio,
       video,
@@ -51,7 +52,7 @@ export const AdvancedEditorOptions = editor => {
     ],
     buttonList: [
       ['imgToTikz'],
-      ['tikzDialog'],
+      // ['tikzDialog'],
       // ['audioUpload'],
       // ['markdownPaste'],
       // ['backgroundPlugin'],
