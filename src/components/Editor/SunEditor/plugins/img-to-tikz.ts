@@ -1,8 +1,10 @@
 // ImgToTikzPlugin.js
 import axios from 'axios';
 import { stringToBase64 } from '../utils';
+import { Common, Types, User } from "@adewaskar/lms-common";
 
 const ImgToTikzPlugin = (editorInstance) => {
+  console.log(editorInstance, 'editorInstance')
   return {
     name: 'imgToTikz',
     display: 'dialog', // Tells SunEditor to treat it as a “dialog” plugin
@@ -223,30 +225,50 @@ const ImgToTikzPlugin = (editorInstance) => {
       });
 
       // (C) “Submit” → Insert the converted TikZ as an <img> (encoded SVG) into the editor
-      submitBtn.addEventListener('click', () => {
+      submitBtn.addEventListener('click', async () => {
         if (!convertedSvg) {
           alert('No converted SVG to insert. Please “Convert” first.');
           return;
         }
 
-        // Focus the editor before inserting
-        core.focus();
+        try {
+          // Convert SVG to Blob
+          const blob = new Blob([convertedSvg], { type: 'image/svg+xml' });
+          const file = new File([blob], `tikz_diagram_${Date.now()}.svg`, { type: 'image/svg+xml' });
 
-        // Convert the <svg> string to a base64 data URL
-        const svgDataUrl = svgToBase64(convertedSvg);
-        const imgTag = `<span data-tikz="${convertedCode}"><img src="${svgDataUrl}" alt="code_${diagramType}_${convertedCode}" /></span>`;
+          // Access editorInstance from container
 
-        // Insert the new image into the SunEditor content
-        core.functions.insertHTML(imgTag);
+          Common.Api.UploadFiles({
+            files: [{ file, prefixKey: 'tikz' }],
+            isProtected: false,
+            onSuccess: ([uploaded]) => {
+              // Focus the editor before inserting
+              core.focus();
 
-        // Close & reset
-        modalBox.style.display = 'none';
-        imageUrlInput.value = '';
-        originalImgEl.src = '';
-        convertedPreview.innerHTML = '';
-        convertedSvg = '';
-        convertedCode = '';
+              // Insert uploaded image URL as an <img> with TikZ metadata
+              const imgTag = `<span data-tikz="${convertedCode}"><img style="height: 200px" src="${uploaded.url}" alt="code_${diagramType}_${convertedCode}" /></span>`;
+              core.functions.insertHTML(imgTag);
+
+              // Close & reset modal
+              modalBox.style.display = 'none';
+              imageUrlInput.value = '';
+              originalImgEl.src = '';
+              convertedPreview.innerHTML = '';
+              convertedSvg = '';
+              convertedCode = '';
+            },
+            onError: (err) => {
+              console.error('Upload failed', err);
+              alert('Failed to upload converted SVG.');
+            }
+          });
+        } catch (err) {
+          console.error('Error in submit:', err);
+          alert('Error preparing file for upload.');
+        }
       });
+
+
 
       // (D) “Close”
       closeBtn.addEventListener('click', () => {

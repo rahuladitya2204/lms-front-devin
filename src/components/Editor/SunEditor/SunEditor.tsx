@@ -61,6 +61,12 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
   }
   const previousValue = useRef<string | null | undefined>(props.value);
 
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.uploadFiles = uploadFiles;
+    }
+  }, [editorRef.current, uploadFiles])
+
   // === NEW: Copy image URL on click inside the editor, accounting for <figure> parents
   useEffect(() => {
     if (!editorRef.current) return;
