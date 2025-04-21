@@ -42,6 +42,7 @@ const { Text } = Typography;
 
 function TestsList(props: { filter: Types.GetTestsFilter }) {
   const navigate = useNavigate();
+  const { isPYQ, isAITraining } = props;
   const { data: categories } = User.Queries.useGetProductCategories("all");
   const { data: users } = User.Queries.useGetUsers();
   const { openModal } = useModal();
@@ -140,8 +141,8 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
     }
     return i;
   };
-  const [isPYQ, setIsPYQ] = useState(false);
-  const [isAITraining, setIsAITraining] = useState(false)
+  // const [isPYQ, setIsPYQ] = useState(false);
+  // const [isAITraining, setIsAITraining] = useState(false)
   return (
     <Fragment>
       <Fragment>
@@ -154,24 +155,6 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
               (isPYQ ? test?.pyq?.enabled === true : true) &&
               (isAITraining ? (test?.aiTraining?.enabled) === true : true)
           )}
-          extra={[
-            <Form.Item label="Previous Year Questions">
-              <Switch
-                checked={!!isPYQ}
-                onChange={(e) => {
-                  setIsPYQ(e);
-                }}
-              />
-            </Form.Item>,
-            <Form.Item label="AI Training">
-              <Switch
-                checked={!!isPYQ}
-                onChange={(e) => {
-                  setIsAITraining(e);
-                }}
-              />
-            </Form.Item>,
-          ]}
         >
           <TableColumn
             fixed

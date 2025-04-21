@@ -1,106 +1,124 @@
-import { Button, Select, Spin } from "antd";
+import { Button, Form, Select, Spin, Switch } from "antd";
 import { Enum, User } from "@adewaskar/lms-common";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import ActionModal from "@Components/ActionModal/ActionModal";
 import CreateTest from "./CreateTest";
 import Header from "@User/Screens/UserRoot/UserHeader";
-// import PastTest from './PastTest'
-import Tabs from "@Components/Tabs";
 import TestsList from "./TestsList";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { useModal } from "@Components/ActionModal/ModalContext";
 
 const TestsScreen = () => {
   const [status, setStatus] = useState("upcoming");
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>("non-category");
+
   const { isMobile } = useBreakpoint();
-  const { data: categories, isLoading: loadingCategories } =
+  const { openModal } = useModal();
+
+  const { data: categories = [], isLoading: loadingCategories } =
     User.Queries.useGetProductCategories("all");
-  const CategoriesSelect = (
-    <Select
-      onChange={(e) => setStatus(e)}
-      value={status}
-      style={{ width: isMobile ? "100%" : 150 }}
-    >
-      <Select.Option value={`upcoming`} key={`upcoming`}>
-        Upcoming Tests
-      </Select.Option>
-      <Select.Option value={`past`} key={`past`}>
-        Past Tests
-      </Select.Option>
-    </Select>
-  );
-  // const navigate = useNavigate()
+
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategoryId(value);
+  };
+
+  const handleStatusChange = (value: string) => {
+    setStatus(value);
+  };
+
   const CreateCourseCta = (
     <Button onClick={() => openModal(<CreateTest />)} type="primary">
       Create Test
     </Button>
-    // <ActionModal cta={<Button type="primary">Create Test</Button>}>
-    //   <CreateTest />
-    // </ActionModal>
   );
 
-  // useEffect(
-  //   () => {
-  //     setParams({ category: categories[0]?._id })
-  //   },
-  //   [categories]
-  // )
-  const { openModal } = useModal();
+  const categoryOptions = useMemo(() => {
+    return [
+      <Select.Option key="non-category" value="non-category">
+        All Categories
+      </Select.Option>,
+      ...categories.map((c) => (
+        <Select.Option key={c._id} value={c._id}>
+          {c.title}
+        </Select.Option>
+      )),
+    ];
+  }, [categories]);
+
+  const statusOptions = (
+    <Select
+      onChange={handleStatusChange}
+      value={status}
+      style={{ width: isMobile ? "100%" : 150, marginRight: 12 }}
+    >
+      <Select.Option value="upcoming">Upcoming Tests</Select.Option>
+      <Select.Option value="past">Past Tests</Select.Option>
+    </Select>
+  );
+
+  const categoryDropdown = (
+    <Select
+      onChange={handleCategoryChange}
+      value={selectedCategoryId}
+      style={{ width: isMobile ? "100%" : 200 }}
+      placeholder="Select Category"
+    >
+      {categoryOptions}
+    </Select>
+  );
+
+  const getFilter = () => {
+    const baseStatus =
+      status === "upcoming"
+        ? [
+          Enum.TestStatus.DRAFT,
+          Enum.TestStatus.PUBLISHED,
+          Enum.TestStatus.IN_PROGRESS,
+          Enum.TestStatus.LIVE,
+        ]
+        : [Enum.TestStatus.ENDED];
+
+    const filter: any = { status: baseStatus };
+    if (selectedCategoryId !== "non-category") {
+      filter.category = selectedCategoryId;
+    }
+    return filter;
+  };
+  const [isPYQ, setIsPYQ] = useState(false);
+  const [isAITraining, setIsAITraining] = useState(false)
+
   return (
     <Header title="Tests" extra={[CreateCourseCta]}>
-      {isMobile ? (
-        <div style={{ marginBottom: 20 }}>{CategoriesSelect}</div>
-      ) : null}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: isMobile ? "column" : "row",
+          gap: 12,
+          marginBottom: 16,
+        }}
+      >
+        {statusOptions}
+        {categoryDropdown}
+        <Form.Item label="Previous Year Questions">
+          <Switch
+            checked={!!isPYQ}
+            onChange={(e) => {
+              setIsPYQ(e);
+            }}
+          />
+        </Form.Item>,
+        <Form.Item label="AI Training">
+          <Switch
+            checked={!!isAITraining}
+            onChange={(e) => {
+              setIsAITraining(e);
+            }}
+          />
+        </Form.Item>
+      </div>
       <Spin spinning={loadingCategories}>
-        <Tabs
-          tabPosition="left"
-          tabKey="test-list"
-          tabBarExtraContent={{ right: !isMobile ? CategoriesSelect : null }}
-          // defaultActiveKey="1"
-          items={[
-            {
-              label: "All",
-              key: "non-category",
-              children: (
-                <TestsList
-                  filter={{
-                    // @ts-ignore
-                    status: [
-                      Enum.TestStatus.DRAFT,
-                      Enum.TestStatus.PUBLISHED,
-                      Enum.TestStatus.IN_PROGRESS,
-                      Enum.TestStatus.LIVE,
-                    ],
-                  }}
-                />
-              ),
-            },
-            ...categories.map((c) => {
-              return {
-                key: c._id,
-                label: c.title,
-                children: (
-                  <TestsList
-                    filter={{
-                      // @ts-ignore
-                      category: c._id,
-                      status:
-                        status === "upcoming"
-                          ? [
-                              Enum.TestStatus.DRAFT,
-                              Enum.TestStatus.PUBLISHED,
-                              Enum.TestStatus.IN_PROGRESS,
-                              Enum.TestStatus.LIVE,
-                            ]
-                          : [Enum.TestStatus.ENDED],
-                    }}
-                  />
-                ),
-              };
-            }),
-          ]}
-        />
+        {/* @ts-ignore */}
+        <TestsList isPYQ={isPYQ} isAITraining={isAITraining} filter={getFilter()} />
       </Spin>
     </Header>
   );

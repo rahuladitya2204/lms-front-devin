@@ -142,6 +142,10 @@ const ImgToTikzPlugin = (editorInstance) => {
           <div class="se-tikz-body">
             <!-- Row with URL input + two buttons: Preview & Convert -->
             <div class="se-row">
+            <label>Label:</label>
+            <input type="text" id="diagram_label_input" placeholder="E.g., Trends of FDI" />
+          </div>
+            <div class="se-row">
               <label>Image URL:</label>
               <input type="text" id="image_url_input" placeholder="https://example.com/image.png" />
               <button type="button" class="se-btn se-btn-secondary se-preview-btn">Preview</button>
@@ -176,6 +180,7 @@ const ImgToTikzPlugin = (editorInstance) => {
       const convertedPreview = container.querySelector('.se-converted-preview');
       const submitBtn = container.querySelector('.se-tikz-submit-btn');
       const closeBtn = container.querySelector('.se-tikz-close-btn');
+      const labelInput = container.querySelector('#diagram_label_input');
 
       let convertedSvg = '';
       let convertedCode, diagramType = '';
@@ -204,15 +209,14 @@ const ImgToTikzPlugin = (editorInstance) => {
         diagramType = ''
         try {
           // Example: calling your backend that converts images to TikZ
+          const diagramLabel = labelInput.value.trim();
           // (Adjust the endpoint & response structure as needed)
-          const resp = await axios.post('http://localhost:4000/generative/img-to-tikz', {
-            imageUrl: url,
-          });
+          const resp = await User.Api.GenerateTikzFromImgUrl(url, { text: diagramLabel })
 
-          if (resp.data) {
-            convertedSvg = resp.data.svg;
-            diagramType = resp.data.type;
-            convertedCode = stringToBase64(JSON.stringify(resp.data.code));
+          if (resp) {
+            convertedSvg = resp.svg;
+            diagramType = resp.type;
+            convertedCode = stringToBase64(JSON.stringify(resp.code));
             console.log(convertedCode, 'convertedCode')
             convertedPreview.innerHTML = `<span data-tikz="${convertedCode}">${convertedSvg}</span>`;
           } else {
