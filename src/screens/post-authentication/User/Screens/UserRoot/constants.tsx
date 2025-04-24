@@ -36,6 +36,14 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
     path: "/admin/blogs",
   },
   {
+    title: "Question Library",
+    icon: <BookOutlined />,
+    permissions: [
+      permissions: [Enum.UserRolePermissions.GET_TESTS],
+    ],
+    path: "/admin/products/test/library",
+  },
+  {
     title: "Products",
     icon: <BookOutlined />,
     permissions: [Enum.UserRolePermissions.GET_CATEGORY],
