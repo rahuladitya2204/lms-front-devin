@@ -7,6 +7,7 @@ export interface TopicSelectPropsI {
   label: string;
   topicId?: string | string[];
   level?: number;
+  placeholder?: string;
   width: string;
   multiple?: boolean;
   notDisabled?: boolean;
@@ -56,6 +57,7 @@ export default function TopicSelect(props: TopicSelectPropsI) {
         style={{ width: props.width || 300 }}
         loading={isLoading}
         showSearch
+        placeholder={props.placeholder || "Select Topics"}
         onChange={props.onChange}
         multiple={props.multiple}
         defaultValue={props.defaultValue}
