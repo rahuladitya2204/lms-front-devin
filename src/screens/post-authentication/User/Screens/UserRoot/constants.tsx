@@ -38,9 +38,7 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   {
     title: "Question Library",
     icon: <BookOutlined />,
-    permissions: [
-      permissions: [Enum.UserRolePermissions.GET_TESTS],
-    ],
+    permissions: [Enum.UserRolePermissions.GET_TESTS],
     path: "/admin/products/test/library",
   },
   {
