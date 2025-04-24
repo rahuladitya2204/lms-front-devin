@@ -7,9 +7,12 @@ export interface TopicSelectPropsI {
   label: string;
   topicId?: string | string[];
   level?: number;
+  width: string;
   multiple?: boolean;
   notDisabled?: boolean;
   required?: boolean;
+  defaultValue?: string | string[];  // ← NEW PROP
+  onChange?: (value: string | string[]) => void;  // ← onChange handler
 }
 
 export default function TopicSelect(props: TopicSelectPropsI) {
@@ -50,9 +53,16 @@ export default function TopicSelect(props: TopicSelectPropsI) {
   return (
     <Form.Item name={props.name} label={props.label} required={props.required}>
       <TreeSelect
+        style={{ width: props.width || 300 }}
         loading={isLoading}
+        showSearch
+        onChange={props.onChange}
         multiple={props.multiple}
+        defaultValue={props.defaultValue}
         treeData={TOPIC_TREE_DATA}
+        filterTreeNode={(input, node) =>
+          (node?.title || "").toLowerCase().includes(input.toLowerCase())
+        }
       />
     </Form.Item>
   );

@@ -149,6 +149,7 @@ import { Card, Col, Row } from "antd";
 import LearnerLogin from "./post-authentication/Learner/Screens/Login";
 import TextsScreen from "@User/Screens/Admin/Texts/TextsScreen";
 import LearnerPackages from "./post-authentication/Learner/Screens/Products/Package/PackagesList";
+import { TestQuestionLibrary } from "@User/Screens/Tests/TestCreator/TestBuilder/TestQuestionLibrary";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -580,6 +581,7 @@ const router = (userType: string) => {
                       /> */}
                     </Route>
                     <Route path="test">
+                      <Route path="library" element={<TestQuestionLibrary />} />
                       <Route path="" element={<UserTestScreen />} />
                       <Route path=":testId/status" element={<TestStatus />} />
                       <Route path="create" element={<CreateTest />} />

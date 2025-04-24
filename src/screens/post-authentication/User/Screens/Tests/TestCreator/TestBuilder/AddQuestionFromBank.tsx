@@ -632,7 +632,7 @@ export const DifficultyLevelTag = (props: { difficultyLevel: string }) => {
   return DiffTag;
 };
 
-function TopicTag({ id }: { id: string }) {
+export function TopicTag({ id }: { id: string }) {
   const { data: topics } = User.Queries.useGetTopics();
   return topics.find((t) => t._id === id)?.title['eng'];
 }
