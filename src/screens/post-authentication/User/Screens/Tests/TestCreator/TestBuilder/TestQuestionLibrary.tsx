@@ -36,7 +36,7 @@ export const TestQuestionLibrary = (props: TestQuestionLibraryPropsI) => {
             // }
         );
     };
-    return <Header title="Test Library">
+    return <Header title="Question Library">
 
         <Row>
             <Col span={24}>
