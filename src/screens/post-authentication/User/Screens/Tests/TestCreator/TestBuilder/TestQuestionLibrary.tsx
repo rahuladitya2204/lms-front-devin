@@ -174,7 +174,7 @@ export const TopicSelectColumn = (props: { record: Types.TestQuestion }) => {
     }, [record])
     return <Form form={form} onFinish={onSubmit}>
         <Row>
-            <Col> <TopicSelect width={300} name='topic' topicId={TOPIC_PARENT} /></Col>
+            <Col> <TopicSelect width={300} name='topic' notDisabled topicId={TOPIC_PARENT} /></Col>
             <Col>
                 <Button loading={isLoading} style={{ marginLeft: 15 }} onClick={form.submit} type='primary' icon={<SaveOutlined />} ></Button></Col>
         </Row>
