@@ -349,11 +349,9 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                             actions.unshift(
                               <Tag
                                 style={{ textAlign: "center" }}
-                                color="blue-inverse"
+                                color={item.title.text.eng.includes(`alt="code_`) ? "green-inverse" : "red-inverse"}
                                 icon={<FileImageOutlined />}
-                              >
-                                {/* {correctOptions.join(",")} */}
-                              </Tag>
+                              />
                             );
                           }
                           const TestSectionListItem = (isActive: boolean) => (
