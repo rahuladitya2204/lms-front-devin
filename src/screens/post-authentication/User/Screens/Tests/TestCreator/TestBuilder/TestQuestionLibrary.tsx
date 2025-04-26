@@ -107,7 +107,8 @@ export const TestQuestionLibrary = (props: TestQuestionLibraryPropsI) => {
                                         </Col>
                                         <Col>
                                             <span style={{ fontSize: 20 }}>
-                                                {' '}{dataCountLoading ? <Skeleton.Button active block style={{ height: 20, width: 20 }} /> : dataCount}
+                                                {' '}
+                                                {dataCountLoading ? <Skeleton.Button active block style={{ height: 20, width: 20 }} /> : <Title level={2}>{dataCount}</Title>}
                                             </span>
                                         </Col></Row>
                                 </Title>
