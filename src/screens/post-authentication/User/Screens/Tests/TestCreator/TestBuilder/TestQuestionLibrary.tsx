@@ -25,14 +25,16 @@ export const TestQuestionLibrary = (props: TestQuestionLibraryPropsI) => {
     const [savingId, setSavingId] = useState<string | null>(null); // NEW: Track which row is saving
 
     const { mutate: getQuestionsFromBank, isLoading, data = [] } = User.Queries.useGetQuestionsFromBank();
-    const { mutate: getQuestionsFromBankForCount, data: dataCount = [], isLoading: dataCountLoading
+    const { mutate: getQuestionsFromBankForCount, data: dataCount = null, isLoading: dataCountLoading
     } = User.Queries.useGetQuestionsFromBank();
     const { mutate: updateTestQuestion } = User.Queries.useUpdateTestItem();
+    const formData = form.getFieldsValue();
     const updateSearchCount = () => {
         getQuestionsFromBankForCount({
             topics: [formData.topic],
             difficultyLevel: formData.difficultyLevel,
             languages,
+            onlyCount: true
         });
     }
     const submit = (formData: any) => {
@@ -42,17 +44,11 @@ export const TestQuestionLibrary = (props: TestQuestionLibraryPropsI) => {
             languages,
         }
         getQuestionsFromBank(data);
-        getQuestionsFromBankForCount(data)
-    };
-    const formData = form.getFieldsValue();
-
-    useEffect(() => {
         getQuestionsFromBankForCount({
-            topics: [formData.topic],
-            difficultyLevel: formData.difficultyLevel,
-            languages,
-        });
-    }, [formData.topic, formData.difficultyLevel])
+            ...data,
+            onlyCount: true
+        })
+    };
 
     const handleTopicSave = async (record: Types.TestQuestion) => {
         if (!record.topic) return;
@@ -80,10 +76,7 @@ export const TestQuestionLibrary = (props: TestQuestionLibraryPropsI) => {
             }
         );
     };
-
-    const aiQuestionCount = useMemo(() => {
-        return data.filter((d) => d.aiTraining?.enabled).length;
-    }, [data]);
+    console.log(dataCount, 'dataCountdataCount')
 
     return (
         <Header title="Question Library">
@@ -114,7 +107,7 @@ export const TestQuestionLibrary = (props: TestQuestionLibraryPropsI) => {
                                         </Col>
                                         <Col>
                                             <span style={{ fontSize: 20 }}>
-                                                {' '}{dataCountLoading ? <Skeleton.Button active block style={{ height: 20, width: 20 }} /> : dataCount.filter(i => i?.aiTraining?.enabled).length}
+                                                {' '}{dataCountLoading ? <Skeleton.Button active block style={{ height: 20, width: 20 }} /> : dataCount}
                                             </span>
                                         </Col></Row>
                                 </Title>
@@ -161,6 +154,7 @@ export const TestQuestionLibrary = (props: TestQuestionLibraryPropsI) => {
                                         key="topic"
                                         title="Topic"
                                         render={(_: any, record: Types.TestQuestion) => (
+                                            // <div style={{ margin: 400 }}>
                                             <Row align="middle">
                                                 <Col>
                                                     <TopicSelect
@@ -182,6 +176,7 @@ export const TestQuestionLibrary = (props: TestQuestionLibraryPropsI) => {
                                                     />
                                                 </Col>
                                             </Row>
+                                            // </div>
                                         )}
                                     />
                                 </Table>
