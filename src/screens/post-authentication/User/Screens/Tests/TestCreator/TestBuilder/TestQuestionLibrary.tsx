@@ -1,5 +1,5 @@
 import Table, { TableColumn } from "@Components/Table/TableComponent";
-import { Button, Checkbox, Col, Form, message, Row, Typography } from "antd";
+import { Button, Checkbox, Col, Form, message, Row, Skeleton, Typography } from "antd";
 import { Types, User } from "@adewaskar/lms-common";
 import TopicSelect from "@Components/TopicSelect";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
@@ -7,9 +7,16 @@ import Header from "@Components/Header";
 import { SaveOutlined } from "@ant-design/icons";
 import { useEffect, useMemo, useState } from "react";
 import { Title } from "@Components/Typography/Typography";
+import styled from "@emotion/styled";
 
 const TOPIC_PARENT = '65ba1661dcfa321a8595832d';
 const languages = ['eng'];
+
+const FormItem = styled(Form.Item)`
+.ant-form-item {
+    margin: 0;
+}
+`
 
 interface TestQuestionLibraryPropsI { }
 
@@ -18,15 +25,34 @@ export const TestQuestionLibrary = (props: TestQuestionLibraryPropsI) => {
     const [savingId, setSavingId] = useState<string | null>(null); // NEW: Track which row is saving
 
     const { mutate: getQuestionsFromBank, isLoading, data = [] } = User.Queries.useGetQuestionsFromBank();
+    const { mutate: getQuestionsFromBankForCount, data: dataCount = [], isLoading: dataCountLoading
+    } = User.Queries.useGetQuestionsFromBank();
     const { mutate: updateTestQuestion } = User.Queries.useUpdateTestItem();
-
-    const submit = (formData: any) => {
-        getQuestionsFromBank({
+    const updateSearchCount = () => {
+        getQuestionsFromBankForCount({
             topics: [formData.topic],
             difficultyLevel: formData.difficultyLevel,
             languages,
         });
+    }
+    const submit = (formData: any) => {
+        const data = {
+            topics: [formData.topic],
+            difficultyLevel: formData.difficultyLevel,
+            languages,
+        }
+        getQuestionsFromBank(data);
+        getQuestionsFromBankForCount(data)
     };
+    const formData = form.getFieldsValue();
+
+    useEffect(() => {
+        getQuestionsFromBankForCount({
+            topics: [formData.topic],
+            difficultyLevel: formData.difficultyLevel,
+            languages,
+        });
+    }, [formData.topic, formData.difficultyLevel])
 
     const handleTopicSave = async (record: Types.TestQuestion) => {
         if (!record.topic) return;
@@ -46,6 +72,7 @@ export const TestQuestionLibrary = (props: TestQuestionLibraryPropsI) => {
                 onSuccess: () => {
                     message.success("Question Updated Successfully");
                     setSavingId(null); // reset after save
+                    updateSearchCount();
                 },
                 onError: () => {
                     setSavingId(null); // reset even if error
@@ -63,10 +90,12 @@ export const TestQuestionLibrary = (props: TestQuestionLibraryPropsI) => {
             <Row>
                 <Col span={24}>
                     <Form layout="vertical" onFinish={submit} form={form}>
-                        <Form.Item name="topic" label="Topics">
-                            <TopicSelect width="100%" topicId={TOPIC_PARENT} level={4} />
-                        </Form.Item>
-                        <Row justify="end">
+
+                        <Row align={'middle'} gutter={15}>
+                            <Col>
+                                <FormItem style={{ margin: 0 }} name="topic">
+                                    <TopicSelect width="500px" topicId={TOPIC_PARENT} level={4} />
+                                </FormItem></Col>
                             <Col>
                                 <Button htmlType="submit" loading={isLoading} type="primary">
                                     Search Question Bank
@@ -79,14 +108,22 @@ export const TestQuestionLibrary = (props: TestQuestionLibraryPropsI) => {
                         <Row style={{ marginTop: 24 }}>
                             <Col span={24}>
                                 <Title level={4}>
-                                    AI Training Question: {aiQuestionCount}
+                                    <Row align='middle'>
+                                        <Col>
+                                            <span style={{ fontSize: 20 }}>AI Training Question:</span>
+                                        </Col>
+                                        <Col>
+                                            <span style={{ fontSize: 20 }}>
+                                                {' '}{dataCountLoading ? <Skeleton.Button active block style={{ height: 20, width: 20 }} /> : dataCount.filter(i => i?.aiTraining?.enabled).length}
+                                            </span>
+                                        </Col></Row>
                                 </Title>
                             </Col>
                             <Col span={24}>
                                 <Table
                                     searchFields={languages.map((lang) => `title.text.${lang}`)}
                                     rowKey="_id"
-                                    dataSource={data}
+                                    dataSource={data.sort(i => i.aiTraining?.enabled ? -1 : 1)}
                                 >
                                     <TableColumn
                                         key="checkbox"
@@ -124,7 +161,7 @@ export const TestQuestionLibrary = (props: TestQuestionLibraryPropsI) => {
                                         key="topic"
                                         title="Topic"
                                         render={(_: any, record: Types.TestQuestion) => (
-                                            <Row align="middle" gutter={12}>
+                                            <Row align="middle">
                                                 <Col>
                                                     <TopicSelect
                                                         width={300}
