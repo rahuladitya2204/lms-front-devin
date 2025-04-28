@@ -105,24 +105,42 @@ export default AppImage;
 
 
 export function getCDNLink(s3Url: string): string {
-  if (!s3Url.includes('upload-junk')) {
+  if (!s3Url || typeof s3Url !== 'string') {
+    return '/images/not-found.png';
+  }
+  
+  // Handle relative URLs
+  if (s3Url.startsWith('/')) {
     return s3Url;
   }
-  const cdnDomain = 'https://assets.testmint.ai';
-
-  try {
-    // Parse the original URL
-    const url = new URL(s3Url);
-
-    // Extract the pathname (includes leading '/')
-    const path = url.pathname;
-
-    // Construct the new URL using the CDN domain
-    const cdnUrl = `${cdnDomain}${path}`;
-
-    return cdnUrl;
-  } catch (error) {
-    console.error('Invalid URL provided to getCDNLink:', s3Url, error);
-    return s3Url; // Fallback to the original URL in case of error
+  
+  // Handle data URLs
+  if (s3Url.startsWith('data:')) {
+    return s3Url;
   }
+  
+  // Handle CDN URLs that are already correct
+  if (s3Url.includes('assets.testmint.ai') || s3Url.includes('nimblebee-front-cdn.azureedge.net')) {
+    return s3Url;
+  }
+  
+  // Handle S3 URLs
+  if (s3Url.includes('upload-junk')) {
+    const cdnDomain = 'https://assets.testmint.ai';
+    
+    try {
+      // Parse the original URL
+      const url = new URL(s3Url);
+      
+      // Extract the pathname (includes leading '/')
+      const path = url.pathname;
+      
+      // Construct the new URL using the CDN domain
+      return `${cdnDomain}${path}`;
+    } catch (error) {
+      console.error('Invalid URL provided to getCDNLink:', s3Url, error);
+    }
+  }
+  
+  return s3Url;
 }
