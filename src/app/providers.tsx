@@ -49,9 +49,10 @@ export default function Providers({ children }) {
 
   return (
     <MemoizedChildren>
-      <Store.AuthenticationStoreProvider>
-        <Store.GlobalStoreProvider>
-          <QueryClientProvider client={queryClient}>
+      {/* Optimize provider nesting to reduce render blocking */}
+      <QueryClientProvider client={queryClient}>
+        <Store.AuthenticationStoreProvider>
+          <Store.GlobalStoreProvider>
             <ModalProvider>
               <ServerAuthProvider>
                 <AntdRegistry>
@@ -59,9 +60,9 @@ export default function Providers({ children }) {
                 </AntdRegistry>
               </ServerAuthProvider>
             </ModalProvider>
-          </QueryClientProvider>
-        </Store.GlobalStoreProvider>
-      </Store.AuthenticationStoreProvider>
-    </MemoizedChildren >
+          </Store.GlobalStoreProvider>
+        </Store.AuthenticationStoreProvider>
+      </QueryClientProvider>
+    </MemoizedChildren>
   );
 }

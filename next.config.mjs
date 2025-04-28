@@ -18,9 +18,7 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
   experimental: {
-    // Enable Fast Refresh explicitly
-    fastRefresh: true,
-    // Remove deprecated options
+    // Only keep valid experimental options
     optimizeCss: true,
     optimizePackageImports: ['antd', '@emotion/styled', 'lodash'],
   },
