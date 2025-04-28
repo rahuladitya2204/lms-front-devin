@@ -14,7 +14,23 @@ const nextConfig = {
   typescript: { ignoreBuildErrors: true },
   assetPrefix: process.env.NEXT_PUBLIC_CDN_URL,
   images: {
-    domains: ['upload-junk.s3.us-west-2.amazonaws.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'upload-junk.s3.us-west-2.amazonaws.com',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'assets.testmint.ai',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'nimblebee-front-cdn.azureedge.net',
+        pathname: '**',
+      },
+    ],
     formats: ['image/avif', 'image/webp'],
   },
   experimental: {

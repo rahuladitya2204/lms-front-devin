@@ -38,7 +38,7 @@ function getQueryClient() {
   return browserQueryClient;
 }
 
-const MemoizedChildren = memo(({ children }) => children);
+const MemoizedChildren = memo(({ children }: { children: React.ReactNode }) => children);
 
 /**
  * Providers Component
@@ -49,10 +49,9 @@ export default function Providers({ children }) {
 
   return (
     <MemoizedChildren>
-      {/* Optimize provider nesting to reduce render blocking */}
-      <QueryClientProvider client={queryClient}>
-        <Store.AuthenticationStoreProvider>
-          <Store.GlobalStoreProvider>
+      <Store.AuthenticationStoreProvider>
+        <Store.GlobalStoreProvider>
+          <QueryClientProvider client={queryClient}>
             <ModalProvider>
               <ServerAuthProvider>
                 <AntdRegistry>
@@ -60,9 +59,9 @@ export default function Providers({ children }) {
                 </AntdRegistry>
               </ServerAuthProvider>
             </ModalProvider>
-          </Store.GlobalStoreProvider>
-        </Store.AuthenticationStoreProvider>
-      </QueryClientProvider>
+          </QueryClientProvider>
+        </Store.GlobalStoreProvider>
+      </Store.AuthenticationStoreProvider>
     </MemoizedChildren>
   );
 }

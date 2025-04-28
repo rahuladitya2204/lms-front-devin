@@ -9,7 +9,7 @@ import Providers from "./providers";
 const axios = getAxiosInstance();
 import { Constants } from "@adewaskar/lms-common";
 import { getCookie } from "@ServerUtils/index";
-Constants.config.API_URL = process.env.NEXT_API_URL;
+Constants.config.API_URL = process.env.NEXT_API_URL || '';
 
 import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
 // initDateFormats();
@@ -118,15 +118,15 @@ export async function generateMetadata(
     alternates: {
       canonical: "https://testmint.ai",
     },
-    other: JSON.stringify({
-      "application/ld+json": {
+    other: {
+      "application/ld+json": JSON.stringify({
         "@context": "https://schema.org",
         "@type": "WebPage",
         name: "Testmint",
         description: "Testmint",
         url: "https://testmint.ai",
-      },
-    }),
+      }),
+    },
   };
 }
 
@@ -148,13 +148,15 @@ export default function RootLayout({
               function sendToConsole({name, value}) {
                 console.log('Web Vitals:', name, value);
               }
-              import('web-vitals').then(({getCLS, getFID, getFCP, getLCP, getTTFB}) => {
-                getCLS(sendToConsole);
-                getFID(sendToConsole);
-                getFCP(sendToConsole);
-                getLCP(sendToConsole);
-                getTTFB(sendToConsole);
-              });
+              import('/node_modules/web-vitals/dist/web-vitals.js')
+                .then(({getCLS, getFID, getFCP, getLCP, getTTFB}) => {
+                  getCLS(sendToConsole);
+                  getFID(sendToConsole);
+                  getFCP(sendToConsole);
+                  getLCP(sendToConsole);
+                  getTTFB(sendToConsole);
+                })
+                .catch(err => console.error('Failed to load web-vitals:', err));
             `}
           </Script>
         )}
