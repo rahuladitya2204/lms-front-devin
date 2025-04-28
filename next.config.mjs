@@ -12,7 +12,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   output: 'standalone',
   typescript: { ignoreBuildErrors: true },
-  assetPrefix: process.env.NEXT_PUBLIC_CDN_URL,
+  assetPrefix: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_CDN_URL : '',
   // Optimize for better development experience
   reactStrictMode: false, // Disable strict mode for better hot reload
   images: {
