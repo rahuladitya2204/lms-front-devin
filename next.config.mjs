@@ -55,7 +55,9 @@ const nextConfig = {
   experimental: {
     // Only keep valid experimental options
     optimizeCss: true,
-    optimizePackageImports: ['antd', '@emotion/styled', 'lodash'],
+    optimizePackageImports: ['antd', '@emotion/styled', 'lodash', '@adewaskar/lms-common'],
+    // Enable Fast Refresh explicitly
+    fastRefresh: true,
   },
   swcMinify: true,
   webpack: (config, { isServer, dev }) => {

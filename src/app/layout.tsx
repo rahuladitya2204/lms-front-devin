@@ -6,12 +6,32 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 
 import Providers from "./providers";
-const axios = getAxiosInstance();
-import { Constants } from "@adewaskar/lms-common";
-import { getCookie } from "@ServerUtils/index";
-Constants.config.API_URL = process.env.NEXT_API_URL || '';
-
 import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
+import { getCookie } from "@ServerUtils/index";
+import { preloadCommon } from "@Utils/dynamicImports";
+
+const axios = getAxiosInstance();
+
+let Constants: any = {
+  config: { API_URL: process.env.NEXT_API_URL || '' },
+  INITIAL_ORG_DETAILS: {
+    name: 'Testmint',
+    description: 'Testmint',
+    alias: 'testmint',
+    branding: {
+      logo: { low: { url: '/logo.png' } },
+      favIcon: { url: '/favicon.ico' }
+    }
+  }
+};
+
+if (typeof window !== 'undefined') {
+  import('@adewaskar/lms-common').then(module => {
+    Constants = module.Constants;
+    Constants.config.API_URL = process.env.NEXT_API_URL || '';
+  });
+  preloadCommon();
+}
 // initDateFormats();
 export const viewport: Viewport = {
   themeColor: "black",
