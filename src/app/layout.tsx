@@ -154,14 +154,16 @@ export default function RootLayout({
               console.log('Web Vitals:', name, value);
             }
             
-            import('web-vitals')
-              .then(({getCLS, getFID, getFCP, getLCP, getTTFB}) => {
-                getCLS(sendToConsole);
-                getFID(sendToConsole);
-                getFCP(sendToConsole);
-                getLCP(sendToConsole);
-                getTTFB(sendToConsole);
-              })
+            const script = document.createElement('script');
+            script.src = 'https://unpkg.com/web-vitals@3/dist/web-vitals.iife.js';
+            script.onload = () => {
+              window.webVitals.getCLS(sendToConsole);
+              window.webVitals.getFID(sendToConsole);
+              window.webVitals.getFCP(sendToConsole);
+              window.webVitals.getLCP(sendToConsole);
+              window.webVitals.getTTFB(sendToConsole);
+            };
+            document.head.appendChild(script);
               .catch(err => {
                 console.error('Failed to load web-vitals:', err);
                 const script = document.createElement('script');
