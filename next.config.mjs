@@ -41,8 +41,25 @@ const nextConfig = {
         hostname: 'nimblebee-front-cdn.azureedge.net',
         pathname: '**',
       },
+      {
+        protocol: 'https',
+        hostname: '*.amazonaws.com',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'testmintai-back.azurewebsites.net',
+        pathname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'www.nimblebee.local',
+        pathname: '**',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
+    dangerouslyAllowSVG: true,
+    unoptimized: process.env.NODE_ENV === 'development', // Disable optimization in dev for faster builds
   },
   experimental: {
     // Only keep valid experimental options
