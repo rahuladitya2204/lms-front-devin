@@ -144,7 +144,7 @@ const TikzContainerPlugin = (editorInstance) => {
         }
         try {
           previewDiv.innerHTML = 'Rendering...';
-          const resp = await axios.post('https://testmintai-back.azurewebsites.net/generative/tikz-to-img', { code });
+          const resp = await axios.post('http://localhost:4000/generative/tikz-to-img', { code });
           previewDiv.innerHTML = resp.data.svg || '<em>No SVG returned.</em>';
           previewImg = previewDiv.innerHTML;
         } catch (err) {
