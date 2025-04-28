@@ -5,11 +5,11 @@ import ErrorBoundary from "@Components/ErrorBoundary";
 import { CameraProvider } from "@Components/ActionModal/Camera/AppCamera";
 
 function App() {
-  console.log('Testing hot reload - App component rendered with update');
+  console.log('Hot reload test - ' + new Date().toISOString());
   return (
     <ErrorBoundary>
       <CameraProvider>
-        {/* Use memoized AppRouter for better performance */}
+        {/* AppRouter wrapped in React.memo for better performance */}
         <AppRouter />
       </CameraProvider>
     </ErrorBoundary>
