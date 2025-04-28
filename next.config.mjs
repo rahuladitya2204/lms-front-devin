@@ -13,6 +13,17 @@ const nextConfig = {
   output: 'standalone',
   typescript: { ignoreBuildErrors: true },
   assetPrefix: process.env.NEXT_PUBLIC_CDN_URL,
+  // Enable React Fast Refresh for development
+  reactStrictMode: false, // Disable strict mode for better hot reload
+  webpackDevMiddleware: config => {
+    // Faster incremental builds
+    config.watchOptions = {
+      poll: false, // Use filesystem events instead of polling
+      ignored: /node_modules/,
+      aggregateTimeout: 300, // Delay rebuild after the first change
+    };
+    return config;
+  },
   images: {
     remotePatterns: [
       {
@@ -37,12 +48,30 @@ const nextConfig = {
     // Only keep valid experimental options
     optimizeCss: true,
     optimizePackageImports: ['antd', '@emotion/styled', 'lodash'],
+    // Enable Fast Refresh explicitly
+    fastRefresh: true,
   },
   swcMinify: true,
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, dev }) => {
     config.resolve.fallback = { fs: false };
 
-    if (!isServer) {
+    // Improve compilation speed in development
+    if (dev) {
+      // Use eval-source-map for faster rebuilds in development
+      config.devtool = 'eval-source-map';
+      
+      // Reduce the number of modules being processed
+      config.watchOptions = {
+        ignored: /node_modules/,
+        aggregateTimeout: 300,
+        poll: 1000,
+      };
+      
+      // Enable caching for faster rebuilds
+      config.cache = true;
+    }
+
+    if (!isServer && !dev) {
       config.plugins.push(
         new CompressionPlugin({
           algorithm: 'gzip',
@@ -57,11 +86,13 @@ const nextConfig = {
           minRatio: 0.8,
         })
       );
+    }
 
+    if (!isServer) {
       config.optimization.splitChunks = {
         chunks: 'all',
         minSize: 20000,
-        maxSize: 80000, // Reduced for better performance
+        maxSize: 60000, // Further reduced for better performance
         maxAsyncRequests: 30,
         maxInitialRequests: 25,
         cacheGroups: {
@@ -70,6 +101,7 @@ const nextConfig = {
             test: /[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
             priority: 40,
             chunks: 'all',
+            enforce: true,
           },
           lib: {
             test: /[\\/]node_modules[\\/]/,
@@ -88,6 +120,12 @@ const nextConfig = {
             priority: 20,
             reuseExistingChunk: true,
           },
+          styles: {
+            name: 'styles',
+            test: /\.css$/,
+            chunks: 'all',
+            enforce: true,
+          },
           shared: {
             name: 'shared',
             minChunks: 2,
@@ -96,6 +134,9 @@ const nextConfig = {
           }
         }
       };
+      
+      // Optimize module ids for smaller bundles
+      config.optimization.moduleIds = 'deterministic';
     }
     return config;
   },

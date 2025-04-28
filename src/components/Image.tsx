@@ -87,9 +87,11 @@ function AppImage({
             }}
             width={Number(width) || 500}
             height={Number(height) || 300}
-            // layout="fill"
             alt={props.alt || `Image`}
-            // placeholder="blur"
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEtAJJXIDTjwAAAABJRU5ErkJggg=="
+            loading="lazy"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             src={IMG_SRC}
           />
         )}

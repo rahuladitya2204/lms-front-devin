@@ -141,25 +141,42 @@ export default function RootLayout({
       <meta name="fast2sms" content="nkRd7PnOUZwUD3o4yKkkERxtVE0QWRgU" />
       <body style={{ margin: 0 }}>
         <noscript>You need to enable JavaScript to run this app.</noscript>
+        {/* Add preload hints for critical resources */}
+        <link rel="preconnect" href="https://testmintai-back.azurewebsites.net" />
+        <link rel="preconnect" href="https://nimblebee-front-cdn.azureedge.net" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://testmintai-back.azurewebsites.net" />
+        <link rel="dns-prefetch" href="https://nimblebee-front-cdn.azureedge.net" />
         <Providers>{children}</Providers>
-        {process.env.NODE_ENV === 'development' && (
-          <Script id="web-vitals-reporter" strategy="afterInteractive">
-            {`
-              function sendToConsole({name, value}) {
-                console.log('Web Vitals:', name, value);
-              }
-              import('/node_modules/web-vitals/dist/web-vitals.js')
-                .then(({getCLS, getFID, getFCP, getLCP, getTTFB}) => {
-                  getCLS(sendToConsole);
-                  getFID(sendToConsole);
-                  getFCP(sendToConsole);
-                  getLCP(sendToConsole);
-                  getTTFB(sendToConsole);
-                })
-                .catch(err => console.error('Failed to load web-vitals:', err));
-            `}
-          </Script>
-        )}
+        {/* Web Vitals Monitoring */}
+        <Script id="web-vitals-reporter" strategy="afterInteractive">
+          {`
+            function sendToConsole({name, value}) {
+              console.log('Web Vitals:', name, value);
+            }
+            
+            import('web-vitals')
+              .then(({getCLS, getFID, getFCP, getLCP, getTTFB}) => {
+                getCLS(sendToConsole);
+                getFID(sendToConsole);
+                getFCP(sendToConsole);
+                getLCP(sendToConsole);
+                getTTFB(sendToConsole);
+              })
+              .catch(err => {
+                console.error('Failed to load web-vitals:', err);
+                const script = document.createElement('script');
+                script.src = 'https://unpkg.com/web-vitals@3/dist/web-vitals.iife.js';
+                script.onload = () => {
+                  window.webVitals.getCLS(sendToConsole);
+                  window.webVitals.getFID(sendToConsole);
+                  window.webVitals.getFCP(sendToConsole);
+                  window.webVitals.getLCP(sendToConsole);
+                  window.webVitals.getTTFB(sendToConsole);
+                };
+                document.head.appendChild(script);
+              });
+          `}
+        </Script>
       </body>
     </html>
   );
