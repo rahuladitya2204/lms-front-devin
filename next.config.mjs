@@ -18,9 +18,9 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
   experimental: {
-    granularChunks: true,
-    concurrentFeatures: true,
-    serverActions: true,
+    // Enable Fast Refresh explicitly
+    fastRefresh: true,
+    // Remove deprecated options
     optimizeCss: true,
     optimizePackageImports: ['antd', '@emotion/styled', 'lodash'],
   },
@@ -47,52 +47,45 @@ const nextConfig = {
       config.optimization.splitChunks = {
         chunks: 'all',
         minSize: 20000,
-        maxSize: 150000,
+        maxSize: 80000, // Reduced for better performance
         maxAsyncRequests: 30,
         maxInitialRequests: 25,
         cacheGroups: {
-          vendor: {
+          framework: {
+            name: 'framework',
+            test: /[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+            priority: 40,
+            chunks: 'all',
+          },
+          lib: {
             test: /[\\/]node_modules[\\/]/,
+            priority: 30,
+            chunks: 'all',
             name(module) {
-              const packageName = module.context.match(/[\\/]node_modules[\\/](.+?)(?:[\\/]|$)/)[1];
-              return `vendor.${packageName.replace('@', '')}`;
+              if (!module.context) return 'npm.unknown';
+              const match = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/);
+              const packageName = match ? match[1] : 'unknown';
+              return `npm.${packageName.replace('@', '')}`;
             },
+          },
+          commons: {
+            name: 'commons',
+            minChunks: 2,
+            priority: 20,
+            reuseExistingChunk: true,
+          },
+          shared: {
+            name: 'shared',
+            minChunks: 2,
             priority: 10,
             reuseExistingChunk: true,
-          },
-        },
-        cacheGroups: {
-          vendors: {
-            test: /[\\/]node_modules[\\/]/,
-            priority: -10,
-            reuseExistingChunk: true,
-          },
-          common: {
-            name: 'common',
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true,
-          },
-        },
+          }
+        }
       };
     }
     return config;
   },
 };
 
-export default withBundleAnalyzer(
-  withPWA({
-    dest: 'public',
-    disable: process.env.NODE_ENV === 'development',
-    buildExcludes: [/middleware-manifest.json$/],
-  })(nextConfig),
-  {
-    org: 'testmintai',
-    project: 'javascript-nextjs',
-    silent: !process.env.CI,
-    widenClientFileUpload: true,
-    hideSourceMaps: true,
-    disableLogger: true,
-    automaticVercelMonitors: true,
-  }
-);
+// Simplify the export for testing
+export default withBundleAnalyzer(nextConfig);

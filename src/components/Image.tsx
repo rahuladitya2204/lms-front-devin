@@ -21,15 +21,14 @@ interface ImagePropsI {
 }
 
 const ImageHolder = styled.div(
-  ({ width, height }: { width?: number; height: number }) => `
-    width: ${width ? `${typeof width === "number" ? width + "px" : width}` : "auto"
-    };
+  ({ width, height }: { width?: number | string; height?: number | string }) => `
+    width: ${width ? `${typeof width === "number" ? width + "px" : width}` : "auto"};
     object-fit: cover;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    height: ${height || "auto"}px;
+    height: ${height ? (typeof height === "number" ? height + "px" : height) : "auto"};
     border-radius: 6px;
   `
 );
@@ -49,7 +48,7 @@ function AppImage({
   ...props
 }: ImagePropsI) {
   const [hasLoaded, setHasLoaded] = useState(false);
-  const { data: url } = Common.Queries.useGetPresignedUrlFromFile(file, {
+  const { data: url } = Common.Queries.useGetPresignedUrlFromFile(file || '', {
     enabled: !!file,
   });
   const imageUrl = src || url;
@@ -86,14 +85,12 @@ function AppImage({
               objectFit: "cover",
               ...(props.style || {}),
             }}
-            width={10}
-            height={10}
+            width={Number(width) || 500}
+            height={Number(height) || 300}
             // layout="fill"
-            objectFit="cover"
             alt={props.alt || `Image`}
             // placeholder="blur"
             src={IMG_SRC}
-            unoptimized
           />
         )}
       </ImageHolder>
