@@ -5,7 +5,7 @@ import ErrorBoundary from "@Components/ErrorBoundary";
 import { CameraProvider } from "@Components/ActionModal/Camera/AppCamera";
 
 function App() {
-  console.log('Hot reload test - ' + new Date().toISOString());
+  console.log('Hot reload test updated - ' + new Date().toISOString());
   return (
     <ErrorBoundary>
       <CameraProvider>
