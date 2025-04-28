@@ -2,7 +2,7 @@ import { Col, ConfigProvider, Divider, Row, Skeleton, theme } from "antd";
 import { Common, Learner } from "@adewaskar/lms-common";
 
 import { Footer } from "@Components/Layout";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import {
   FacebookFilled,
   InstagramFilled,
@@ -10,6 +10,20 @@ import {
   LinkedinFilled,
   TwitterSquareFilled,
 } from "@ant-design/icons";
+
+const ClientOnly = ({ children }) => {
+  const [isMounted, setIsMounted] = useState(false);
+  
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  
+  if (!isMounted) {
+    return null;
+  }
+  
+  return <>{children}</>;
+};
 import OrgLogo from "@Components/OrgLogo";
 import { Typography } from "@Components/Typography";
 import { Text, Title } from "@Components/Typography/Typography";
@@ -55,7 +69,7 @@ export default function LearnerFooter(props: LearnerFooterPropsI) {
           <Row>
             {categories.map((cat) => {
               return (
-                <Col style={{ display: "flex" }} xs={12} sm={6}>
+                <Col key={cat.slug} style={{ display: "flex" }} xs={12} sm={6}>
                   <CustomText style={{ textAlign: "left" }}>
                     <Link
                       to={
@@ -153,20 +167,34 @@ export default function LearnerFooter(props: LearnerFooterPropsI) {
                     <CustomText strong>Follow us on</CustomText>
                   </Col>
                   <Col span={24} style={{ marginTop: 15 }}>
-                    <Row gutter={[10, 10]}>
-                      <Col>
-                        <FacebookFilled />
-                      </Col>
-                      <Col>
-                        <TwitterSquareFilled />
-                      </Col>
-                      <Col>
-                        <LinkedinFilled />
-                      </Col>
-                      <Col>
-                        <InstagramFilled />
-                      </Col>
-                    </Row>
+                    <ClientOnly>
+                      <Row gutter={[10, 10]}>
+                        <Col key="facebook">
+                          <span className="social-icon">
+                            {/* @ts-ignore */}
+                            <FacebookFilled />
+                          </span>
+                        </Col>
+                        <Col key="twitter">
+                          <span className="social-icon">
+                            {/* @ts-ignore */}
+                            <TwitterSquareFilled />
+                          </span>
+                        </Col>
+                        <Col key="linkedin">
+                          <span className="social-icon">
+                            {/* @ts-ignore */}
+                            <LinkedinFilled />
+                          </span>
+                        </Col>
+                        <Col key="instagram">
+                          <span className="social-icon">
+                            {/* @ts-ignore */}
+                            <InstagramFilled />
+                          </span>
+                        </Col>
+                      </Row>
+                    </ClientOnly>
                   </Col>
                 </Row>
               </Col>
