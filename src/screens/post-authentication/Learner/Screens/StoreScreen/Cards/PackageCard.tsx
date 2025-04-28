@@ -45,7 +45,7 @@ function PackageCard(props: PackageCardPropsI) {
     Constants.INITIAL_COURSE_PLAN_DETAILS;
 
   const isServer = props.isServer;
-  const TAGS = Object.keys(bundle.products)
+  const TAGS = Object.keys(bundle?.products || {})
     .filter((k) => bundle.products[k].length)
     .map((key) => {
       // @ts-ignore

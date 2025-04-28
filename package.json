@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@adewaskar/lms-common": "^3.1.487-alpha.944",
+    "@adewaskar/lms-common": "^3.1.487-alpha.952",
     "@ant-design/compatible": "5.0.0",
     "@ant-design/icons": "4.7.0",
     "@ant-design/nextjs-registry": "1.0.0",

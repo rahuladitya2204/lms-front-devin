@@ -21,6 +21,8 @@ const nextConfig = {
     granularChunks: true,
     concurrentFeatures: true,
     serverActions: true,
+    optimizeCss: true,
+    optimizePackageImports: ['antd', '@emotion/styled', 'lodash'],
   },
   swcMinify: true,
   webpack: (config, { isServer }) => {
@@ -44,10 +46,21 @@ const nextConfig = {
 
       config.optimization.splitChunks = {
         chunks: 'all',
-        minSize: 30000,
-        maxSize: 200000,
-        maxAsyncRequests: 20,
-        maxInitialRequests: 15,
+        minSize: 20000,
+        maxSize: 150000,
+        maxAsyncRequests: 30,
+        maxInitialRequests: 25,
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name(module) {
+              const packageName = module.context.match(/[\\/]node_modules[\\/](.+?)(?:[\\/]|$)/)[1];
+              return `vendor.${packageName.replace('@', '')}`;
+            },
+            priority: 10,
+            reuseExistingChunk: true,
+          },
+        },
         cacheGroups: {
           vendors: {
             test: /[\\/]node_modules[\\/]/,

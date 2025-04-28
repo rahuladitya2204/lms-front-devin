@@ -2,7 +2,6 @@
 import { Avatar, Card, Col, Divider, List, Row, Space } from "antd";
 import { Learner } from "@adewaskar/lms-common";
 
-import HeroImg from "./image2.svg";
 import Image from "@Components/Image";
 import ProductCategoryCard from "../Cards/ProductCategoryCard";
 import { Skeleton } from "antd";
@@ -27,6 +26,7 @@ import MiniCard from "../Cards/MiniCard";
 import { Link } from "@Router/index";
 import HomeCarousel from "../StoreCarousel";
 import { useText } from "@Components/Editor/SunEditor/utils";
+import SearchUserProducts from "@Components/SearchUserProducts";
 const { Title, Paragraph } = Typography;
 
 interface LearnerHomeScreenPropsI {
@@ -58,7 +58,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
                   <Paragraph style={{ fontSize: 20 }}>
                     🚀 Start your preparation today!
                   </Paragraph>
-                  {/* <SearchLearnerCourses /> */}
+                  {/* <SearchUserProducts placeholder='Search for your exam, test series' width="100%" /> */}
                 </Col>
                 <Col span={12}>
                   <div>
@@ -66,7 +66,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
                       priority
                       style={{ maxWidth: "32rem" }}
                       preview={false}
-                      src={HeroImg.src}
+                      src={'/images/hero.png'}
                     />
                   </div>
                 </Col>
@@ -88,6 +88,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
 
           </Col> */}
           <Col span={24}>
+            <SearchUserProducts placeholder='Search for your exam, test series' width="100%" />
             <Title style={{ marginBottom: 20, fontSize: 28 }} level={2}>
               {FormatLangText('POPULAR_EXAMS')}
             </Title>
@@ -107,9 +108,6 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
           <Divider />
           <Col span={24}>
             <Row gutter={[40, 20]} align={"middle"}>
-              {/* <Col xs={24} sm={24} md={12}>
-                <Image style={{ maxWidth: 200 }} src={Hero2.src} />
-              </Col> */}
               <Col xs={24} sm={24} md={24}>
                 <Title
                   style={{ margin: 0, textAlign: isMobile ? "center" : "left" }}

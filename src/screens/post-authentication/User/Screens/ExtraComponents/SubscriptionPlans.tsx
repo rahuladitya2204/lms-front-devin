@@ -277,10 +277,6 @@ export function SubscriptionCheckoutButton(props: ProductCheckoutButtonPropsI) {
     }
   };
 
-  // console.log(prod, "prorpo");
-  // if (!prod?.purchase?.enabled || props.mode === "global") {
-  //   return null;
-  // }
   return plan._id ? (
     <>
       <Form onFinish={onFinish} form={form} style={{ marginBottom: 10 }}>
