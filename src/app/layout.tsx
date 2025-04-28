@@ -6,12 +6,32 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 
 import Providers from "./providers";
-const axios = getAxiosInstance();
-import { Constants } from "@adewaskar/lms-common";
-import { getCookie } from "@ServerUtils/index";
-Constants.config.API_URL = process.env.NEXT_API_URL;
-
 import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
+import { getCookie } from "@ServerUtils/index";
+import { preloadCommon } from "@Utils/dynamicImports";
+
+const axios = getAxiosInstance();
+
+let Constants: any = {
+  config: { API_URL: process.env.NEXT_API_URL || '' },
+  INITIAL_ORG_DETAILS: {
+    name: 'Testmint',
+    description: 'Testmint',
+    alias: 'testmint',
+    branding: {
+      logo: { low: { url: '/logo.png' } },
+      favIcon: { url: '/favicon.ico' }
+    }
+  }
+};
+
+if (typeof window !== 'undefined') {
+  import('@adewaskar/lms-common').then(module => {
+    Constants = module.Constants;
+    Constants.config.API_URL = process.env.NEXT_API_URL || '';
+  });
+  preloadCommon();
+}
 // initDateFormats();
 export const viewport: Viewport = {
   themeColor: "black",
@@ -118,15 +138,15 @@ export async function generateMetadata(
     alternates: {
       canonical: "https://testmint.ai",
     },
-    other: JSON.stringify({
-      "application/ld+json": {
+    other: {
+      "application/ld+json": JSON.stringify({
         "@context": "https://schema.org",
         "@type": "WebPage",
         name: "Testmint",
         description: "Testmint",
         url: "https://testmint.ai",
-      },
-    }),
+      }),
+    },
   };
 }
 
@@ -141,7 +161,38 @@ export default function RootLayout({
       <meta name="fast2sms" content="nkRd7PnOUZwUD3o4yKkkERxtVE0QWRgU" />
       <body style={{ margin: 0 }}>
         <noscript>You need to enable JavaScript to run this app.</noscript>
+        {/* Add preload hints for critical resources */}
+        <link rel="preconnect" href="https://testmintai-back.azurewebsites.net" />
+        <link rel="preconnect" href="https://nimblebee-front-cdn.azureedge.net" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://testmintai-back.azurewebsites.net" />
+        <link rel="dns-prefetch" href="https://nimblebee-front-cdn.azureedge.net" />
         <Providers>{children}</Providers>
+        {/* Web Vitals Monitoring */}
+        <Script id="web-vitals-reporter" strategy="afterInteractive">
+          {`
+            function sendToConsole({name, value}) {
+              console.log('Web Vitals:', name, value);
+            }
+            
+            try {
+              const script = document.createElement('script');
+              script.src = 'https://unpkg.com/web-vitals@3/dist/web-vitals.iife.js';
+              script.onload = () => {
+                window.webVitals.getCLS(sendToConsole);
+                window.webVitals.getFID(sendToConsole);
+                window.webVitals.getFCP(sendToConsole);
+                window.webVitals.getLCP(sendToConsole);
+                window.webVitals.getTTFB(sendToConsole);
+              };
+              script.onerror = (err) => {
+                console.error('Failed to load web-vitals:', err);
+              };
+              document.head.appendChild(script);
+            } catch (err) {
+              console.error('Error setting up web-vitals:', err);
+            }
+          `}
+        </Script>
       </body>
     </html>
   );

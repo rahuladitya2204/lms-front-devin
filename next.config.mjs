@@ -12,23 +12,72 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   output: 'standalone',
   typescript: { ignoreBuildErrors: true },
-  assetPrefix: process.env.NEXT_PUBLIC_CDN_URL,
+  assetPrefix: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_CDN_URL : '',
+  // Optimize for better development experience
+  reactStrictMode: false, // Disable strict mode for better hot reload
   images: {
-    domains: ['upload-junk.s3.us-west-2.amazonaws.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'upload-junk.s3.us-west-2.amazonaws.com',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'assets.testmint.ai',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'nimblebee-front-cdn.azureedge.net',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.amazonaws.com',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'testmintai-back.azurewebsites.net',
+        pathname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'www.nimblebee.local',
+        pathname: '**',
+      },
+    ],
     formats: ['image/avif', 'image/webp'],
+    dangerouslyAllowSVG: true,
+    unoptimized: process.env.NODE_ENV === 'development', // Disable optimization in dev for faster builds
   },
   experimental: {
-    granularChunks: true,
-    concurrentFeatures: true,
-    serverActions: true,
+    // Only keep valid experimental options
     optimizeCss: true,
-    optimizePackageImports: ['antd', '@emotion/styled', 'lodash'],
+    optimizePackageImports: ['antd', '@emotion/styled', 'lodash', '@adewaskar/lms-common'],
   },
   swcMinify: true,
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, dev }) => {
     config.resolve.fallback = { fs: false };
 
-    if (!isServer) {
+    // Improve compilation speed in development
+    if (dev) {
+      // Use eval-source-map for faster rebuilds in development
+      config.devtool = 'eval-source-map';
+      
+      // Reduce the number of modules being processed
+      config.watchOptions = {
+        ignored: /node_modules/,
+        aggregateTimeout: 300,
+        poll: 1000,
+      };
+      
+      // Enable caching for faster rebuilds
+      config.cache = true;
+    }
+
+    if (!isServer && !dev) {
       config.plugins.push(
         new CompressionPlugin({
           algorithm: 'gzip',
@@ -43,56 +92,61 @@ const nextConfig = {
           minRatio: 0.8,
         })
       );
+    }
 
+    if (!isServer) {
       config.optimization.splitChunks = {
         chunks: 'all',
         minSize: 20000,
-        maxSize: 150000,
+        maxSize: 60000, // Further reduced for better performance
         maxAsyncRequests: 30,
         maxInitialRequests: 25,
         cacheGroups: {
-          vendor: {
+          framework: {
+            name: 'framework',
+            test: /[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+            priority: 40,
+            chunks: 'all',
+            enforce: true,
+          },
+          lib: {
             test: /[\\/]node_modules[\\/]/,
+            priority: 30,
+            chunks: 'all',
             name(module) {
-              const packageName = module.context.match(/[\\/]node_modules[\\/](.+?)(?:[\\/]|$)/)[1];
-              return `vendor.${packageName.replace('@', '')}`;
+              if (!module.context) return 'npm.unknown';
+              const match = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/);
+              const packageName = match ? match[1] : 'unknown';
+              return `npm.${packageName.replace('@', '')}`;
             },
+          },
+          commons: {
+            name: 'commons',
+            minChunks: 2,
+            priority: 20,
+            reuseExistingChunk: true,
+          },
+          styles: {
+            name: 'styles',
+            test: /\.css$/,
+            chunks: 'all',
+            enforce: true,
+          },
+          shared: {
+            name: 'shared',
+            minChunks: 2,
             priority: 10,
             reuseExistingChunk: true,
-          },
-        },
-        cacheGroups: {
-          vendors: {
-            test: /[\\/]node_modules[\\/]/,
-            priority: -10,
-            reuseExistingChunk: true,
-          },
-          common: {
-            name: 'common',
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true,
-          },
-        },
+          }
+        }
       };
+      
+      // Optimize module ids for smaller bundles
+      config.optimization.moduleIds = 'deterministic';
     }
     return config;
   },
 };
 
-export default withBundleAnalyzer(
-  withPWA({
-    dest: 'public',
-    disable: process.env.NODE_ENV === 'development',
-    buildExcludes: [/middleware-manifest.json$/],
-  })(nextConfig),
-  {
-    org: 'testmintai',
-    project: 'javascript-nextjs',
-    silent: !process.env.CI,
-    widenClientFileUpload: true,
-    hideSourceMaps: true,
-    disableLogger: true,
-    automaticVercelMonitors: true,
-  }
-);
+// Simplify the export for testing
+export default withBundleAnalyzer(nextConfig);

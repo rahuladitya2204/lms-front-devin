@@ -81,7 +81,7 @@ const ProductDetailRow = ({
                                             <>
                                                 <Divider type="vertical" />{" "}
                                                 <ANTDTypography.Link>
-                                                    Authored by Rahul Sharma
+                                                    Authored by Devanshi 1
                                                 </ANTDTypography.Link>
                                             </>
                                         )}

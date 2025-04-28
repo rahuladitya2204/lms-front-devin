@@ -316,9 +316,9 @@ const router = (userType: string) => {
                     path="player"
                     element={
                       <SigninProtectedRoutes>
-                        {/* <Suspense fallback={<LoadingScreen />}> */}
-                        <TestPlayer />
-                        {/* </Suspense> */}
+                        <Suspense fallback={<LoadingScreen />}>
+                          <TestPlayer />
+                        </Suspense>
                       </SigninProtectedRoutes>
                     }
                   >
@@ -346,9 +346,9 @@ const router = (userType: string) => {
                   path="app/test/:testId/review"
                   element={
                     <SigninProtectedRoutes>
-                      {/* <Suspense fallback={<LoadingScreen />}> */}
-                      <TestReviewPlayer />
-                      {/* </Suspense> */}
+                      <Suspense fallback={<LoadingScreen />}>
+                        <TestReviewPlayer />
+                      </Suspense>
                     </SigninProtectedRoutes>
                   }
                 >
@@ -362,9 +362,9 @@ const router = (userType: string) => {
                 <Route
                   path="previous-year-questions"
                   element={
-                    // <Suspense fallback={<LoadingScreen />}>
-                    <TestPublicPlayer />
-                    // </Suspense>
+                    <Suspense fallback={<LoadingScreen />}>
+                      <TestPublicPlayer />
+                    </Suspense>
                   }
                 >
                   <Route

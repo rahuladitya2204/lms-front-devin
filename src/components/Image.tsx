@@ -21,15 +21,14 @@ interface ImagePropsI {
 }
 
 const ImageHolder = styled.div(
-  ({ width, height }: { width?: number; height: number }) => `
-    width: ${width ? `${typeof width === "number" ? width + "px" : width}` : "auto"
-    };
+  ({ width, height }: { width?: number | string; height?: number | string }) => `
+    width: ${width ? `${typeof width === "number" ? width + "px" : width}` : "auto"};
     object-fit: cover;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    height: ${height || "auto"}px;
+    height: ${height ? (typeof height === "number" ? height + "px" : height) : "auto"};
     border-radius: 6px;
   `
 );
@@ -49,7 +48,7 @@ function AppImage({
   ...props
 }: ImagePropsI) {
   const [hasLoaded, setHasLoaded] = useState(false);
-  const { data: url } = Common.Queries.useGetPresignedUrlFromFile(file, {
+  const { data: url } = Common.Queries.useGetPresignedUrlFromFile(file || '', {
     enabled: !!file,
   });
   const imageUrl = src || url;
@@ -86,14 +85,14 @@ function AppImage({
               objectFit: "cover",
               ...(props.style || {}),
             }}
-            width={10}
-            height={10}
-            // layout="fill"
-            objectFit="cover"
+            width={Number(width) || 500}
+            height={Number(height) || 300}
             alt={props.alt || `Image`}
-            // placeholder="blur"
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEtAJJXIDTjwAAAABJRU5ErkJggg=="
+            loading={priority ? undefined : "lazy"}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             src={IMG_SRC}
-            unoptimized
           />
         )}
       </ImageHolder>
@@ -106,24 +105,42 @@ export default AppImage;
 
 
 export function getCDNLink(s3Url: string): string {
-  if (!s3Url.includes('upload-junk')) {
+  if (!s3Url || typeof s3Url !== 'string') {
+    return '/images/not-found.png';
+  }
+  
+  // Handle relative URLs
+  if (s3Url.startsWith('/')) {
     return s3Url;
   }
-  const cdnDomain = 'https://assets.testmint.ai';
-
-  try {
-    // Parse the original URL
-    const url = new URL(s3Url);
-
-    // Extract the pathname (includes leading '/')
-    const path = url.pathname;
-
-    // Construct the new URL using the CDN domain
-    const cdnUrl = `${cdnDomain}${path}`;
-
-    return cdnUrl;
-  } catch (error) {
-    console.error('Invalid URL provided to getCDNLink:', s3Url, error);
-    return s3Url; // Fallback to the original URL in case of error
+  
+  // Handle data URLs
+  if (s3Url.startsWith('data:')) {
+    return s3Url;
   }
+  
+  // Handle CDN URLs that are already correct
+  if (s3Url.includes('assets.testmint.ai') || s3Url.includes('nimblebee-front-cdn.azureedge.net')) {
+    return s3Url;
+  }
+  
+  // Handle S3 URLs
+  if (s3Url.includes('upload-junk')) {
+    const cdnDomain = 'https://assets.testmint.ai';
+    
+    try {
+      // Parse the original URL
+      const url = new URL(s3Url);
+      
+      // Extract the pathname (includes leading '/')
+      const path = url.pathname;
+      
+      // Construct the new URL using the CDN domain
+      return `${cdnDomain}${path}`;
+    } catch (error) {
+      console.error('Invalid URL provided to getCDNLink:', s3Url, error);
+    }
+  }
+  
+  return s3Url;
 }
