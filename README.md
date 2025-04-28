@@ -1,47 +1,71 @@
-# Getting Started with Create React App
+# Testmint.ai LMS Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a **Next.js** project, originally built using **Create React App (CRA)** and later migrated to Next.js.  
+It uses a custom shared library: **@adewaskar/lms-common**.
 
-## Available Scripts
+## Setup Instructions
 
-In the project directory, you can run:
+```bash
+# 1. Install dependencies
+yarn install
 
-### `npm start`
+# 2. Build the project
+yarn build
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# 3. Start the development server
+yarn dev
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Local Access Setup
 
-### `npm test`
+Edit your `/etc/hosts` file and add:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```plaintext
+127.0.0.1   www.nimblebee.local
+```
 
-### `npm run build`
+Then access your frontend at:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+http://www.nimblebee.local:3000
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Notes
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Use Node 18
+- Always use **yarn** for dependency management.
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# Quick Commands
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+# Install deps
+yarn install
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+# Development server
+yarn dev
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+# Production build
+yarn build
 
-## Learn More
+# Edit hosts
+sudo nano /etc/hosts
+# Add:
+# 127.0.0.1 www.nimblebee.local
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Then open
+http://www.nimblebee.local:3000
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-# lms-frontend
+
+# Important Environment
+
+Make sure the following environments are set properly:
+
+```bash
+NODE_ENV=development # for dev
+NODE_ENV=production  # for production build
+```
+
+The project uses `.env.development` and `.env.production` files.
