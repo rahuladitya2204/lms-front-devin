@@ -13,17 +13,8 @@ const nextConfig = {
   output: 'standalone',
   typescript: { ignoreBuildErrors: true },
   assetPrefix: process.env.NEXT_PUBLIC_CDN_URL,
-  // Enable React Fast Refresh for development
+  // Optimize for better development experience
   reactStrictMode: false, // Disable strict mode for better hot reload
-  webpackDevMiddleware: config => {
-    // Faster incremental builds
-    config.watchOptions = {
-      poll: false, // Use filesystem events instead of polling
-      ignored: /node_modules/,
-      aggregateTimeout: 300, // Delay rebuild after the first change
-    };
-    return config;
-  },
   images: {
     remotePatterns: [
       {
@@ -65,8 +56,6 @@ const nextConfig = {
     // Only keep valid experimental options
     optimizeCss: true,
     optimizePackageImports: ['antd', '@emotion/styled', 'lodash'],
-    // Enable Fast Refresh explicitly
-    fastRefresh: true,
   },
   swcMinify: true,
   webpack: (config, { isServer, dev }) => {
