@@ -86,14 +86,13 @@ function AppImage({
               objectFit: "cover",
               ...(props.style || {}),
             }}
-            width={10}
-            height={10}
+            width={width || 500}
+            height={height || 300}
             // layout="fill"
             objectFit="cover"
             alt={props.alt || `Image`}
             // placeholder="blur"
             src={IMG_SRC}
-            unoptimized
           />
         )}
       </ImageHolder>

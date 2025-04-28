@@ -18,8 +18,10 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
   experimental: {
+    // Enable fast refresh explicitly
+    fastRefresh: true,
     granularChunks: true,
-    concurrentFeatures: true,
+    concurrentFeatures: true, 
     serverActions: true,
     optimizeCss: true,
     optimizePackageImports: ['antd', '@emotion/styled', 'lodash'],
@@ -46,32 +48,35 @@ const nextConfig = {
 
       config.optimization.splitChunks = {
         chunks: 'all',
-        minSize: 20000,
-        maxSize: 150000,
-        maxAsyncRequests: 30,
         maxInitialRequests: 25,
+        minSize: 20000,
         cacheGroups: {
-          vendor: {
+          default: false,
+          vendors: false,
+          framework: {
+            name: 'framework',
+            test: /[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+            priority: 40,
+            chunks: 'all',
+          },
+          lib: {
             test: /[\\/]node_modules[\\/]/,
+            priority: 30,
+            chunks: 'all',
             name(module) {
-              const packageName = module.context.match(/[\\/]node_modules[\\/](.+?)(?:[\\/]|$)/)[1];
-              return `vendor.${packageName.replace('@', '')}`;
+              const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+              return `npm.${packageName.replace('@', '')}`;
             },
-            priority: 10,
-            reuseExistingChunk: true,
           },
-        },
-        cacheGroups: {
-          vendors: {
-            test: /[\\/]node_modules[\\/]/,
-            priority: -10,
-            reuseExistingChunk: true,
-          },
-          common: {
-            name: 'common',
+          commons: {
+            name: 'commons',
             minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true,
+            priority: 20,
+          },
+          shared: {
+            name: 'shared',
+            minChunks: 2,
+            priority: 10,
           },
         },
       };

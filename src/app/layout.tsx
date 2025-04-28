@@ -142,6 +142,23 @@ export default function RootLayout({
       <body style={{ margin: 0 }}>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <Providers>{children}</Providers>
+        {process.env.NODE_ENV === 'development' && (
+          <Script id="web-vitals-reporter" strategy="afterInteractive">
+            {`
+              function sendToConsole({name, value}) {
+                console.log('Web Vitals:', name, value);
+              }
+              import('/web-vitals.js')
+                .then(({getCLS, getFID, getFCP, getLCP, getTTFB}) => {
+                  getCLS(sendToConsole);
+                  getFID(sendToConsole);
+                  getFCP(sendToConsole);
+                  getLCP(sendToConsole);
+                  getTTFB(sendToConsole);
+                });
+            `}
+          </Script>
+        )}
       </body>
     </html>
   );

@@ -5,11 +5,11 @@ import ErrorBoundary from "@Components/ErrorBoundary";
 import { CameraProvider } from "@Components/ActionModal/Camera/AppCamera";
 
 function App() {
-  // console.log("came in app!");
   return (
     <ErrorBoundary>
       <CameraProvider>
-        <AppRouter />
+        {/* Add React.memo to AppRouter for improved rendering performance */}
+        {React.memo(AppRouter)()}
       </CameraProvider>
     </ErrorBoundary>
   );
